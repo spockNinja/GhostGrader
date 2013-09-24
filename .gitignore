@@ -5,5 +5,7 @@
 *.war
 *.ear
 
+
+# Eclipse adds these on my local machine - Jesse *
 .classpath
 .project
