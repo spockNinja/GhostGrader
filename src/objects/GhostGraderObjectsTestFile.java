@@ -68,7 +68,7 @@ public class GhostGraderObjectsTestFile {
         }
         
         
-        //test cases go here
+        //test cases go below this comment line
         
         //need a check in case two students with the same name are added will need to differentiate between them
         //removing a student who is not in the class by name
