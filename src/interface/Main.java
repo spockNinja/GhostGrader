@@ -1,4 +1,4 @@
-package interface;
+//package interface;
 
 public class Main
 {
