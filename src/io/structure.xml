@@ -1,0 +1,44 @@
+<class>
+	<courseName>Software Engineering</courseName>
+	<courseID>CSC</courseID>
+	<courseNumber>450</courseNumber>
+	<section>001</section>
+	<building>Cheek</building>
+	<roomID>212</roomID>
+	<meetingTime>10:45 am - 11:35 am</meetingTime>
+	
+<!-- array containing every student -->
+	<student>
+		<name>Brett Story</name>
+		<psuedoName>Red</psuedoName>
+	</student>
+	<student>
+		<name>Chris Weddle</name>
+		<psuedoName>Orange</psuedoName>
+	</student>
+	<student>
+		<name>Jacob Foster</name>
+		<psuedoName>Yellow</psuedoName>
+	</student>
+	<student>
+		<name>Jesse Milburn</name>
+		<psuedoName>Green</psuedoName>
+	</student>
+	<student>
+		<name>Justin Spreadborough</name>
+		<psuedoName>Teal</psuedoName>
+	</student>
+	<student>
+		<name>Lilong Huang</name>
+		<psuedoName>Blue</psuedoName>
+	</student>
+	<student>
+		<name>Tarah Marlow</name>
+		<psuedoName>Violet</psuedoName>
+	</student>
+	<student>
+		<name>Zach Hudson </name>
+		<psuedoName>Purple</psuedoName>
+	</student>
+	<!-- ... -->
+</class>
