@@ -12,8 +12,7 @@ import java.util.List;
  * @date or version
  */
 
-public class MyCourse
-{
+public class MyCourse {
     //course data kept private so only method calls can change them
     private String courseName;
     private String courseID;
@@ -24,6 +23,7 @@ public class MyCourse
     private String meetingTime;
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
+    private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
     private CourseGrades gradebook;
     private PseudoNameGenerator psNames = new PseudoNameGenerator();
     
@@ -293,6 +293,72 @@ public class MyCourse
         }
     }
     //end Student methods
+    
+    //begin GhostStudent methods
+    /**
+     * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
+     * 
+     * @param   pn  ghost students pseudo-name
+     */
+    public void addGhostStudent(String pn) {
+        ghostStudents.add(new GhostStudent(pn));
+    }
+        
+    /**
+     * Returns the GhostStudent object at the specified index
+     * 
+     * @param   index   the index of a GhostStudent object
+     * @return          the GhostStudent object
+     */
+    public GhostStudent getGhostStudent(int index) {
+        return ghostStudents.get(index);
+    }
+    
+    /**
+     * Returns the index of the GhostStudent in the student arrayList
+     * 
+     * @param   name    the name of the ghost student
+     * @return          the index of the GhostStudent object
+     */
+    public int getGhostStudentIndex(String name) {
+        //iterates through GhostStudent objects and performs name checking, 
+    	//returns index if successful else returns -1
+        for (int i = 0; i < ghostStudents.size(); i++) {
+            if (name == ghostStudents.get(i).getPseudoName()) return i;
+        }
+        return -1;
+    }
+    
+    /**
+     * Removes a GhostStudent object from the students ArrayList
+     * 
+     * @param   name    the String name of the ghost student in the GhostStudent object
+     * @return          the GhostStudent object removed, null on the object was not in the list
+     */
+    public GhostStudent removeGhostStudent(String name) {
+        try {
+            return ghostStudents.remove(getGhostStudentIndex(name));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Removes a GhostStudent object from the students arrayList by the index number
+     * 
+     * @param   index   the integer index of the GhostStudent object in the ghostStudents ArrayList
+     * @return          the GhostStudent object removed, null if the index passed is out of bounds
+     */
+    public GhostStudent removeGhostStudent(int index) {
+        try {
+            return ghostStudents.remove(index);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+    //end GhostStudent methods
+    
+    
     
     //begin CourseGrades methods
     /**
