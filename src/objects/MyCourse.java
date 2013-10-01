@@ -9,7 +9,7 @@ import java.util.List;
  * screen in the application
  * 
  * @Jesse W. Milburn
- * @date or version
+ * @date 01 October, 2013
  */
 
 public class MyCourse {
@@ -27,7 +27,6 @@ public class MyCourse {
     private CourseGrades gradebook;
     private PseudoNameGenerator psNames = new PseudoNameGenerator();
     
-    //begin constructor methods
     /**
      * Constructs a new MyCourse object, note there is no 'empty' constructor
      * 
@@ -36,9 +35,7 @@ public class MyCourse {
     public MyCourse(String cn) {
         courseName = cn;
     }
-    //end constructor methods
     
-    //begin setter methods
     /**
      * Set the name of the course.
      * 
@@ -101,9 +98,7 @@ public class MyCourse {
     public void setMeetingTime(String mt) {
         meetingTime = mt;
     }
-    //end setter methods
     
-    //begin getter methods
     /**
      * Get the name of the course
      * 
@@ -166,7 +161,6 @@ public class MyCourse {
     public String getMeetingTime() {
         return meetingTime;
     }
-    //end getter methods
     
     /**
      * Returns a string of all of the information about a course
@@ -178,7 +172,6 @@ public class MyCourse {
                 " " + roomID + ", " + meetingTime);
     }
     
-    //begin AsignmentCategory methods add/get/remove the object
     /**
      * Contstucts a new AssignmentCategory object and adds it into the categegories
      * ArrayList structure.
@@ -227,9 +220,7 @@ public class MyCourse {
             return null;
         }
     }
-    //end AssignmentCategory methods
     
-    //begin Student methods add/get/remove the Student object
     /**
      * Constructs a new Student object and adds it into the students ArrayList structure
      * 
@@ -292,9 +283,7 @@ public class MyCourse {
             return null;
         }
     }
-    //end Student methods
     
-    //begin GhostStudent methods
     /**
      * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
      * 
@@ -356,16 +345,11 @@ public class MyCourse {
             return null;
         }
     }
-    //end GhostStudent methods
-    
-    
-    
-    //begin CourseGrades methods
+
     /**
      * Constructs a new CourseGrades object
      */
     public void createGradebook() {
         gradebook = new CourseGrades();
     }
-    //end CourseGrades methods
 }

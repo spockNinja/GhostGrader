@@ -1,10 +1,10 @@
 package objects;
 
 /**
- * 
+ * Creates a 'ghost student' to help obfuscate real student grades
  * 
  * @author Jesse W Milburn
- * @version version
+ * @date 01 October, 2013
  */
 public class GhostStudent {
 	private String pseudoName;

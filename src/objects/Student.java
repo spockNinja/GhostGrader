@@ -6,7 +6,7 @@ package objects;
  * to aid in obfuscation.
  * 
  * @Jesse W Milburn
- * @version
+ * @date 01 October, 2013
  */
 public class Student {
     private String firstName, lastName, fullName;
@@ -26,7 +26,6 @@ public class Student {
         fullName = ln + ", " + fn;
     }
     
-    //begin setter methods
     /**
      * Sets the students first name, in case of a correction to the first name
      * it re-factors the full name of the student by changing the first name in 
@@ -50,9 +49,7 @@ public class Student {
     	lastName = ln;
     	fullName = lastName + ", " + firstName;    	
     }
-    //end setter methods
     
-    //begin getter methods
     /**
      * Returns the first name of the student
      * 
@@ -88,6 +85,4 @@ public class Student {
     public String getPseudoName() {
         return pseudoName;
     }
-    //end getter methods
-    
 }
