@@ -105,7 +105,9 @@ public class GhostGraderObjectsTestFile {
         
         //test cases go below this comment line
         //need a check in case two students with the same name are added will need to differentiate between them
-        
+        	//first check if student exists in students ArrayList, if so do not let the teacher enter him
+        	//same for assignment categories and Assignments
+        	//this check should not be needed as the PseudoNameGenerator will only return unique names
         
         //removing a student who is not in the class by name
         
