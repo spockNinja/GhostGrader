@@ -7,7 +7,7 @@ import java.util.List;
  * i.e. tests, exams, labs, homework, etc
  * 
  * @Jesse W Milburn
- * @version
+ * @date 01 October, 2013
  */
 public class AssignmentCategory {
     private String categoryName;
@@ -30,9 +30,7 @@ public class AssignmentCategory {
     public void setName(String ac) {
         categoryName = ac;
     }
-    //end setter methods
     
-    //begin getter methods
     /**
      * Returns the name assigned to the assignment category
      * 

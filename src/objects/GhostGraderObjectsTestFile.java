@@ -3,10 +3,10 @@ package objects;
 import java.util.ArrayList;
 import java.util.Random;
 /**
- * Write a description of course GhostGrader here.
+ * Populate objects poke at them
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Jesse W. Milburn
+ * @date 01 October, 2013
  */
 public class GhostGraderObjectsTestFile {
     public static void main(String[] args) {
