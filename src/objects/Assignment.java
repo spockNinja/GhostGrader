@@ -3,7 +3,7 @@ package objects;
  * Object representing an assignment for a course
  * 
  * @author Jesse W. Milburn
- * @version number
+ * @date 01 October, 2013
  */
 public class Assignment {
     private String name;
@@ -55,6 +55,4 @@ public class Assignment {
     public int getWorth() {
         return worth;
     }
-    
-    
 }
