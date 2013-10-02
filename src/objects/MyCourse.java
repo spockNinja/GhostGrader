@@ -9,11 +9,10 @@ import java.util.List;
  * screen in the application
  * 
  * @Jesse W. Milburn
- * @date or version
+ * @date 01 October, 2013
  */
 
-public class MyCourse
-{
+public class MyCourse {
     //course data kept private so only method calls can change them
     private String courseName;
     private String courseID;
@@ -24,10 +23,10 @@ public class MyCourse
     private String meetingTime;
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
+    private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
     private CourseGrades gradebook;
     private PseudoNameGenerator psNames = new PseudoNameGenerator();
     
-    //begin constructor methods
     /**
      * Constructs a new MyCourse object, note there is no 'empty' constructor
      * 
@@ -36,9 +35,7 @@ public class MyCourse
     public MyCourse(String cn) {
         courseName = cn;
     }
-    //end constructor methods
     
-    //begin setter methods
     /**
      * Set the name of the course.
      * 
@@ -101,9 +98,7 @@ public class MyCourse
     public void setMeetingTime(String mt) {
         meetingTime = mt;
     }
-    //end setter methods
     
-    //begin getter methods
     /**
      * Get the name of the course
      * 
@@ -166,7 +161,6 @@ public class MyCourse
     public String getMeetingTime() {
         return meetingTime;
     }
-    //end getter methods
     
     /**
      * Returns a string of all of the information about a course
@@ -178,7 +172,6 @@ public class MyCourse
                 " " + roomID + ", " + meetingTime);
     }
     
-    //begin AsignmentCategory methods add/get/remove the object
     /**
      * Contstucts a new AssignmentCategory object and adds it into the categegories
      * ArrayList structure.
@@ -227,9 +220,7 @@ public class MyCourse
             return null;
         }
     }
-    //end AssignmentCategory methods
     
-    //begin Student methods add/get/remove the Student object
     /**
      * Constructs a new Student object and adds it into the students ArrayList structure
      * 
@@ -292,14 +283,73 @@ public class MyCourse
             return null;
         }
     }
-    //end Student methods
     
-    //begin CourseGrades methods
+    /**
+     * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
+     * 
+     * @param   pn  ghost students pseudo-name
+     */
+    public void addGhostStudent(String pn) {
+        ghostStudents.add(new GhostStudent(pn));
+    }
+        
+    /**
+     * Returns the GhostStudent object at the specified index
+     * 
+     * @param   index   the index of a GhostStudent object
+     * @return          the GhostStudent object
+     */
+    public GhostStudent getGhostStudent(int index) {
+        return ghostStudents.get(index);
+    }
+    
+    /**
+     * Returns the index of the GhostStudent in the student arrayList
+     * 
+     * @param   name    the name of the ghost student
+     * @return          the index of the GhostStudent object
+     */
+    public int getGhostStudentIndex(String name) {
+        //iterates through GhostStudent objects and performs name checking, 
+    	//returns index if successful else returns -1
+        for (int i = 0; i < ghostStudents.size(); i++) {
+            if (name == ghostStudents.get(i).getPseudoName()) return i;
+        }
+        return -1;
+    }
+    
+    /**
+     * Removes a GhostStudent object from the students ArrayList
+     * 
+     * @param   name    the String name of the ghost student in the GhostStudent object
+     * @return          the GhostStudent object removed, null on the object was not in the list
+     */
+    public GhostStudent removeGhostStudent(String name) {
+        try {
+            return ghostStudents.remove(getGhostStudentIndex(name));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Removes a GhostStudent object from the students arrayList by the index number
+     * 
+     * @param   index   the integer index of the GhostStudent object in the ghostStudents ArrayList
+     * @return          the GhostStudent object removed, null if the index passed is out of bounds
+     */
+    public GhostStudent removeGhostStudent(int index) {
+        try {
+            return ghostStudents.remove(index);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
     /**
      * Constructs a new CourseGrades object
      */
     public void createGradebook() {
         gradebook = new CourseGrades();
     }
-    //end CourseGrades methods
 }
