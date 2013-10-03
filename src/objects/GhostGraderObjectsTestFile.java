@@ -104,6 +104,10 @@ public class GhostGraderObjectsTestFile {
         
         
         //test cases go below this comment line
+<<<<<<< HEAD
+        
+=======
+>>>>>>> upstream/master
         //need a check in case two students with the same name are added will need to differentiate between them
         
         
