@@ -3,19 +3,19 @@ package objects;
 import java.util.ArrayList;
 import java.util.Random;
 /**
- * Populate objects poke at them
- * 
- * @author Jesse W. Milburn
- * @date 01 October, 2013
- */
+* Populate objects poke at them
+*
+* @author Jesse W. Milburn
+* @date 01 October, 2013
+*/
 public class GhostGraderObjectsTestFile {
     public static void main(String[] args) {
-    	int totalStudents = 20;
+     int totalStudents = 20;
         String[] studentList = {"Wanda Styles", "Peter Frampton", "Bobby Cox", "Linda Friendly",
                                 "Grinds Gears", "Super Cheeky", "Randy Baby", "Seth McFarlane",
                                 "Andy Dick", "Ten Isenuf"};
         String[] pns = {"Alice Blue", "Acid Green", "Brown", "Deep Champagne", "Donkey Brown",
-        				"Flame", "Han Purple", "Iceberg", "Kombu Green", "Ghost White",
+         "Flame", "Han Purple", "Iceberg", "Kombu Green", "Ghost White",
                         "Patriarch", "Phlox", "Light Coral", "Khaki", "Lavender Blush",
                         "Medium Turquoise", "Navy", "Olive", "Plum", "Salmon"};
         ArrayList<String> pseudoNames;
@@ -57,16 +57,16 @@ public class GhostGraderObjectsTestFile {
                 String[] tempName = studentList[j].split(" ");
                 courses[i].addStudent(tempName[0], tempName[1], pseudoNames.get(randomNumber));
                 pseudoNames.remove(pseudoNames.get(randomNumber));
-                //System.out.println(courses[i].getStudent(j).getFullName() + "\t\t" + 
-                //                   courses[i].getStudent(j).getPseudoName());
+                //System.out.println(courses[i].getStudent(j).getFullName() + "\t\t" +
+                // courses[i].getStudent(j).getPseudoName());
             }
             
             //add in ghosts
             for (int j = 0; j < totalStudents - studentList.length; j++) {
-            	int randomNumber = ((int)(rng.nextFloat() * (totalStudents - studentList.length - j)));
-            	courses[i].addGhostStudent(pseudoNames.get(randomNumber));
-            	pseudoNames.remove(pseudoNames.get(randomNumber));
-            	//System.out.println(courses[i].getGhostStudent(j).getPseudoName());
+             int randomNumber = ((int)(rng.nextFloat() * (totalStudents - studentList.length - j)));
+             courses[i].addGhostStudent(pseudoNames.get(randomNumber));
+             pseudoNames.remove(pseudoNames.get(randomNumber));
+             //System.out.println(courses[i].getGhostStudent(j).getPseudoName());
             }
             
             
@@ -78,26 +78,26 @@ public class GhostGraderObjectsTestFile {
             
             //add in homework
             for (int k = 0; k < homeworkAssignments.length; k++) {
-                courses[i].getAssignmentCategory(0).addAssignment(homeworkAssignments[k], homeworkValue); 
+                courses[i].getAssignmentCategory(0).addAssignment(homeworkAssignments[k], homeworkValue);
                 //System.out.println(courses[i].getAssignmentCategory(0).getAssignment(k).getName() +
-                //				   "\tis worth: " + courses[i].getAssignmentCategory(0).getAssignment(k).getWorth() +
-                //				   " points");
+                // "\tis worth: " + courses[i].getAssignmentCategory(0).getAssignment(k).getWorth() +
+                // " points");
             
             }
             //add in quizes
             for (int j = 0; j < quizes.length; j++) {
-                courses[i].getAssignmentCategory(1).addAssignment(quizes[j], quizValue); 
+                courses[i].getAssignmentCategory(1).addAssignment(quizes[j], quizValue);
                 //System.out.println(courses[i].getAssignmentCategory(1).getAssignment(j).getName() +
-                //				   "\tis worth: " + courses[i].getAssignmentCategory(1).getAssignment(j).getWorth() +
-                //				   " points");
+                // "\tis worth: " + courses[i].getAssignmentCategory(1).getAssignment(j).getWorth() +
+                // " points");
             
             }
             //add in exams
             for (int j = 0; j < exams.length; j++) {
-                courses[i].getAssignmentCategory(2).addAssignment(exams[j], examValue); 
+                courses[i].getAssignmentCategory(2).addAssignment(exams[j], examValue);
                 //System.out.println(courses[i].getAssignmentCategory(2).getAssignment(j).getName() +
-                //				   "\tis worth: " + courses[i].getAssignmentCategory(2).getAssignment(j).getWorth() +
-                //				   " points");
+                // "\tis worth: " + courses[i].getAssignmentCategory(2).getAssignment(j).getWorth() +
+                // " points");
             
             }
         }
@@ -128,7 +128,7 @@ public class GhostGraderObjectsTestFile {
     //resets pseudoName array for creation of more than one course
     
     public static ArrayList<String> resetPSNS(String[] pns) {
-        ArrayList<String> temp = new ArrayList<String>(); 
+        ArrayList<String> temp = new ArrayList<String>();
         for (int i = 0; i < pns.length; i++) {
             temp.add(pns[i]);
         }
