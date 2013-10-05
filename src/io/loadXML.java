@@ -27,17 +27,24 @@ import org.xml.sax.helpers.DefaultHandler;
 public class loadXML {
     // Course variables to be loaded
     static String courseName;
-	static String courseID;
-	static int courseNumber;
-	static String section;
-	static String building;
-	static String roomID;
-	static String meetingTime;
-	
-	//Student array to be loaded
-	static List<String> studentNames = new ArrayList<String>();
-	static List<String> studentPsuedoNames = new ArrayList<String>();
-	
+    static String courseID;
+    static int courseNumber;
+    static String section;
+    static String building;
+    static String roomID;
+    static String meetingTime;
+    
+    // Student array to be loaded
+    static List<String> studentNames = new ArrayList<String>();
+    static List<String> studentPsuedoNames = new ArrayList<String>();
+    
+    // Grade stuff
+    static ArrayList<ArrayList<String>> assignments = new ArrayList<ArrayList<String>>();
+    static ArrayList<ArrayList<Integer>> grades = new ArrayList<ArrayList<Integer>>();
+    
+    static int assignmentsIterator = 0;
+    static int gradesIterator = 0;
+    
     private static void loadCourseInfo() {      
         try {
             
@@ -170,6 +177,71 @@ public class loadXML {
         }
     }
     
+    
+    private static void loadAssignmentInfo() {
+        
+        try {
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+            
+            DefaultHandler handler = new DefaultHandler() {
+                boolean assignmentName = false;
+                boolean category = false;
+                boolean grade = false;
+                
+                // A SAX callback method which finds the start of an XML element
+                public void startElement (String uri, String localName, String qName,
+                    Attributes attributes) throws SAXException {
+                    if (qName.equalsIgnoreCase("assignment")) {
+                        assignments.add(new ArrayList<String>());
+                        grades.add(new ArrayList<Integer>());
+                    }
+                    if (qName.equalsIgnoreCase("assignmentName")) {
+                        assignmentName = true;
+                    }
+                    if (qName.equalsIgnoreCase("category")) {
+                        category = true;
+                    }
+                    
+                    if (qName.equalsIgnoreCase("grade")) {
+                        grade = true;
+                    }
+                }
+                
+                // A SAX callback method which finds the end of an XML element
+                public void endElement(String uri, String localName, 
+                    String qName) throws SAXException {
+                }
+                
+                // A SAX callback method which contains all the characters in an element
+                public void characters(char ch[], int start, int length) 
+                    throws SAXException {
+                    //If the element is <name> within <assignment>
+                    if (assignmentName) {
+                        assignments.get(assignments.size() - 1).add(new String(ch, start, length));
+                        assignmentName = false; // must declare name false for next search
+                    }
+                    //If the element is <category> within <assignment>
+                    if (category) {
+                        assignments.get(assignments.size() - 1).add(new String(ch, start, length));
+                        category = false;                     
+                    }
+                    //If the element is <grade> within <assignment>
+                    if (grade) {
+                        grades.get(grades.size() - 1).add(Integer.parseInt(new String(ch, start, length)));
+                        grade = false; // must declare name false for next search
+                    }
+                }
+                
+            };
+            
+            saxParser.parse("structure.xml", handler);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     public static void main(String argv[]) {
         // Loads course info, non-iterative things
         loadCourseInfo();
@@ -185,9 +257,20 @@ public class loadXML {
         // Loads students and their information
         loadStudentInfo();
         
-        for (int i = 0; i < studentNames.size(); i++){
+        for (int i = 0; i < studentNames.size() - 1; i++) {
             System.out.println("NAME: " + studentNames.get(i));
             System.out.println("PSUEDONAME: " + studentPsuedoNames.get(i));
+        }
+        
+        loadAssignmentInfo();
+                
+        for (ArrayList<String> assignment : assignments) {
+            System.out.println("Assignment Name: " + assignment.get(0));
+            System.out.println("Assignment Category: " + assignment.get(1));
+            
+            for(int i = 0; i < grades.get(assignments.indexOf(assignment)).size(); i++) {
+                System.out.println("GRADE: " + grades.get(assignments.indexOf(assignment)).get(i));
+            }
         }
         
     }
