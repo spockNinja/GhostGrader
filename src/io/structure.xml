@@ -7,7 +7,11 @@
 	<roomID>212</roomID>
 	<meetingTime>10:45 am - 11:35 am</meetingTime>
 	
+<<<<<<< HEAD
 	<!-- array containing every student -->
+=======
+<!-- array containing every student -->
+>>>>>>> master
 	<student>
 		<name>Brett Story</name>
 		<psuedoName>Red</psuedoName>
@@ -41,6 +45,7 @@
 		<psuedoName>Purple</psuedoName>
 	</student>
 	<!-- ... -->
+<<<<<<< HEAD
 	
 	<assignment>
 		<assignmentName>hw1</assignmentName>
@@ -67,4 +72,6 @@
 		<grade id="Zach Hudson">84</grade>
 	</assignment>
 	
+=======
+>>>>>>> master
 </class>
