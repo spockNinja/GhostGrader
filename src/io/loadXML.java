@@ -42,9 +42,6 @@ public class loadXML {
     static ArrayList<ArrayList<String>> assignments = new ArrayList<ArrayList<String>>();
     static ArrayList<ArrayList<Integer>> grades = new ArrayList<ArrayList<Integer>>();
     
-    static int assignmentsIterator = 0;
-    static int gradesIterator = 0;
-    
     private static void loadCourseInfo() {      
         try {
             
