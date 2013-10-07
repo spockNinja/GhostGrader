@@ -4,20 +4,36 @@ package GhostGradeBook.editClass;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 /**
  *
- * @author Zach
+ * @author Lilong
  */
 public class ClassRoom extends javax.swing.JDialog {
 
     private NewStudent addStudent;
+    public String actionStatus;
+    private NewAssignment newAssignment;
     /**
      * Creates new form ClassRoom
      */
     public ClassRoom(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        actionPerform();
+    }
+    
+    public ClassRoom(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        actionPerform();
+    }
+    
+    private void actionPerform() {
+        addStudent = new NewStudent(this, true);
+        newAssignment = new NewAssignment(this, true);
+        
     }
 
     /**
@@ -29,105 +45,201 @@ public class ClassRoom extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
-        addStudentButton = new javax.swing.JButton();
-        removeStudentButton = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JToolBar.Separator();
-        classPropertiesButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
-        newAssignmentButton = new javax.swing.JButton();
-        removeAssignmentButton = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        tabbedPane = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        classRoomTable = new javax.swing.JTable();
+        assignment1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Class Room");
         setBackground(java.awt.Color.darkGray);
-        setResizable(false);
 
-        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jToolBar1.setRollover(true);
-
-        addStudentButton.setText("Add_Student");
-        addStudentButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStudentButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(addStudentButton);
-
-        removeStudentButton.setText("Remove_Student");
-        jToolBar1.add(removeStudentButton);
-        jToolBar1.add(jSeparator2);
-
-        classPropertiesButton.setText("Class_Properties");
-        jToolBar1.add(classPropertiesButton);
-        jToolBar1.add(jSeparator1);
-
-        newAssignmentButton.setText("New_Assignment");
-        newAssignmentButton.setFocusable(false);
-        newAssignmentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        newAssignmentButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(newAssignmentButton);
-
-        removeAssignmentButton.setText("Remove_Assignment");
-        removeAssignmentButton.setFocusable(false);
-        removeAssignmentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        removeAssignmentButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(removeAssignmentButton);
-
-        classRoomTable.setModel(new javax.swing.table.DefaultTableModel(
+        assignment1.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        assignment1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Studen Name", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
+                "Student", "Grade", "Feedback"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
+        ));
+        jScrollPane1.setViewportView(assignment1);
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+        tabbedPane.addTab("Assignment 1", jScrollPane1);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jLabel1.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        jLabel1.setText("Class Name");
+
+        jButton1.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        jButton1.setText("Save");
+
+        jButton2.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        jButton2.setText("Go Back");
+
+        jMenu5.setText("File");
+
+        jMenuItem12.setText("Save");
+        jMenu5.add(jMenuItem12);
+
+        jMenuItem13.setText("Load");
+        jMenu5.add(jMenuItem13);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu1.setText("Student");
+
+        jMenuItem3.setText("Add");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Remove");
+        jMenu1.add(jMenuItem4);
+        jMenu1.add(jSeparator3);
+
+        jMenuItem6.setText("Edit");
+        jMenu1.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Assignement");
+
+        jMenuItem5.setText("Add");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(classRoomTable);
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem7.setText("Remove");
+        jMenu2.add(jMenuItem7);
+        jMenu2.add(jSeparator4);
+
+        jMenuItem8.setText("Edit");
+        jMenu2.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Exam");
+
+        jMenuItem9.setText("Add");
+        jMenu3.add(jMenuItem9);
+
+        jMenuItem10.setText("Remove");
+        jMenu3.add(jMenuItem10);
+        jMenu3.add(jSeparator1);
+
+        jMenuItem11.setText("Edit");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("GhostStudent");
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 819, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(67, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addContainerGap(74, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(33, 33, 33)
+                    .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                    .addContainerGap(45, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
-        addStudent.setVisible(true);
-    }//GEN-LAST:event_addStudentButtonActionPerformed
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        newAssignment.setVisible(true);
+        if (newAssignment.actionStatus.equals("Add")) {
+            JScrollPane assignmentScroll = new JScrollPane();
+            tabbedPane.addTab(newAssignment.dataFromAddingNewAssignment[0], assignmentScroll);
+            JTable newAssignmentTable = new JTable();
+            newAssignmentTable.setFont(new java.awt.Font("Georgia", 0, 18));
+            newAssignmentTable = new javax.swing.JTable();
+
+            newAssignmentTable.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+
+            newAssignmentTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null}
+                },
+                new String [] {
+                    "Student", "Grade", "Feedback"
+                }
+            ));
+
+
+
+            assignmentScroll.setViewportView(newAssignmentTable);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,15 +291,34 @@ public class ClassRoom extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addStudentButton;
-    private javax.swing.JButton classPropertiesButton;
-    private javax.swing.JTable classRoomTable;
+    private javax.swing.JTable assignment1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar.Separator jSeparator1;
-    private javax.swing.JToolBar.Separator jSeparator2;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton newAssignmentButton;
-    private javax.swing.JButton removeAssignmentButton;
-    private javax.swing.JButton removeStudentButton;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 }

@@ -53,16 +53,16 @@ public class AddNewClassWindow extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         className.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        className.setText("Class Name:");
+        className.setText("Class Name (require):");
 
         addNewClass.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         addNewClass.setText("Add New Class");
 
         courseID.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        courseID.setText("Course ID:");
+        courseID.setText("Course ID(rrequire):");
 
         courseNumber.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        courseNumber.setText("Course Number:");
+        courseNumber.setText("Course Number(require):");
 
         classSection.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         classSection.setText("Class section:");
@@ -122,7 +122,7 @@ public class AddNewClassWindow extends javax.swing.JDialog {
                         .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(classNameTextField)
-                            .addComponent(courseIDTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                            .addComponent(courseIDTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                             .addComponent(courseNumberTextField)
                             .addComponent(classSectionTextField)
                             .addComponent(classBuildingTextField)

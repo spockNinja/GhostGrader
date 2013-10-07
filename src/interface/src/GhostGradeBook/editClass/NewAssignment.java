@@ -11,12 +11,15 @@ package GhostGradeBook.editClass;
  */
 public class NewAssignment extends javax.swing.JDialog {
 
+    public String actionStatus;
+    public String[] dataFromAddingNewAssignment;
     /**
      * Creates new form NewAssignment
      */
-    public NewAssignment(java.awt.Frame parent, boolean modal) {
+    public NewAssignment(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        dataFromAddingNewAssignment = new String[3];
     }
 
     /**
@@ -52,6 +55,11 @@ public class NewAssignment extends javax.swing.JDialog {
 
         addButton.setText("Add");
         addButton.setToolTipText("");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         descriptionText.setColumns(20);
         descriptionText.setRows(5);
@@ -59,7 +67,7 @@ public class NewAssignment extends javax.swing.JDialog {
 
         typeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        titleField.setText("jTextField2");
+        titleField.setText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,6 +118,17 @@ public class NewAssignment extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        if (evt.getActionCommand().equals("Add")) {
+            actionStatus = "Add";
+            dataFromAddingNewAssignment[0] = titleField.getText();
+            dataFromAddingNewAssignment[1] = typeCB.getToolTipText();
+            dataFromAddingNewAssignment[2] = descriptionText.getText();
+            this.setVisible(false);
+            this.dispose();
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -147,7 +166,7 @@ public class NewAssignment extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                NewAssignment dialog = new NewAssignment(new javax.swing.JFrame(), true);
+                NewAssignment dialog = new NewAssignment(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

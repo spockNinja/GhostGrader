@@ -4,7 +4,6 @@
  */
 package GhostGradeBook;
 
-//import GhostGradeBook.editClass.NewStudent;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +11,7 @@ import javax.swing.*;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.*;
 import javax.swing.table.DefaultTableModel;
- 
+
 
 /**
  *
@@ -24,7 +23,7 @@ public class WelcomeWindow extends javax.swing.JFrame {
     private AddNewClassWindow addNewClass;
     private GhostGradeBook.editClass.ClassRoom editCurrentClass;
     private DefaultTableModel model;
-    private GhostGradeBook.editClass.NewStudent addStudent;
+    private SimpleWelcomeWindow simpleWelcomeWindow;
     
 
     /**
@@ -32,14 +31,21 @@ public class WelcomeWindow extends javax.swing.JFrame {
      */
     public WelcomeWindow() {
         initComponents();
+        detialSetUp();
+    }
+    
+    private void detialSetUp() {
         this.setLocation(400, 300);
         fc = new JFileChooser();
         addNewClass = new AddNewClassWindow(this, true);
         addNewClass.setLocation(500, 300);
         editCurrentClass = new GhostGradeBook.editClass.ClassRoom(this, true);
         editCurrentClass.setLocation(500, 300);
+        simpleWelcomeWindow = new SimpleWelcomeWindow(this, true);
+        simpleWelcomeWindow.setLocation(500, 300);
         model = (DefaultTableModel) classTable.getModel();
-        addStudent = new GhostGradeBook.editClass.NewStudent(this, true);
+        this.setVisible(false);
+        simpleWelcomeWindow.setVisible(true);
         pack();
     }
 
@@ -52,25 +58,14 @@ public class WelcomeWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ghostGradeBookLabel = new javax.swing.JLabel();
-        jSplitPane2 = new javax.swing.JSplitPane();
+        welcomePanel = new javax.swing.JPanel();
         currentClassesPanel = new javax.swing.JPanel();
         removeClassButton = new javax.swing.JButton();
         addClassButton = new javax.swing.JButton();
         editClassButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         classTable = new javax.swing.JTable();
-        editClassPanel = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        classRoomTable = new javax.swing.JTable();
-        jToolBar1 = new javax.swing.JToolBar();
-        addStudentButton = new javax.swing.JButton();
-        removeStudentButton = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JToolBar.Separator();
-        classPropertiesButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
-        newAssignmentButton = new javax.swing.JButton();
-        removeAssignmentButton = new javax.swing.JButton();
+        ghostGradeBookLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         file = new javax.swing.JMenu();
         openFile = new javax.swing.JMenuItem();
@@ -79,16 +74,13 @@ public class WelcomeWindow extends javax.swing.JFrame {
         cut = new javax.swing.JMenuItem();
         copy = new javax.swing.JMenuItem();
         paste = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem_simpleMode = new javax.swing.JMenuItem();
+        jMenuItem_DetialMode = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ghostGradeBookLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        ghostGradeBookLabel.setText("Ghost Grade Book");
-
-        jSplitPane2.setDividerLocation(700);
-
         currentClassesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Current Classes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14), java.awt.Color.black)); // NOI18N
-        currentClassesPanel.setPreferredSize(new java.awt.Dimension(555, 610));
 
         removeClassButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         removeClassButton.setText("Remove Class");
@@ -134,7 +126,7 @@ public class WelcomeWindow extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Row", "Class Name", "Course ID", "Course Number", "Class Section", "Class Building", "Class Room Number", "Meeting Time"
+                "Row", "Class Name", "Course Prefix", "Course Number", "Class Section", "Class Building", "Class Room Number", "Meeting Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -153,106 +145,50 @@ public class WelcomeWindow extends javax.swing.JFrame {
         currentClassesPanel.setLayout(currentClassesPanelLayout);
         currentClassesPanelLayout.setHorizontalGroup(
             currentClassesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(currentClassesPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, currentClassesPanelLayout.createSequentialGroup()
+                .addContainerGap(121, Short.MAX_VALUE)
                 .addComponent(addClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(removeClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(editClassButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addComponent(removeClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addComponent(editClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(121, Short.MAX_VALUE))
+            .addGroup(currentClassesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         currentClassesPanelLayout.setVerticalGroup(
             currentClassesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(currentClassesPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(currentClassesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addClassButton)
-                    .addComponent(removeClassButton)
-                    .addComponent(editClassButton))
+                    .addComponent(removeClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editClassButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
-        jSplitPane2.setLeftComponent(currentClassesPanel);
-
-        editClassPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected Class", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
-
-        classRoomTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Studen Name", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(classRoomTable);
-
-        jToolBar1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jToolBar1.setRollover(true);
-
-        addStudentButton.setText("Add_Student");
-        addStudentButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStudentButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(addStudentButton);
-
-        removeStudentButton.setText("Remove_Student");
-        jToolBar1.add(removeStudentButton);
-        jToolBar1.add(jSeparator2);
-
-        classPropertiesButton.setText("Class_Properties");
-        jToolBar1.add(classPropertiesButton);
-        jToolBar1.add(jSeparator1);
-
-        newAssignmentButton.setText("New_Assignment");
-        newAssignmentButton.setFocusable(false);
-        newAssignmentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        newAssignmentButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(newAssignmentButton);
-
-        removeAssignmentButton.setText("Remove_Assignment");
-        removeAssignmentButton.setFocusable(false);
-        removeAssignmentButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        removeAssignmentButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(removeAssignmentButton);
-
-        javax.swing.GroupLayout editClassPanelLayout = new javax.swing.GroupLayout(editClassPanel);
-        editClassPanel.setLayout(editClassPanelLayout);
-        editClassPanelLayout.setHorizontalGroup(
-            editClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(editClassPanelLayout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
-            .addComponent(jScrollPane2)
+        javax.swing.GroupLayout welcomePanelLayout = new javax.swing.GroupLayout(welcomePanel);
+        welcomePanel.setLayout(welcomePanelLayout);
+        welcomePanelLayout.setHorizontalGroup(
+            welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(welcomePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(currentClassesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
-        editClassPanelLayout.setVerticalGroup(
-            editClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(editClassPanelLayout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
+        welcomePanelLayout.setVerticalGroup(
+            welcomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, welcomePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(currentClassesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jSplitPane2.setRightComponent(editClassPanel);
+        ghostGradeBookLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        ghostGradeBookLabel.setText("Ghost Grade Book");
 
         file.setText("File");
 
@@ -291,25 +227,40 @@ public class WelcomeWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(edit);
 
+        jMenu1.setText("View");
+
+        jMenuItem_simpleMode.setText("SimpleMode");
+        jMenuItem_simpleMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_simpleModeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem_simpleMode);
+
+        jMenuItem_DetialMode.setText("DetialMode");
+        jMenu1.add(jMenuItem_DetialMode);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(399, Short.MAX_VALUE)
                 .addComponent(ghostGradeBookLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1330, Short.MAX_VALUE)
+                .addContainerGap(400, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ghostGradeBookLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSplitPane2))
+                .addComponent(welcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -339,46 +290,6 @@ public class WelcomeWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveFileActionPerformed
 
-    private void editClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editClassButtonActionPerformed
-        if (classTable.getSelectedRow() != -1) {
-            if (classTable.getValueAt(classTable.getSelectedRow(), 0) != null) {
-                //editCurrentClass.setVisible(true);
-                //editClass.setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_editClassButtonActionPerformed
-
-    private void editClassButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editClassButtonMouseClicked
-
-    }//GEN-LAST:event_editClassButtonMouseClicked
-
-    private void addClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassButtonActionPerformed
-        addNewClass.pack();
-        //intial the addNewClass windown
-        addNewClass.actionStatus = "Waiting for new action";
-        addNewClass.setVisible(true);
-        if (addNewClass.actionStatus.equals("Add to table")) {
-            model.addRow(new Object[]{null, null,null, null,null, null,null, null});
-            for (int r = 0; r < classTable.getRowCount() - 1; r++) {
-                if (classTable.getValueAt(r, 0) == null) {
-                    classTable.setValueAt(r, r, 0);
-                    for (int c = 0; c < classTable.getColumnCount() - 1; c++) {
-                        classTable.setValueAt(addNewClass.dataFromNewClass[c], r, c + 1);
-                    }
-                }
-            }
-            addNewClass.repaint();
-        }
-
-        if (addNewClass.actionStatus.equals("Cancel")) {
-            addNewClass.repaint();
-        }
-    }//GEN-LAST:event_addClassButtonActionPerformed
-
-    private void addClassButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addClassButtonMouseClicked
-
-    }//GEN-LAST:event_addClassButtonMouseClicked
-
     private void removeClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeClassButtonActionPerformed
         if (classTable.getSelectedRow() != -1) {
             if (classTable.getValueAt(classTable.getSelectedRow(), 0) != null) {
@@ -393,12 +304,53 @@ public class WelcomeWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_removeClassButtonActionPerformed
 
     private void removeClassButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeClassButtonMouseClicked
-
     }//GEN-LAST:event_removeClassButtonMouseClicked
 
-    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
-        addStudent.setVisible(true);
-    }//GEN-LAST:event_addStudentButtonActionPerformed
+    private void addClassButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addClassButtonMouseClicked
+        
+    }//GEN-LAST:event_addClassButtonMouseClicked
+
+    private void addClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassButtonActionPerformed
+        addNewClass.pack();
+        //intial the addNewClass windown
+        addNewClass.actionStatus = "Waiting for new action";
+        this.setVisible(false);
+        addNewClass.setVisible(true);
+        if (addNewClass.actionStatus.equals("Add to table")) {
+            model.addRow(new Object[]{null, null,null, null,null, null,null, null});
+            for (int r = 0; r < classTable.getRowCount() - 1; r++) {
+                if (classTable.getValueAt(r, 0) == null) {
+                    classTable.setValueAt(r, r, 0);
+                    for (int c = 0; c < classTable.getColumnCount() - 1; c++) {
+                        classTable.setValueAt(addNewClass.dataFromNewClass[c], r, c + 1);
+                    }
+                }
+            }
+            addNewClass.repaint();
+        } else if (addNewClass.actionStatus.equals("Cancel")) {
+            addNewClass.repaint();
+        }
+        this.setVisible(true);
+    }//GEN-LAST:event_addClassButtonActionPerformed
+
+    private void editClassButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editClassButtonMouseClicked
+    }//GEN-LAST:event_editClassButtonMouseClicked
+
+    private void editClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editClassButtonActionPerformed
+        if (classTable.getSelectedRow() != -1) {
+            if (classTable.getValueAt(classTable.getSelectedRow(), 0) != null) {
+                editCurrentClass.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_editClassButtonActionPerformed
+
+    private void jMenuItem_simpleModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_simpleModeActionPerformed
+        if (this.isVisible()) {
+            this.setVisible(false);
+            simpleWelcomeWindow.setVisible(true);
+        }
+        this.setVisible(true);
+    }//GEN-LAST:event_jMenuItem_simpleModeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,32 +394,24 @@ public class WelcomeWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addClassButton;
-    private javax.swing.JButton addStudentButton;
-    private javax.swing.JButton classPropertiesButton;
-    private javax.swing.JTable classRoomTable;
+    public javax.swing.JButton addClassButton;
     private javax.swing.JTable classTable;
     private javax.swing.JMenuItem copy;
     private javax.swing.JPanel currentClassesPanel;
     private javax.swing.JMenuItem cut;
     private javax.swing.JMenu edit;
     private javax.swing.JButton editClassButton;
-    private javax.swing.JPanel editClassPanel;
     private javax.swing.JMenu file;
     private javax.swing.JLabel ghostGradeBookLabel;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem_DetialMode;
+    private javax.swing.JMenuItem jMenuItem_simpleMode;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JToolBar.Separator jSeparator1;
-    private javax.swing.JToolBar.Separator jSeparator2;
-    private javax.swing.JSplitPane jSplitPane2;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JButton newAssignmentButton;
     private javax.swing.JMenuItem openFile;
     private javax.swing.JMenuItem paste;
-    private javax.swing.JButton removeAssignmentButton;
     private javax.swing.JButton removeClassButton;
-    private javax.swing.JButton removeStudentButton;
     private javax.swing.JMenuItem saveFile;
+    private javax.swing.JPanel welcomePanel;
     // End of variables declaration//GEN-END:variables
 }
