@@ -14,7 +14,7 @@ public class Exporter
 
     public Exporter() {
         try {
-            cfg.setDirectoryForTemplateLoading(new File("./io"));
+            cfg.setDirectoryForTemplateLoading(new File("."+File.separator+"io"));
         }
         catch (IOException e) {
             System.out.println("Unable to find the resource directory.");
