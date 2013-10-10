@@ -24,8 +24,8 @@ public class MyCourse {
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
-    private CourseGrades gradebook;
-    private PseudoNameGenerator psNames = new PseudoNameGenerator();
+    private CourseGrades gradebook = new CourseGrades();
+    //private PseudoNameGenerator psNames = new PseudoNameGenerator();
     
     /**
      * Constructs a new MyCourse object, note there is no 'empty' constructor
@@ -349,7 +349,11 @@ public class MyCourse {
     /**
      * Constructs a new CourseGrades object
      */
-    public void createGradebook() {
+/*    public void createGradebook() {
         gradebook = new CourseGrades();
+    }*/
+    
+    public CourseGrades getGradeBook() {
+    	return gradebook;
     }
 }

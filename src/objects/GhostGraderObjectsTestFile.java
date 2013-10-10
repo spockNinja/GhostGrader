@@ -2,6 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.text.DecimalFormat;
 /**
  * Populate objects poke at them
  * 
@@ -35,8 +36,13 @@ public class GhostGraderObjectsTestFile {
         int quizValue = 25;
         String[] exams = {"Exam 1", "Exam 2", "Final"};
         int examValue = 100;
-        MyCourse[] courses = new MyCourse[courseNames.length];
+        int numberOfAssignments = homeworkAssignments.length + quizes.length + exams.length; 
+        int numberOfStudents = studentList.length;
+        double[][] grades = new double[numberOfAssignments][numberOfStudents];
         Random rng = new Random(12323423);//rng remove number to unseed
+        DecimalFormat twoDecimals = new DecimalFormat("#.##");
+        MyCourse[] courses = new MyCourse[courseNames.length];
+        
         
         //create courses for testing
         for (int i = 0; i < courseNames.length; i++) {
@@ -98,9 +104,38 @@ public class GhostGraderObjectsTestFile {
                 //System.out.println(courses[i].getAssignmentCategory(2).getAssignment(j).getName() +
                 //				   "\tis worth: " + courses[i].getAssignmentCategory(2).getAssignment(j).getWorth() +
                 //				   " points");
-            
+            }
+            //populate random hw grades
+            for (int j = 0; j < homeworkAssignments.length; j++) {
+            	courses[i].getGradeBook().addAssignmentColumn(studentList.length);
+            	for (int k = 0; k < studentList.length; k++) {
+            		double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * homeworkValue)));
+            		courses[i].getGradeBook().setGrade(j, k, randomGrade);
+            		//System.out.println(randomGrade + "\t" + courses[i].getGradeBook().getGrade(j, k));
+            	}
+            }
+            for (int j = 0; j < quizes.length; j++) {
+            	courses[i].getGradeBook().addAssignmentColumn(studentList.length);
+            	for (int k = 0; k < studentList.length; k++) {
+            		double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * quizValue)));
+            		courses[i].getGradeBook().setGrade((homeworkAssignments.length + j), k, randomGrade);
+            		//System.out.println(randomGrade + "\t" + courses[i].getGradeBook().getGrade((homeworkAssignments.length + j), k));
+            	}
+            }
+            for (int j = 0; j < exams.length; j++) {
+            	courses[i].getGradeBook().addAssignmentColumn(studentList.length);
+            	for (int k = 0; k < studentList.length; k++) {
+            		double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * examValue)));
+            		courses[i].getGradeBook().setGrade((homeworkAssignments.length + 
+            											quizes.length + j), k, randomGrade);
+            		//System.out.println(randomGrade + "\t" + courses[i].getGradeBook().getGrade(homeworkAssignments.length + quizes.length + j, k));
+            	}
             }
         }
+        
+       
+        
+        
         
         
         //test cases go below this comment line
@@ -123,6 +158,8 @@ public class GhostGraderObjectsTestFile {
         
         
         //removing an assignment by index which is out of bounds
+        
+        //test gradebook
     }
     
     //resets pseudoName array for creation of more than one course
