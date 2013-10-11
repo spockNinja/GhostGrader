@@ -1,8 +1,10 @@
-
 /**
  * Basic load functionality for course and student information
  * author: Brett Story
  */
+package io;
+
+import objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +27,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class loadXML {
-    // Course variables to be loaded
-    static String courseName;
-    static String courseID;
-    static int courseNumber;
-    static String section;
-    static String building;
-    static String roomID;
-    static String meetingTime;
-    
+	
     // Student array to be loaded
     static List<String> studentNames = new ArrayList<String>();
     static List<String> studentPsuedoNames = new ArrayList<String>();
@@ -42,9 +36,11 @@ public class loadXML {
     static ArrayList<ArrayList<String>> assignments = new ArrayList<ArrayList<String>>();
     static ArrayList<ArrayList<Integer>> grades = new ArrayList<ArrayList<Integer>>();
     
-    private static void loadCourseInfo() {      
-        try {
-            
+    private static MyCourse loadCourseInfo() {   
+    	
+    	MyCourse course = new MyCourse(null);
+    	
+    	try {
             // Initial setup of document parser         
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
@@ -60,7 +56,7 @@ public class loadXML {
             Node courseNameNode = courseNameList.item(0);
             
             //Note: you must do .getFirstChild().getNodeValue() to return what's inside the tags
-            courseName = courseNameNode.getFirstChild().getNodeValue();
+            course.setName(courseNameNode.getFirstChild().getNodeValue());
         
             /* ------------------------------
              * Section for courseID/#/Section
@@ -68,17 +64,17 @@ public class loadXML {
             NodeList courseIDList = doc.getElementsByTagName("courseID");
             Node courseIDNode = courseIDList.item(0);
             
-            courseID = courseIDNode.getFirstChild().getNodeValue();
+            course.setCourseID(courseIDNode.getFirstChild().getNodeValue());
             
             NodeList courseNumberList = doc.getElementsByTagName("courseNumber");
             Node courseNumberNode = courseNumberList.item(0);
             
-            courseNumber = Integer.parseInt(courseNumberNode.getFirstChild().getNodeValue());
+            course.setCourseNumber(Integer.parseInt(courseNumberNode.getFirstChild().getNodeValue()));
             
             NodeList sectionList = doc.getElementsByTagName("section");
             Node sectionNode = sectionList.item(0);
             
-            section = sectionNode.getFirstChild().getNodeValue();
+            course.setSection(sectionNode.getFirstChild().getNodeValue());
             
             /* ------------------------------
              * Section for building/roomNumber
@@ -87,12 +83,12 @@ public class loadXML {
             NodeList buildingList = doc.getElementsByTagName("building");
             Node buildingNode = buildingList.item(0);
             
-            building = buildingNode.getFirstChild().getNodeValue();
+            course.setBuilding(buildingNode.getFirstChild().getNodeValue());
             
             NodeList roomIDList = doc.getElementsByTagName("roomID");
             Node roomIDNode = roomIDList.item(0);
             
-            roomID = roomIDNode.getFirstChild().getNodeValue();
+            course.setRoomID( roomIDNode.getFirstChild().getNodeValue());
             
             /* ------------------------------
              * Section for meetingTime
@@ -101,7 +97,8 @@ public class loadXML {
             NodeList meetingTimeList = doc.getElementsByTagName("meetingTime");
             Node meetingTimeNode = meetingTimeList.item(0);
             
-            meetingTime = meetingTimeNode.getFirstChild().getNodeValue();     
+            course.setMeetingTime(meetingTimeNode.getFirstChild().getNodeValue());
+            
         //Beyond this point are all catches
         }catch (SAXParseException err)
         {
@@ -118,6 +115,7 @@ public class loadXML {
             // TODO Auto-generated catch block
             t.printStackTrace();
         }
+        return course;
     }
     
     private static void loadStudentInfo() {
@@ -239,17 +237,17 @@ public class loadXML {
         }
     }
     
-    public static void main(String argv[]) {
+    public static void main(String argv[]) {   	    	
         // Loads course info, non-iterative things
-        loadCourseInfo();
+        MyCourse course = loadCourseInfo();
         
         /* -------------------------------------------------------
          * Printing stuff for testing, delete before final build
          * -------------------------------------------------------*/
-        System.out.println("Course Name: " + courseName);
-        System.out.println("Course ID: " + courseID + courseNumber + "-" + section);
-        System.out.println("Room: " + building + " " + roomID);
-        System.out.println("Meeting Time: " + meetingTime);
+        System.out.println("Course Name: " + course.getName());
+        System.out.println("Course ID: " + course.getCourseID() + course.getCourseNumber() + "-" + course.getSection());
+        System.out.println("Room: " + course.getBuilding() + " " + course.getRoomID());
+        System.out.println("Meeting Time: " + course.getMeetingTime());
             
         // Loads students and their information
         loadStudentInfo();
