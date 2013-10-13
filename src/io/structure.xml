@@ -9,62 +9,74 @@
 	
 	<!-- array containing every student -->
 	<student>
-		<name>Brett Story</name>
+		<firstName>Brett</firstName>
+		<lastName>Story</lastName>
 		<psuedoName>Red</psuedoName>
 	</student>
 	<student>
-		<name>Chris Weddle</name>
+		<firstName>Chris</firstName>
+		<lastName>Weddle</lastName>
 		<psuedoName>Orange</psuedoName>
 	</student>
 	<student>
-		<name>Jacob Foster</name>
+		<firstName>Jacob</firstName>
+		<lastName>Foster</lastName>
 		<psuedoName>Yellow</psuedoName>
 	</student>
 	<student>
-		<name>Jesse Milburn</name>
+		<firstName>Jesse</firstName>
+		<lastName>Milburn</lastName>
 		<psuedoName>Green</psuedoName>
 	</student>
 	<student>
-		<name>Justin Spreadborough</name>
+		<firstName>Justin</firstName>
+		<lastName>Spreadborough</lastName>
 		<psuedoName>Teal</psuedoName>
 	</student>
 	<student>
-		<name>Lilong Huang</name>
+		<firstName>Lilong</firstName>
+		<lastName>Huang</lastName>
 		<psuedoName>Blue</psuedoName>
 	</student>
 	<student>
-		<name>Tarah Marlow</name>
+		<firstName>Tarah</firstName>
+		<lastName>Marlow</lastName>
 		<psuedoName>Violet</psuedoName>
 	</student>
 	<student>
-		<name>Zach Hudson </name>
+		<firstName>Zach</firstName>
+		<lastName>Hudson</lastName>
 		<psuedoName>Purple</psuedoName>
 	</student>
 	<!-- ... -->
-	
-	<assignment>
-		<assignmentName>hw1</assignmentName>
-		<category>Homework</category>
-		<grade id="Brett Story">80</grade>
-		<grade id="Chris Weddle">83</grade>
-		<grade id="Jacob Foster">98</grade>
-		<grade id="Jesse Milburn">94</grade>
-		<grade id="Justin Spreadborough">86</grade>
-		<grade id="Lilong Huang">80</grade>
-		<grade id="Tarah Marlow">89</grade>
-		<grade id="Zach Hudson">90</grade>
-	</assignment>
-	<assignment>
-		<assignmentName>test1</assignmentName>
-		<category>Test</category>
-		<grade id="Brett Story">65</grade>
-		<grade id="Chris Weddle">86</grade>
-		<grade id="Jacob Foster">90</grade>
-		<grade id="Jesse Milburn">88</grade>
-		<grade id="Justin Spreadborough">90</grade>
-		<grade id="Lilong Huang">97</grade>
-		<grade id="Tarah Marlow">93</grade>
-		<grade id="Zach Hudson">84</grade>
-	</assignment>
-	
+	<category>
+		<categoryName>Homework</categoryName>
+		<assignment>
+			<assignmentName>hw1</assignmentName>
+			<worth>100</worth>
+			<grade id="Story, Brett">80</grade>
+			<grade id="Weddle, Chris">83</grade>
+			<grade id="Foster, Jacob">98</grade>
+			<grade id="Milburn, Jesse">94</grade>
+			<grade id="Spreadborough, Justin">86</grade>
+			<grade id="Huang, Lilong">80</grade>
+			<grade id="Marlow, Tarah">89</grade>
+			<grade id="Hudson, Zach">90</grade>
+		</assignment>
+	</category>
+	<category>
+		<categoryName>Test</categoryName>
+		<assignment>
+			<assignmentName>test1</assignmentName>
+			<worth>100</worth>
+			<grade id="Story, Brett">65</grade>
+			<grade id="Weddle, Chris">86</grade>
+			<grade id="Foster, Jacob">90</grade>
+			<grade id="Milburn, Jesse">88</grade>
+			<grade id="Spreadborough, Justin">90</grade>
+			<grade id="Huang, Lilong">97</grade>
+			<grade id="Marlow, Tarah">93</grade>
+			<grade id="Hudson, Zach">84</grade>
+		</assignment>
+	</category>
 </class>
