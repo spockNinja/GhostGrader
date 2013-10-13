@@ -207,6 +207,10 @@ public class MyCourse {
         return -1;
     }
     
+    public int getNumberOfAssignmentCategories() {
+    	return categories.size();
+    }
+    
     /**
      * Removes the AssignmentCategory object from the categories ArrayList
      * 
@@ -284,6 +288,10 @@ public class MyCourse {
         }
     }
     
+    public int getNumberOfStudents() {
+    	return students.size();
+    }
+    
     /**
      * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
      * 
@@ -345,9 +353,18 @@ public class MyCourse {
             return null;
         }
     }
+    
+    public int getNumberOfGhostStudents() {
+   		return ghostStudents.size();
+    }
+    
+    public int getTotalStudents() {
+    	return ghostStudents.size() + students.size();
+    }
 
     /**
-     * Constructs a new CourseGrades object
+     * Constructs a new CourseGrades object from gradebook
+     * @return 
      */
 /*    public void createGradebook() {
         gradebook = new CourseGrades();
