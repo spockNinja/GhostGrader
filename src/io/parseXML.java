@@ -132,6 +132,7 @@ public class parseXML {
                 boolean isFirstName = false;
                 boolean isLastName = false;
                 boolean isPsuedoName = false;
+                boolean isGhostName = false;
 
     
                 // A SAX callback method which finds the start of an XML element
@@ -146,6 +147,9 @@ public class parseXML {
                     }
                     if (qName.equalsIgnoreCase("psuedoName")) {
                         isPsuedoName = true;
+                    }
+                    if (qName.equalsIgnoreCase("ghostName")) {
+                    	isGhostName = true;
                     }
                 }
                 
@@ -177,6 +181,10 @@ public class parseXML {
                     if (isPsuedoName) {
                         psuedoName = new String(ch, start, length);
                         isPsuedoName = false;   
+                    }
+                    if (isGhostName) {
+                    	course.addGhostStudent(new String(ch, start, length));
+                    	isGhostName = false;
                     }
                 }
                 
@@ -316,6 +324,15 @@ public class parseXML {
                 writer.write("\t\t<psuedoName>" + course.getStudent(i).getPseudoName() + "</psuedoName>\n");
                 writer.write("\t</student>\n");
             }
+            
+        	writer.write("\t<!-- Ghost Students -->\n");
+            
+            //Add ghost students
+            for (int i = 0; i <course.getNumberOfGhostStudents(); i++) {
+                writer.write("\t<ghostStudent>\n");
+                writer.write("\t\t<ghostName>" + course.getGhostStudent(i).getPseudoName() + "</ghostName>\n");
+                writer.write("\t</ghostStudent>\n");
+            }
     	    
             //Add assignment information
             
@@ -331,7 +348,15 @@ public class parseXML {
                 	writer.write("\t\t\t<worth>" + course.getAssignmentCategory(i).getAssignment(j).getWorth() + "</worth>\n");
                 	
                 	for (int k = 0; k < course.getNumberOfStudents(); k++) {
-                		writer.write("\t\t<grade id=\"" + course.getStudent(k).getFullName() + "\">" + course.getGradeBook().getGrade(assignmentIndex, k) + "</grade>\n");
+                		writer.write("\t\t\t<grade id=\"" + course.getStudent(k).getFullName() + "\">" + course.getGradeBook().getGrade(assignmentIndex, k) + "</grade>\n");
+                	}
+                	
+                	writer.write("\t\t\t<!-- Ghost Students -->\n");
+
+                	for (int k = 0; k < course.getNumberOfGhostStudents(); k++) {
+                		int currentIndex = k + course.getNumberOfStudents();
+                		writer.write("\t\t\t<grade id=\"" + course.getGhostStudent(k).getPseudoName() + "\">" +
+                						course.getGradeBook().getGrade(assignmentIndex, currentIndex) + "</grade>\n");
                 	}
                 	
                 	writer.write("\t\t</assignment>\n");
@@ -357,21 +382,31 @@ public class parseXML {
         System.out.println("Room: " + course.getBuilding() + " " + course.getRoomID());
         System.out.println("Meeting Time: " + course.getMeetingTime());
         
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < course.getNumberOfStudents(); i++) {
             System.out.println("NAME: " + course.getStudent(i).getFullName());
             System.out.println("PSUEDONAME: " + course.getStudent(i).getPseudoName());
         }
         
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < course.getNumberOfGhostStudents(); i++) {
+        	System.out.println("GHOST STUDENT: " + course.getGhostStudent(i).getPseudoName());
+        }
+        
+        
+        
+        for (int i = 0; i < course.getNumberOfAssignmentCategories(); i++) {
         	System.out.println("CATEGORY: " + course.getAssignmentCategory(i).getName());
         	
-        	for (int j = 0; j < 1; j++) {
+        	for (int j = 0; j < course.getAssignmentCategory(i).getNumberOfAssignments(); j++) {
         		System.out.println("ASSIGNMENT: " + course.getAssignmentCategory(i).getAssignment(j).getName());
         		System.out.println("WORTH: " + course.getAssignmentCategory(i).getAssignment(j).getWorth());
         	}
         	
-        	for (int j = 0; j < 8; j++) {
+        	for (int j = 0; j < course.getNumberOfStudents(); j++) {
         		System.out.println(course.getStudent(j).getFullName() + "'s GRADE: " + course.getGradeBook().getGrade(i, j));
+        	}
+        	
+        	for (int j = 0; j < course.getNumberOfGhostStudents(); j++) {
+        		System.out.println(course.getGhostStudent(j).getPseudoName() + "'s GRADE: " + course.getGradeBook().getGrade(i, j));
         	}
         }
     }
