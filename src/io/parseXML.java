@@ -1,50 +1,44 @@
 /**
- * Basic load functionality for course and student information
- * author: Brett Story
+ * Loads and saves from and to XML files.
+ * 
+ * @author Brett M. Story
+ * @date 13 October, 2013
  */
+
 package io;
 
 import objects.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import java.io.File;
-import java.io.IOException;
 
-import org.w3c.dom.*;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import objects.MyCourse;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class loadXML {
+public class parseXML {
 	
-    // Student array to be loaded
-    static List<String> studentNames = new ArrayList<String>();
-    static List<String> studentPsuedoNames = new ArrayList<String>();
-    
-    // Grade stuff
-    static ArrayList<ArrayList<String>> assignments = new ArrayList<ArrayList<String>>();
-    static ArrayList<ArrayList<Integer>> grades = new ArrayList<ArrayList<Integer>>();
-    
-    private static MyCourse loadCourseInfo() {   
+	private static MyCourse course;
+        
+    private static MyCourse loadCourseInfo(File file) {   
     	
-    	MyCourse course = new MyCourse(null);
+    	course = new MyCourse(null);
     	
     	try {
             // Initial setup of document parser         
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse(new File("structure.xml"));
+            Document doc = docBuilder.parse(file);
             
             // normalize text representation
             doc.getDocumentElement().normalize();
@@ -125,41 +119,59 @@ public class loadXML {
             SAXParser saxParser = factory.newSAXParser();
             
             DefaultHandler handler = new DefaultHandler() {
-                
-                boolean name = false;
-                boolean psuedoName = false;
-                
+            	
+            	String firstName = null;
+            	String lastName = null;
+            	String psuedoName = null;
+            	
+                boolean isFirstName = false;
+                boolean isLastName = false;
+                boolean isPsuedoName = false;
+
+    
                 // A SAX callback method which finds the start of an XML element
                 public void startElement (String uri, String localName, String qName,
                     Attributes attributes) throws SAXException {
-                    
-                    if (qName.equalsIgnoreCase("name")) {
-                        name = true;
+                	
+                    if (qName.equalsIgnoreCase("firstName")) {
+                        isFirstName = true;
                     }
-                    
+                    if (qName.equalsIgnoreCase("lastName")) {
+                        isLastName = true;
+                    }
                     if (qName.equalsIgnoreCase("psuedoName")) {
-                        psuedoName = true;
+                        isPsuedoName = true;
                     }
                 }
                 
                 // A SAX callback method which finds the end of an XML element
                 public void endElement(String uri, String localName, 
                     String qName) throws SAXException {
-                    
+                	
+                	// adds a student to course when it reaches </student>
+                	if (qName.equalsIgnoreCase("student")) {
+                		course.addStudent(firstName, lastName, psuedoName);
+                	}
                 }
                 
                 // A SAX callback method which contains all the characters in an element
                 public void characters(char ch[], int start, int length) 
                     throws SAXException {
+                	
                     //If the element is <name>
-                    if (name) {
-                        studentNames.add(new String(ch, start, length));
-                        name = false; // must declare name false for next search
+                    if (isFirstName) {
+                        firstName = new String(ch, start, length);
+                        isFirstName = false; // must declare name false for next search
+                    }
+                    //If the element is <name>
+                    if (isLastName) {
+                        lastName = new String(ch, start, length);
+                        isLastName = false; // must declare name false for next search
                     }
                     //If the element is <psuedoName>
-                    if (psuedoName) {
-                        studentPsuedoNames.add(new String(ch, start, length));
-                        psuedoName = false;                     
+                    if (isPsuedoName) {
+                        psuedoName = new String(ch, start, length);
+                        isPsuedoName = false;   
                     }
                 }
                 
@@ -171,63 +183,82 @@ public class loadXML {
             e.printStackTrace();
         }
     }
-    
-    
+
     private static void loadAssignmentInfo() {
         
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             
-            DefaultHandler handler = new DefaultHandler() {
-                boolean assignmentName = false;
-                boolean category = false;
-                boolean grade = false;
+            DefaultHandler handler = new DefaultHandler() 
+            {
+            	String assignmentName;
+            	int assignmentWorth;
+            	
+            	String currentCategoryName;
+            	int currentCategoryIndex = 0;
+            	
+            	boolean isCategoryName = false;
+                boolean isAssignmentName = false;
+                boolean isWorth = false;
+                boolean isGrade = false;
+                
+                int assignIndex = 0;
+                int studentIndex = 0;
+                
+                int numberOfStudents = course.getTotalStudents();
                 
                 // A SAX callback method which finds the start of an XML element
                 public void startElement (String uri, String localName, String qName,
                     Attributes attributes) throws SAXException {
-                    if (qName.equalsIgnoreCase("assignment")) {
-                        assignments.add(new ArrayList<String>());
-                        grades.add(new ArrayList<Integer>());
+                    if (qName.equalsIgnoreCase("categoryName")) {
+                        isCategoryName = true;
                     }
                     if (qName.equalsIgnoreCase("assignmentName")) {
-                        assignmentName = true;
-                    }
-                    if (qName.equalsIgnoreCase("category")) {
-                        category = true;
-                    }
-                    
+                        isAssignmentName = true;
+                    }    
+                    if (qName.equalsIgnoreCase("worth")) {
+                        isWorth = true;
+                    }               
                     if (qName.equalsIgnoreCase("grade")) {
-                        grade = true;
+                        isGrade = true;
                     }
                 }
                 
                 // A SAX callback method which finds the end of an XML element
                 public void endElement(String uri, String localName, 
                     String qName) throws SAXException {
+                    if (qName.equalsIgnoreCase("assignment")) {
+                        course.getAssignmentCategory(currentCategoryIndex).addAssignment(assignmentName, assignmentWorth);
+                        studentIndex = 0;
+                        assignIndex ++;
+                    }
                 }
                 
                 // A SAX callback method which contains all the characters in an element
                 public void characters(char ch[], int start, int length) 
                     throws SAXException {
-                    //If the element is <name> within <assignment>
-                    if (assignmentName) {
-                        assignments.get(assignments.size() - 1).add(new String(ch, start, length));
-                        assignmentName = false; // must declare name false for next search
+                	if (isCategoryName) {
+                		currentCategoryName = new String(ch, start, length);
+                		course.addAssignmentCategory(currentCategoryName);
+                		currentCategoryIndex = course.getAssignmentCategoryIndex(currentCategoryName);
+                		isCategoryName = false;
+                	}
+                    if (isAssignmentName) {
+                        assignmentName = new String(ch, start, length);
+                        isAssignmentName = false;
+                        course.getGradeBook().addAssignmentColumn(numberOfStudents);
                     }
-                    //If the element is <category> within <assignment>
-                    if (category) {
-                        assignments.get(assignments.size() - 1).add(new String(ch, start, length));
-                        category = false;                     
+                    if (isWorth) {
+                    	assignmentWorth = Integer.parseInt(new String(ch, start, length));
+                    	isWorth = false;
                     }
-                    //If the element is <grade> within <assignment>
-                    if (grade) {
-                        grades.get(grades.size() - 1).add(Integer.parseInt(new String(ch, start, length)));
-                        grade = false; // must declare name false for next search
-                    }
+                   if (isGrade) {
+                	   course.getGradeBook().setGrade(assignIndex, studentIndex, Double.parseDouble(new String(ch, start, length)));
+                	   isGrade = false;
+                	   studentIndex ++;
+                   }
                 }
-                
             };
             
             saxParser.parse("structure.xml", handler);
@@ -235,38 +266,51 @@ public class loadXML {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }
     
-    public static void main(String argv[]) {   	    	
-        // Loads course info, non-iterative things
-        MyCourse course = loadCourseInfo();
-        
-        /* -------------------------------------------------------
-         * Printing stuff for testing, delete before final build
-         * -------------------------------------------------------*/
+    public static MyCourse loadXML(File file) {
+    	
+    	course = loadCourseInfo(file);
+    	
+    	loadStudentInfo();
+    	
+    	loadAssignmentInfo();
+    	
+    	return course;
+    }
+    
+    public static void saveXML(MyCourse tmpCourse) {
+    	
+    }
+    
+    private static void printCourse() {
         System.out.println("Course Name: " + course.getName());
         System.out.println("Course ID: " + course.getCourseID() + course.getCourseNumber() + "-" + course.getSection());
         System.out.println("Room: " + course.getBuilding() + " " + course.getRoomID());
         System.out.println("Meeting Time: " + course.getMeetingTime());
-            
-        // Loads students and their information
-        loadStudentInfo();
         
-        for (int i = 0; i < studentNames.size() - 1; i++) {
-            System.out.println("NAME: " + studentNames.get(i));
-            System.out.println("PSUEDONAME: " + studentPsuedoNames.get(i));
+        for (int i = 0; i < 8; i++) {
+            System.out.println("NAME: " + course.getStudent(i).getFullName());
+            System.out.println("PSUEDONAME: " + course.getStudent(i).getPseudoName());
         }
         
-        loadAssignmentInfo();
-                
-        for (ArrayList<String> assignment : assignments) {
-            System.out.println("Assignment Name: " + assignment.get(0));
-            System.out.println("Assignment Category: " + assignment.get(1));
-            
-            for(int i = 0; i < grades.get(assignments.indexOf(assignment)).size(); i++) {
-                System.out.println("GRADE: " + grades.get(assignments.indexOf(assignment)).get(i));
-            }
+        for (int i = 0; i < 2; i++) {
+        	System.out.println("CATEGORY: " + course.getAssignmentCategory(i).getName());
+        	
+        	for (int j = 0; j < 1; j++) {
+        		System.out.println("ASSIGNMENT: " + course.getAssignmentCategory(i).getAssignment(j).getName());
+        		System.out.println("WORTH: " + course.getAssignmentCategory(i).getAssignment(j).getWorth());
+        	}
+        	
+        	for (int j = 0; j < 8; j++) {
+        		System.out.println(course.getStudent(j).getFullName() + "'s GRADE: " + course.getGradeBook().getGrade(i, j));
+        	}
         }
-        
+    }
+    
+    public static void main(String argv[]) {
+    	course = loadXML(new File("structure.xml"));
+    	printCourse();
     }
 }
