@@ -54,16 +54,14 @@
 		<assignment>
 			<assignmentName>hw1</assignmentName>
 			<worth>100</worth>
-			<grades>
-				<grade id="Story, Brett">80</grade>
-				<grade id="Weddle, Chris">83</grade>
-				<grade id="Foster, Jacob">98</grade>
-				<grade id="Milburn, Jesse">94</grade>
-				<grade id="Spreadborough, Justin">86</grade>
-				<grade id="Huang, Lilong">80</grade>
-				<grade id="Marlow, Tarah">89</grade>
-				<grade id="Hudson, Zach">90</grade>
-			</grades>
+			<grade id="Story, Brett">80</grade>
+			<grade id="Weddle, Chris">83</grade>
+			<grade id="Foster, Jacob">98</grade>
+			<grade id="Milburn, Jesse">94</grade>
+			<grade id="Spreadborough, Justin">86</grade>
+			<grade id="Huang, Lilong">80</grade>
+			<grade id="Marlow, Tarah">89</grade>
+			<grade id="Hudson, Zach">90</grade>
 		</assignment>
 	</category>
 	<category>
