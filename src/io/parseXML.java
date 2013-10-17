@@ -411,9 +411,10 @@ public class parseXML {
         }
     }
     
+	/*
     public static void main(String argv[]) {
     	course = loadXML(new File("structure.xml"));
     	printCourse();
     	saveXML(course, new File("output.xml"));
-    }
+    } */
 }
