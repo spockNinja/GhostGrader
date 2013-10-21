@@ -8,6 +8,25 @@
 
 import java.io.File;
 
-public static void main (String argv []) {
-    
+public class RemoveCourse {
+    public static void removeFile(String fileName) {
+        String sourceDirectory = new String("./gradebooks/" + fileName);
+        String destinationDirectory = new String("./archives/" + fileName);
+        try {
+            File fileToBeArchived = new File(sourceDirectory);
+            if(fileToBeArchived.renameTo(new File(destinationDirectory))) {
+                System.out.println("File archived successfully");
+            } else {
+                System.out.println("Failed to move");
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main (String argv []) {
+        String test = new String("structure.xml");
+        removeFile(test);
+    }
 }
