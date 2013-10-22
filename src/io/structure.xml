@@ -1,4 +1,4 @@
-<class>
+<class id="output.xml">
 	<courseName>Software Engineering</courseName>
 	<courseID>CSC</courseID>
 	<courseNumber>450</courseNumber>
@@ -6,8 +6,7 @@
 	<building>Cheek</building>
 	<roomID>212</roomID>
 	<meetingTime>10:45 am - 11:35 am</meetingTime>
-	
-	<!-- array containing every student -->
+
 	<student>
 		<firstName>Brett</firstName>
 		<lastName>Story</lastName>
@@ -48,20 +47,37 @@
 		<lastName>Hudson</lastName>
 		<psuedoName>Purple</psuedoName>
 	</student>
-	<!-- ... -->
+<!-- Ghost Students -->
+	<ghostStudent>
+		<ghostName>fakePurple</ghostName>
+	</ghostStudent>
+	<ghostStudent>
+		<ghostName>fakeBlue</ghostName>
+	</ghostStudent>
+	<ghostStudent>
+		<ghostName>fakeOrange</ghostName>
+	</ghostStudent>
+	<ghostStudent>
+		<ghostName>fakeYellow</ghostName>
+	</ghostStudent>
 	<category>
 		<categoryName>Homework</categoryName>
 		<assignment>
 			<assignmentName>hw1</assignmentName>
 			<worth>100</worth>
-			<grade id="Story, Brett">80</grade>
-			<grade id="Weddle, Chris">83</grade>
-			<grade id="Foster, Jacob">98</grade>
-			<grade id="Milburn, Jesse">94</grade>
-			<grade id="Spreadborough, Justin">86</grade>
-			<grade id="Huang, Lilong">80</grade>
-			<grade id="Marlow, Tarah">89</grade>
-			<grade id="Hudson, Zach">90</grade>
+			<grade id="Story, Brett">80.0</grade>
+			<grade id="Weddle, Chris">83.0</grade>
+			<grade id="Foster, Jacob">98.0</grade>
+			<grade id="Milburn, Jesse">94.0</grade>
+			<grade id="Spreadborough, Justin">86.0</grade>
+			<grade id="Huang, Lilong">80.0</grade>
+			<grade id="Marlow, Tarah">89.0</grade>
+			<grade id="Hudson, Zach">90.0</grade>
+<!-- Ghost Students -->
+			<grade id="fakePurple">80.0</grade>
+			<grade id="fakeBlue">83.0</grade>
+			<grade id="fakeOrange">98.0</grade>
+			<grade id="fakeYellow">94.0</grade>
 		</assignment>
 	</category>
 	<category>
@@ -69,14 +85,19 @@
 		<assignment>
 			<assignmentName>test1</assignmentName>
 			<worth>100</worth>
-			<grade id="Story, Brett">65</grade>
-			<grade id="Weddle, Chris">86</grade>
-			<grade id="Foster, Jacob">90</grade>
-			<grade id="Milburn, Jesse">88</grade>
-			<grade id="Spreadborough, Justin">90</grade>
-			<grade id="Huang, Lilong">97</grade>
-			<grade id="Marlow, Tarah">93</grade>
-			<grade id="Hudson, Zach">84</grade>
+			<grade id="Story, Brett">65.0</grade>
+			<grade id="Weddle, Chris">86.0</grade>
+			<grade id="Foster, Jacob">90.0</grade>
+			<grade id="Milburn, Jesse">88.0</grade>
+			<grade id="Spreadborough, Justin">90.0</grade>
+			<grade id="Huang, Lilong">97.0</grade>
+			<grade id="Marlow, Tarah">93.0</grade>
+			<grade id="Hudson, Zach">84.0</grade>
+<!-- Ghost Students -->
+			<grade id="fakePurple">80.0</grade>
+			<grade id="fakeBlue">83.0</grade>
+			<grade id="fakeOrange">98.0</grade>
+			<grade id="fakeYellow">94.0</grade>
 		</assignment>
 	</category>
 </class>
