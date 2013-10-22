@@ -207,6 +207,10 @@ public class MyCourse {
         return -1;
     }
     
+    public int getNumberOfAssignmentCategories() {
+    	return categories.size();
+    }
+    
     /**
      * Removes the AssignmentCategory object from the categories ArrayList
      * 
