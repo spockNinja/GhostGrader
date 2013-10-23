@@ -192,6 +192,15 @@ public class MyCourse {
     }
     
     /**
+     * Returns the List of AssignmentCategory objects
+     * 
+     * @return      the requested AssignmentCategory List
+     */    
+    public List<AssignmentCategory> getCategories() {
+        return categories;
+    }
+    
+    /**
      * Returns the index of the AssignmentCategory in the categories arrayList
      * 
      * @param   name    the name of the AssignmentCategory
@@ -205,6 +214,10 @@ public class MyCourse {
         }
         
         return -1;
+    }
+    
+    public int getNumberOfAssignmentCategories() {
+    	return categories.size();
     }
     
     /**
@@ -239,6 +252,15 @@ public class MyCourse {
      */
     public Student getStudent(int index) {
         return students.get(index);
+    }
+
+    /**
+     * Returns the List of Student objects
+     * 
+     * @return          the Student object
+     */
+    public List<Student> getStudents() {
+        return students;
     }
     
     /**

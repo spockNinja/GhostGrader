@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.HashSet;
 import java.util.Random;
+import java.net.URL;
+import java.net.URISyntaxException;
 
 /**
  * Write a description of class PseudoNameGenerator here.
@@ -25,8 +27,10 @@ public class PseudoNameGenerator
 
     public PseudoNameGenerator() {
         try {
-        Scanner animalScanner = new Scanner(new File("animals.txt"));
-        Scanner colorScanner = new Scanner(new File("colors.txt"));
+            URL animalsPath = this.getClass().getResource("animals.txt");
+            URL colorsPath = this.getClass().getResource("colors.txt");
+            Scanner animalScanner = new Scanner(new File(animalsPath.toURI()));
+            Scanner colorScanner = new Scanner(new File(colorsPath.toURI()));
         
         while(animalScanner.hasNextLine()){
             animals.add(animalScanner.next());
@@ -39,7 +43,7 @@ public class PseudoNameGenerator
         animalScanner.close();
         colorScanner.close();
             
-		} catch(FileNotFoundException e){
+		} catch(FileNotFoundException|URISyntaxException e){
 			System.out.println(e);
 		}
     }
