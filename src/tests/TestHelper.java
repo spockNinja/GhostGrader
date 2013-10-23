@@ -5,14 +5,13 @@ import java.util.Random;
 import java.text.DecimalFormat;
 
 import objects.*;
-import io.*;
 
 public class TestHelper {
 
     // This class makes it easy to create test cases
     // It has a lot of default data so you don't have to write any
 
-    public int seed = 12323423;
+    public int seed = 1234;
     public int totalStudents = 20;
     public String[] studentList = {"Wanda Styles", "Peter Frampton", "Bobby Cox", "Linda Friendly",
                                     "Grinds Gears", "Super Cheeky", "Randy Baby", "Seth McFarlane",
@@ -21,7 +20,6 @@ public class TestHelper {
                             "Flame", "Han Purple", "Iceberg", "Kombu Green", "Ghost White",
                             "Patriarch", "Phlox", "Light Coral", "Khaki", "Lavender Blush",
                             "Medium Turquoise", "Navy", "Olive", "Plum", "Salmon"};
-    public ArrayList<String> pseudoNames;
     public String[] courseNames = {"Physics", "Physics Lab", "Calculus I", "Calculus II", "Business", "Theatre"};
     public String[] courseID = {"PHY", "PHY", "MTH", "MTH", "BUS", "THR"};
     public int[] courseNumbers = {204, 204, 280, 281, 135, 110};
@@ -43,6 +41,7 @@ public class TestHelper {
     public double[][] grades = new double[numberOfAssignments][numberOfStudents];
     public DecimalFormat twoDecimals = new DecimalFormat("#.##");
     public Random rng = new Random(seed);
+    private PseudoNameGenerator pnGenerator = new PseudoNameGenerator();
 
     public MyCourse[] courses = new MyCourse[courseNames.length];
 
@@ -67,21 +66,18 @@ public class TestHelper {
             courses[i].setBuilding(buildings[i]);
             courses[i].setRoomID(roomIDs[i]);
             courses[i].setMeetingTime(meetingTimes[i]);
-            // TODO pseudo names
 
             //add in students
             for (int j = 0; j < studentList.length; j++) {
                 int randomNumber = ((int)(rng.nextFloat() * (totalStudents - j)));
                 String[] tempName = studentList[j].split(" ");
-                courses[i].addStudent(tempName[0], tempName[1], pseudoNames.get(randomNumber));
-                pseudoNames.remove(pseudoNames.get(randomNumber));
+                courses[i].addStudent(tempName[0], tempName[1], pnGenerator.generateName());
             }
 
             //add in ghosts
             for (int j = 0; j < totalStudents - studentList.length; j++) {
                 int randomNumber = ((int)(rng.nextFloat() * (totalStudents - studentList.length - j)));
-                courses[i].addGhostStudent(pseudoNames.get(randomNumber));
-                pseudoNames.remove(pseudoNames.get(randomNumber));
+                courses[i].addGhostStudent(pnGenerator.generateName());
             }
 
             //add in basic assignmentCategories

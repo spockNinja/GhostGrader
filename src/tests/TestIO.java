@@ -4,9 +4,8 @@ import io.*;
 
 public class TestIO {
 
-    public static TestHelper t = new TestHelper();
-
     public static void main(String[] args) {
+        TestHelper t = new TestHelper();
         Exporter exp = new Exporter();
 
         for (int i=0; i< t.courses.length; i++) {
