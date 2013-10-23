@@ -5,14 +5,13 @@
  * @author Chris Weddle
  * @version 10-22-13
  */
-//package io;
+package io;
 
 import java.io.File;
 
 public class RemoveCourse {
     public static void removeCourse(File fileToBeArchived, String destination) {
         try {
-            System.out.println(destination + File.separator + fileToBeArchived.getName());
             if(fileToBeArchived.renameTo(new File(destination + File.separator + fileToBeArchived.getName()))) {
                 System.out.println("File archived successfully");
             } else {
@@ -23,10 +22,10 @@ public class RemoveCourse {
             e.printStackTrace();
         }
     }
-
+    /*
     public static void main (String argv []) {
         File test = new File("../../gradebooks/structure.xml");
         removeCourse(test, "../../archives");
-    }
+    }*/
 }
 
