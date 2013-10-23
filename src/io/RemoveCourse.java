@@ -3,18 +3,17 @@
  * archive folder
  *
  * @author Chris Weddle
- * @version 10-20-13
+ * @version 10-22-13
  */
+//package io;
 
 import java.io.File;
 
 public class RemoveCourse {
-    public static void removeFile(String fileName) {
-        String sourceDirectory = new String("./gradebooks/" + fileName);
-        String destinationDirectory = new String("./archives/" + fileName);
+    public static void removeCourse(File fileToBeArchived, String destination) {
         try {
-            File fileToBeArchived = new File(sourceDirectory);
-            if(fileToBeArchived.renameTo(new File(destinationDirectory))) {
+            System.out.println(destination + File.separator + fileToBeArchived.getName());
+            if(fileToBeArchived.renameTo(new File(destination + File.separator + fileToBeArchived.getName()))) {
                 System.out.println("File archived successfully");
             } else {
                 System.out.println("Failed to move");
@@ -26,7 +25,8 @@ public class RemoveCourse {
     }
 
     public static void main (String argv []) {
-        String test = new String("structure.xml");
-        removeFile(test);
+        File test = new File("../../gradebooks/structure.xml");
+        removeCourse(test, "../../archives");
     }
 }
+
