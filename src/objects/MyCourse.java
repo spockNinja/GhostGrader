@@ -24,8 +24,8 @@ public class MyCourse {
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
-    private CourseGrades gradebook = new CourseGrades();
-    //private PseudoNameGenerator psNames = new PseudoNameGenerator();
+    //private CourseGrades gradebook = new CourseGrades(); this is being removed
+    private PseudoNameGenerator pnGenerator = new PseudoNameGenerator();
     
     /**
      * Constructs a new MyCourse object, note there is no 'empty' constructor
@@ -240,12 +240,12 @@ public class MyCourse {
      * @param   sn  students actual name
      * @param   pn  students pseudo-name
      */
-    public void addStudent(String fn, String ln, String pn) {
-        students.add(new Student(fn, ln, pn));
+    public void addStudent(String fn, String ln) {
+        students.add(new Student(fn, ln, pnGenerator.generateName()));
     }
         
     /**
-     * Returns the Studend object at the specified index
+     * Returns the Student object at the specified index
      * 
      * @param   index   the index of a Student object
      * @return          the Student object
@@ -315,8 +315,8 @@ public class MyCourse {
      * 
      * @param   pn  ghost students pseudo-name
      */
-    public void addGhostStudent(String pn) {
-        ghostStudents.add(new GhostStudent(pn));
+    public void addGhostStudent() {
+        ghostStudents.add(new GhostStudent(pnGenerator.generateName()));
     }
         
     /**
@@ -388,7 +388,7 @@ public class MyCourse {
         gradebook = new CourseGrades();
     }*/
     
-    public CourseGrades getGradeBook() {
+    /*public CourseGrades getGradeBook() {
     	return gradebook;
-    }
+    }*/
 }
