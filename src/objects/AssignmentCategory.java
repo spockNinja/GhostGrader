@@ -12,7 +12,7 @@ import java.util.List;
 public class AssignmentCategory {
     private String categoryName;
     private List<Assignment> assignments = new ArrayList<Assignment>();
-    
+        
     /**
      * Creates a category of assignments
      * 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.Random;
 import java.net.URL;
@@ -17,7 +18,7 @@ import java.net.URISyntaxException;
  */
 public class PseudoNameGenerator
 {
-    HashSet usedNames = new HashSet();
+    Set<String> usedNames = new HashSet<String>();
     ArrayList<String> animals = new ArrayList<>();
     ArrayList<String> colors = new ArrayList<>();
      
