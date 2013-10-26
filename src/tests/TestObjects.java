@@ -18,8 +18,11 @@ public class TestObjects {
     	
 
         //need a check in case two students with the same name are added will need to differentiate between them
-
-        //removing a student who is not in the class by name
+    	if(t.courses[0].addStudent("Wanda", "Styles")) {
+    		System.out.println("Dual Students were allowed to be added");
+    	}
+    	
+    	//removing a student who is not in the class by name
 
         //removing a student by index which is out of bounds
 
@@ -30,7 +33,11 @@ public class TestObjects {
         //removing an assignment which doesn't exist by name
 
         //removing an assignment by index which is out of bounds
+    	
+    	
+    		
+    	
 
-        //test gradebook
+        
     }
 }

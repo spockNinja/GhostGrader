@@ -24,7 +24,6 @@ public class MyCourse {
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
-    //private CourseGrades gradebook = new CourseGrades(); this is being removed
     private PseudoNameGenerator pnGenerator = new PseudoNameGenerator();
     
     /**
@@ -221,6 +220,25 @@ public class MyCourse {
     }
     
     /**
+     * Should always be used prior to adding a student to see if the name
+     * is available so there are no duplicates. The teacher will have to
+     * supply a slightly different name if they have two students with the
+     * same names.
+     * 
+     * @param fn	The first name of the student
+     * @param ln	The last name of the student
+     * @return		Returns true if the name is available, else false
+     */
+    private boolean nameAvailable(String fn, String ln) {
+    	for(Student x: students) {
+    		if (fn.equals(x.getFirstName()) && ln.equals(x.getLastName())) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    /**
      * Removes the AssignmentCategory object from the categories ArrayList
      * 
      * @param   name    the string name of the object
@@ -235,13 +253,19 @@ public class MyCourse {
     }
     
     /**
-     * Constructs a new Student object and adds it into the students ArrayList structure
+     * Checks name availability, if name is available constructs a new 
+     * Student object and adds it into the students ArrayList structure
+     * and returns true. If the name is takene the function returns false.
      * 
      * @param   sn  students actual name
      * @param   pn  students pseudo-name
      */
-    public void addStudent(String fn, String ln) {
+    public boolean addStudent(String fn, String ln) {
+    	if (!nameAvailable(fn, ln)) {
+    		return false;
+    	}
         students.add(new Student(fn, ln, pnGenerator.generateName()));
+        return true;
     }
         
     /**
@@ -379,16 +403,4 @@ public class MyCourse {
     public int getTotalStudents() {
     	return ghostStudents.size() + students.size();
     }
-
-    /**
-     * Constructs a new CourseGrades object from gradebook
-     * @return 
-     */
-/*    public void createGradebook() {
-        gradebook = new CourseGrades();
-    }*/
-    
-    /*public CourseGrades getGradeBook() {
-    	return gradebook;
-    }*/
 }

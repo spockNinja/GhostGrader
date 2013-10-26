@@ -39,6 +39,7 @@ public class TestHelper {
     public DecimalFormat twoDecimals = new DecimalFormat("#.##");
     public Random rng = new Random(SEED);
     public MyCourse[] courses = new MyCourse[courseNames.length];
+    public PseudoNameGenerator pnGenerator = new PseudoNameGenerator();
 
     public TestHelper() {
         generateTestCourses();
