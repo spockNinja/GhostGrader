@@ -18,9 +18,9 @@ import java.net.URISyntaxException;
  */
 public class PseudoNameGenerator
 {
-    Set<String> usedNames = new HashSet<String>();
-    ArrayList<String> animals = new ArrayList<>();
-    ArrayList<String> colors = new ArrayList<>();
+    private Set<String> usedNames = new HashSet<String>();
+    private ArrayList<String> animals = new ArrayList<>();
+    private ArrayList<String> colors = new ArrayList<>();
      
     //load the color and animal name files and put them into arrays
     
