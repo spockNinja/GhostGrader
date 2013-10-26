@@ -93,14 +93,4 @@ public class Assignment {
     public Collection<Double> getAllGrades() {
     	return grades.values();
     }
-    
-    public Double getClassAssignmentAverage{
-        assignmentGradeSum = 0;
-        for(Double grade : grades.values()){
-            assignmentGradeSum += grade;
-        }
-        
-        return (assignmentGradeSum / assignment.getWorth()) /
-    }
-    
 }
