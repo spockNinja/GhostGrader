@@ -12,7 +12,7 @@ import java.util.List;
 public class AssignmentCategory {
     private String categoryName;
     private List<Assignment> assignments = new ArrayList<Assignment>();
-    
+        
     /**
      * Creates a category of assignments
      * 
@@ -49,7 +49,15 @@ public class AssignmentCategory {
     public Assignment getAssignment(int index) {
         return assignments.get(index);    
     }
-    //above has been tested
+
+    /**
+     * Returns a List of Assignment objects
+     * 
+     * @return		List<Assignment> object
+     */
+    public List<Assignment> getAssignments() {
+        return assignments;    
+    }
     
     /**
      * Fetches the index of the assignment in the internal ArrayList by name

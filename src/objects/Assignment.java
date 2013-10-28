@@ -1,4 +1,8 @@
 package objects;
+
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collection;
 /**
  * Object representing an assignment for a course
  * 
@@ -8,6 +12,7 @@ package objects;
 public class Assignment {
     private String name;
     private int worth;
+    private Map<String, Double> grades = new HashMap<String, Double>();
     
     /**
      * Creates an Assignment object
@@ -54,5 +59,38 @@ public class Assignment {
      */
     public int getWorth() {
         return worth;
+    }
+    
+    /**
+     * Sets the grade for the student by the students pseudo name
+     * 
+     * @param pseudoName	The pseudo name of the student
+     * @param grade			The score the student is being assigned for the assignment
+     * @return				The previous value associated to the key.
+     */
+    public Double setGrade(String pseudoName, Double grade) {
+    	return grades.put(pseudoName, grade);
+    }
+    
+    /**
+     * Gets the grade for the requested student
+     * 
+     * @param pseudoName	The pseudo name of the student
+     * @return				Double value representing the students grade. Returns
+     * 						null if the mapping is empty, or if the pseudo name 
+     * 						does not exist as a key.
+     */
+    public Double getGrade(String pseudoName) {
+    	return grades.get(pseudoName);
+    }
+    
+    /**
+     * Gets a collection of all the values in the grades HashMap
+     * Useful for dealing with statistical analysis
+     * 
+     * @return		Collection of values in the grades HashMap
+     */
+    public Collection<Double> getAllGrades() {
+    	return grades.values();
     }
 }
