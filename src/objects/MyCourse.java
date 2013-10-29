@@ -23,6 +23,7 @@ public class MyCourse {
     private String building;
     private String roomID;
     private String meetingTime;
+    private String semester;
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
@@ -95,10 +96,19 @@ public class MyCourse {
     /**
      * Set the meeting time 
      * 
-     * @return      meeting time
+     * @param	mt      set the meeting time
      */
     public void setMeetingTime(String mt) {
         meetingTime = mt;
+    }
+    
+    /**
+     * Set the meeting time 
+     * 
+     * @param   sm   set the semester
+     */
+    public void setSemester(String sm) {
+        semester = sm;
     }
     
     /**
@@ -162,6 +172,15 @@ public class MyCourse {
      */
     public String getMeetingTime() {
         return meetingTime;
+    }
+    
+    /**
+     * Get meeting time of the course
+     * 
+     * @return      meeting time
+     */
+    public String getSemester() {
+        return semester;
     }
     
     /**
@@ -305,7 +324,6 @@ public class MyCourse {
                 categoryGradeSum += assignment.getGrade(psuedoName) / assignment.getWorth();
             }
         }
-        
         return decimalFormat.format(categoryGradeSum / assignmentCategory.getNumberOfAssignments());
     }
     
@@ -328,7 +346,6 @@ public class MyCourse {
             }
             overallGradeSum += categoryGradeSum;
         }
-    
         return decimalFormat.format(overallGradeSum / students.size());
     }
     
@@ -383,6 +400,24 @@ public class MyCourse {
         students.add(new Student(fn, ln, pnGenerator.generateName()));
         return true;
     }
+    
+    /**
+     * Checks name availability, if name is available constructs a new 
+     * Student object and adds it into the students ArrayList structure
+     * and returns true. If the name is takene the function returns false.
+     * Only takes input directly from XML.
+     * 
+     * @param   fn  students first name
+     * @param	ln	students last name
+     * @param   pn  students pseudo-name
+     */
+    public boolean addStudentXML(String fn, String ln, String pn) {
+    	if (!nameAvailable(fn, ln)) {
+    		return false;
+    	}
+        students.add(new Student(fn, ln, pn));
+        return true;
+    }
         
     /**
      * Returns the Student object at the specified index
@@ -419,31 +454,30 @@ public class MyCourse {
     }
     
     /**
-     * Removes a Student object from the students ArrayList by a String name param
-     * 
-     * @param   name    the String name of the student in the Student object
-     * @return          the Student object removed, null on the object was not in the list
+     * Removes a Student object from the students ArrayList by a String name param by
+     * getting their index and calling removeStudent using that index.
      */
-    public Student removeStudent(String name) {
-        try {
-            return students.remove(getStudentIndex(name));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
+    public void removeStudent(String name) {
+    	removeStudent(getStudentIndex(name));
     }
     
     /**
      * Removes a Student object from the students arrayList by the index number
+     * Archive's that students grades for the teacher's future records
+     * Turns student and grades into a ghost student
      * 
      * @param   index   the integer index of the Student object in the students ArrayList
-     * @return          the Student object removed, null if the index passed is out of bounds
      */
-    public Student removeStudent(int index) {
+    public void removeStudent(int index) {
+    	Student currentStudent = null;
         try {
-            return students.remove(index);
+            currentStudent = students.remove(index);
         } catch (IndexOutOfBoundsException e) {
-            return null;
+        	System.err.println("Caught IndexOutOfBoundsException: " + e.getMessage());
+        	return;
         }
+        currentStudent.archiveStudent(this);
+        ghostStudents.add(new GhostStudent(currentStudent.getPseudoName()));
     }
     
     /**
@@ -457,11 +491,18 @@ public class MyCourse {
     
     /**
      * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
-     * 
-     * @param   pn  ghost students pseudo-name
      */
     public void addGhostStudent() {
         ghostStudents.add(new GhostStudent(pnGenerator.generateName()));
+    }
+    
+    /**
+     * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
+     * using a predefined psuedoName from the XML file
+     * @param   pn  ghost students pseudo-name
+     */
+    public void addGhostStudentXML(String pn) {
+        ghostStudents.add(new GhostStudent(pn));
     }
         
     /**
