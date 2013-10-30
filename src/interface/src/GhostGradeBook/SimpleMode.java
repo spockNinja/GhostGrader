@@ -61,9 +61,12 @@ public class SimpleMode extends javax.swing.JPanel {
                 .addContainerGap(255, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-    //those code are repeated from the above, Becuase we are not allowed to change the code above
-    //therefore, I created my own layout here
-    public void getLayOut(Container pane) {
+    
+    /**
+     *those code are repeated from the above, Becuase we are not allowed to change the code above
+     *therefore, I created my own layout here
+     */
+    public void getSimpleModeLayOut(Container pane) {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(pane);
         pane.setLayout(layout);
         layout.setHorizontalGroup(
