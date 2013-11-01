@@ -1,4 +1,4 @@
-package interfaces.editClass;
+package GhostGradeBook.editClass;
 
 /*
  * To change this template, choose Tools | Templates
@@ -65,7 +65,12 @@ public class NewAssignment extends javax.swing.JDialog {
         descriptionText.setRows(5);
         jScrollPane2.setViewportView(descriptionText);
 
-        typeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        typeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Reading", "Problems", "Paper", "Take Home Test" }));
+        typeCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeCBActionPerformed(evt);
+            }
+        });
 
         titleField.setText("");
 
@@ -128,6 +133,10 @@ public class NewAssignment extends javax.swing.JDialog {
             this.dispose();
         }
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void typeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeCBActionPerformed
 
     /**
      * @param args the command line arguments
