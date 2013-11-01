@@ -1,4 +1,4 @@
-package GhostGradeBook.editClass;
+package interfaces.editClass;
 
 import javax.swing.DefaultComboBoxModel;
 
