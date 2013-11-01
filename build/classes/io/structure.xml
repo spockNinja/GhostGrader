@@ -1,0 +1,103 @@
+<class id="output.xml">
+	<courseName>Software Engineering</courseName>
+	<courseID>CSC</courseID>
+	<courseNumber>450</courseNumber>
+	<section>001</section>
+	<building>Cheek</building>
+	<roomID>212</roomID>
+	<meetingTime>10:45 am - 11:35 am</meetingTime>
+
+	<student>
+		<firstName>Brett</firstName>
+		<lastName>Story</lastName>
+		<psuedoName>Red</psuedoName>
+	</student>
+	<student>
+		<firstName>Chris</firstName>
+		<lastName>Weddle</lastName>
+		<psuedoName>Orange</psuedoName>
+	</student>
+	<student>
+		<firstName>Jacob</firstName>
+		<lastName>Foster</lastName>
+		<psuedoName>Yellow</psuedoName>
+	</student>
+	<student>
+		<firstName>Jesse</firstName>
+		<lastName>Milburn</lastName>
+		<psuedoName>Green</psuedoName>
+	</student>
+	<student>
+		<firstName>Justin</firstName>
+		<lastName>Spreadborough</lastName>
+		<psuedoName>Teal</psuedoName>
+	</student>
+	<student>
+		<firstName>Lilong</firstName>
+		<lastName>Huang</lastName>
+		<psuedoName>Blue</psuedoName>
+	</student>
+	<student>
+		<firstName>Tarah</firstName>
+		<lastName>Marlow</lastName>
+		<psuedoName>Violet</psuedoName>
+	</student>
+	<student>
+		<firstName>Zach</firstName>
+		<lastName>Hudson</lastName>
+		<psuedoName>Purple</psuedoName>
+	</student>
+<!-- Ghost Students -->
+	<ghostStudent>
+		<ghostName>fakePurple</ghostName>
+	</ghostStudent>
+	<ghostStudent>
+		<ghostName>fakeBlue</ghostName>
+	</ghostStudent>
+	<ghostStudent>
+		<ghostName>fakeOrange</ghostName>
+	</ghostStudent>
+	<ghostStudent>
+		<ghostName>fakeYellow</ghostName>
+	</ghostStudent>
+	<category>
+		<categoryName>Homework</categoryName>
+		<assignment>
+			<assignmentName>hw1</assignmentName>
+			<worth>100</worth>
+			<grade id="Story, Brett">80.0</grade>
+			<grade id="Weddle, Chris">83.0</grade>
+			<grade id="Foster, Jacob">98.0</grade>
+			<grade id="Milburn, Jesse">94.0</grade>
+			<grade id="Spreadborough, Justin">86.0</grade>
+			<grade id="Huang, Lilong">80.0</grade>
+			<grade id="Marlow, Tarah">89.0</grade>
+			<grade id="Hudson, Zach">90.0</grade>
+<!-- Ghost Students -->
+			<grade id="fakePurple">80.0</grade>
+			<grade id="fakeBlue">83.0</grade>
+			<grade id="fakeOrange">98.0</grade>
+			<grade id="fakeYellow">94.0</grade>
+		</assignment>
+	</category>
+	<category>
+		<categoryName>Test</categoryName>
+		<assignment>
+			<assignmentName>test1</assignmentName>
+			<worth>100</worth>
+			<grade id="Story, Brett">65.0</grade>
+			<grade id="Weddle, Chris">86.0</grade>
+			<grade id="Foster, Jacob">90.0</grade>
+			<grade id="Milburn, Jesse">88.0</grade>
+			<grade id="Spreadborough, Justin">90.0</grade>
+			<grade id="Huang, Lilong">97.0</grade>
+			<grade id="Marlow, Tarah">93.0</grade>
+			<grade id="Hudson, Zach">84.0</grade>
+<!-- Ghost Students -->
+			<grade id="fakePurple">80.0</grade>
+			<grade id="fakeBlue">83.0</grade>
+			<grade id="fakeOrange">98.0</grade>
+			<grade id="fakeYellow">94.0</grade>
+		</assignment>
+	</category>
+</class>
