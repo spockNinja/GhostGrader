@@ -52,11 +52,20 @@ public class Assignment {
      * @return			the average grade for the assignment
      */
     public double getAssignmentAverageGrade(List<Student> students){
+    	double studentPoints = getTotalStudentPoints(students);
+    	double maximumPoints = getMaximumPoints(students);
+    	return ((studentPoints / maximumPoints) * 100); //FIXME get rid of the magic number or format at an upper layer
+    }
+    public double getTotalStudentPoints(List<Student> students) {
     	double total = 0.0;
     	for (int i = 0; i < students.size(); i++) {
-    		if (grades.get(students.get(i).getPseudoName()) != null) total += grades.get(students.get(i).getPseudoName());
+    		if (grades.get(students.get(i).getPseudoName()) != null) 
+    			total += grades.get(students.get(i).getPseudoName());
     	}
-    	return (total / students.size());
+    	return total;
+    }
+    public double getMaximumPoints(List<Student> students) {
+    	return (worth * students.size());
     }
     
     /**
