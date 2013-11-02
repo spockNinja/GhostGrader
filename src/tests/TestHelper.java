@@ -29,7 +29,7 @@ public class TestHelper {
                                     "MWF 9:00-9:50", "MWF 7:55-8:45"};
     public String[] assignmentCategories = {"Homework", "Quizes", "Exams"};
     public String[] homeworkAssignments = {"HW I", "HW II", "HW III", "HW IV", "HW V", "HW VI", "HW VII",
-                                            "HW VIII", "IX", "X", "XI"};
+                                            "HW VIII", "IX", "X"};
     public String[] quizes = {"Q1", "Q2", "Q3", "Q4", "Q5"};
     public String[] exams = {"Exam 1", "Exam 2", "Final"};
     public int[] assignmentValues = {10, 25, 100};
