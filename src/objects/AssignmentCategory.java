@@ -60,6 +60,22 @@ public class AssignmentCategory {
     }
     
     /**
+     * Fetches the average grades for an assignment category based only
+     * on the students grades
+     * 
+     * @param assignmentCategory	The AssignmentCategoy object being solved for average grades
+     * @param students				The list of students in the classs
+     * @return						The overall average for the assignment category
+     */
+    public double getAssignmentCategoryAverageGrade(AssignmentCategory assignmentCategory, List<Student> students){
+    	double total = 0.0;
+    	for (int i = 0; i < assignmentCategory.getNumberOfAssignments(); i++) {
+    		total += assignments.get(i).getAssignmentAverageGrade(students);
+    	}
+    	return (total / assignments.size());
+    }
+    
+    /**
      * Fetches the index of the assignment in the internal ArrayList by name
      * 
      * @param name	The name of the assignment the user is looking for

@@ -23,6 +23,7 @@ public class MyCourse {
     private String building;
     private String roomID;
     private String meetingTime;
+    private String semester;
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
@@ -95,10 +96,19 @@ public class MyCourse {
     /**
      * Set the meeting time 
      * 
-     * @return      meeting time
+     * @param	mt      set the meeting time
      */
     public void setMeetingTime(String mt) {
         meetingTime = mt;
+    }
+    
+    /**
+     * Set the meeting time 
+     * 
+     * @param   sm   set the semester
+     */
+    public void setSemester(String sm) {
+        semester = sm;
     }
     
     /**
@@ -165,6 +175,15 @@ public class MyCourse {
     }
     
     /**
+     * Get meeting time of the course
+     * 
+     * @return      meeting time
+     */
+    public String getSemester() {
+        return semester;
+    }
+    
+    /**
      * Returns a string of all of the information about a course
      * 
      * @return        complete course overview of description, location, time
@@ -227,114 +246,6 @@ public class MyCourse {
     	return categories.size();
     }
     
-    
-    /******* START AVERAGE GRADE STATISTICS *******/
-    
-    /**
-     * Gets the class average for an assignment
-     *
-     * @param   index               assignment index
-     * @return                      average class grade for the assignment
-     */
-    public Double getClassAverageAssignmentGrade(int index) {
-        assignmentGradeSum = 0;
-        assignment = categories.getAssignment(index);
-        
-        for(Double grade : assignment.getAllGrades()){
-            assignmentGradeSum += grade;
-        }
-        
-        return (assignmentGradeSum / assignment.getWorth()) / students.size();
-    }
-    
-    /**
-     * Gets the average grade of an Assignment Category for a particular student
-     *
-     * @param   pseduoName  student's psuedoname
-     * @param   index       index of the Asssignment Category
-     * @return              average grade for the Assignment Category for a student
-     */
-    public Double getStudentAverageCategoryGrade(String psuedoName, int index) {
-        Double categoryGradeSum = 0;
-        assignmentCategory = categories.getAssignmentCategory(index);
-        
-        for(int i = 0; i < assignmentCategory.getNumberOfAssignments(); i++){
-            assignment = assignmentCategory.getAssignment(i);
-            categoryGradeSum += assignment.getGrade(psuedoName) / assignment.getWorth();
-        }
-
-        return decimalFormat.format(categoryGradeSum / assignmentCategory.getNumberOfAssignments());
-    }
-    
-    /**
-     * Gets the average grade for the class of an Assignment Category given the Assignment index
-     *
-     * @param   index       index of the Asssignment Category
-     * @return              average grade for the Assignment Category for the class
-     */
-    public Double getClassAverageCateoryGrade(int index) {
-        Double assignmentGradeSum = 0;
-        Double categoryGradeSum = 0;
-        assignmentCategory = categories.getAssignmentCategory(index);
-        
-        for(int i = 0; i < assignmentCategory.getNumberOfAssignments(); i++){
-            assignment = assignmentCategory.getAssignment(i);
-            for(Double grade : assignment.getAllGrades()){
-                assignmentGradeSum += grade / assignment.getWorth();
-            }
-            categoryGradeSum += assignmentGradeSum;
-        }
-        
-        return decimalFormat.format(categoryGradeSum / assignmentCategory.getNumberOfAssignments());
-    }
-    
-    
-    
-    /**
-     * Gets the student overall grade average
-     *
-     * @param   psuedoName      student's psuedoName
-     * @return                  student's average grade
-     */
-    public Double getStudentGradeAverage(String psuedoName) {
-        Double categoryGradeSum = 0;
-        Double overallGradeSum = 0;
-        for(int i = 0; i < categories.size(); i++){
-            for(int j = 0; j < categories.get(i).size(); j++){
-                assignment = assignmentCategory.getAssignment(i);
-                categoryGradeSum += assignment.getGrade(psuedoName) / assignment.getWorth();
-            }
-        }
-        
-        return decimalFormat.format(categoryGradeSum / assignmentCategory.getNumberOfAssignments());
-    }
-    
-    /**
-     * Gets the class' overall grade average
-     *
-     * @return                  class' average grade
-     */
-    public Double getClassGradeAverage() {
-        Double assignmentGradeSum = 0;
-        Double categoryGradeSum = 0;
-        Double overallGradeSum = 0;
-        for(int i = 0; i < categories.size(); i++){
-            for(int j = 0; j < categories.get(i).size(); j++){
-                assignment = categories.get(i).getAssignment(j);
-                for(Double grade : assignment.getAllGrades()){
-                    assignmentGradeSum += grade / assignment.getWorth();
-                }
-                categoryGradeSum += assignmentGradeSum;
-            }
-            overallGradeSum += categoryGradeSum;
-        }
-    
-        return decimalFormat.format(overallGradeSum / students.size());
-    }
-    
-    /******* END AVERAGE GRADE STATISTICS *******/
-    
-    
     /**
      * Should always be used prior to adding a student to see if the name
      * is available so there are no duplicates. The teacher will have to
@@ -383,6 +294,24 @@ public class MyCourse {
         students.add(new Student(fn, ln, pnGenerator.generateName()));
         return true;
     }
+    
+    /**
+     * Checks name availability, if name is available constructs a new 
+     * Student object and adds it into the students ArrayList structure
+     * and returns true. If the name is takene the function returns false.
+     * Only takes input directly from XML.
+     * 
+     * @param   fn  students first name
+     * @param	ln	students last name
+     * @param   pn  students pseudo-name
+     */
+    public boolean addStudentXML(String fn, String ln, String pn) {
+    	if (!nameAvailable(fn, ln)) {
+    		return false;
+    	}
+        students.add(new Student(fn, ln, pn));
+        return true;
+    }
         
     /**
      * Returns the Student object at the specified index
@@ -419,31 +348,30 @@ public class MyCourse {
     }
     
     /**
-     * Removes a Student object from the students ArrayList by a String name param
-     * 
-     * @param   name    the String name of the student in the Student object
-     * @return          the Student object removed, null on the object was not in the list
+     * Removes a Student object from the students ArrayList by a String name param by
+     * getting their index and calling removeStudent using that index.
      */
-    public Student removeStudent(String name) {
-        try {
-            return students.remove(getStudentIndex(name));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
-        }
+    public void removeStudent(String name) {
+    	removeStudent(getStudentIndex(name));
     }
     
     /**
      * Removes a Student object from the students arrayList by the index number
+     * Archive's that students grades for the teacher's future records
+     * Turns student and grades into a ghost student
      * 
      * @param   index   the integer index of the Student object in the students ArrayList
-     * @return          the Student object removed, null if the index passed is out of bounds
      */
-    public Student removeStudent(int index) {
+    public void removeStudent(int index) {
+    	Student currentStudent = null;
         try {
-            return students.remove(index);
+            currentStudent = students.remove(index);
         } catch (IndexOutOfBoundsException e) {
-            return null;
+        	System.err.println("Caught IndexOutOfBoundsException: " + e.getMessage());
+        	return;
         }
+        currentStudent.archiveStudent(this);
+        ghostStudents.add(new GhostStudent(currentStudent.getPseudoName()));
     }
     
     /**
@@ -457,11 +385,18 @@ public class MyCourse {
     
     /**
      * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
-     * 
-     * @param   pn  ghost students pseudo-name
      */
     public void addGhostStudent() {
         ghostStudents.add(new GhostStudent(pnGenerator.generateName()));
+    }
+    
+    /**
+     * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
+     * using a predefined psuedoName from the XML file
+     * @param   pn  ghost students pseudo-name
+     */
+    public void addGhostStudentXML(String pn) {
+        ghostStudents.add(new GhostStudent(pn));
     }
         
     /**

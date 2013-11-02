@@ -3,6 +3,7 @@ package objects;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
+import java.util.List;
 /**
  * Object representing an assignment for a course
  * 
@@ -41,6 +42,21 @@ public class Assignment {
      */
     public void setWorth(int val) {
     	worth = val;
+    }
+    
+    /**
+     * Fetches the average grade for one assignment for students only
+     * does not ascertain the ghost students scores at all
+     * 
+     * @param students	List of Student objects
+     * @return			the average grade for the assignment
+     */
+    public double getAssignmentAverageGrade(List<Student> students){
+    	double total = 0.0;
+    	for (int i = 0; i < students.size(); i++) {
+    		if (grades.get(students.get(i).getPseudoName()) != null) total += grades.get(students.get(i).getPseudoName());
+    	}
+    	return (total / students.size());
     }
     
     /**
