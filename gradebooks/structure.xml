@@ -1,4 +1,4 @@
-<class id="output.xml">
+<class>
 	<courseName>Software Engineering</courseName>
 	<courseID>CSC</courseID>
 	<courseNumber>450</courseNumber>
@@ -6,98 +6,65 @@
 	<building>Cheek</building>
 	<roomID>212</roomID>
 	<meetingTime>10:45 am - 11:35 am</meetingTime>
-
+	
+	<!-- array containing every student -->
 	<student>
-		<firstName>Brett</firstName>
-		<lastName>Story</lastName>
+		<name>Brett Story</name>
 		<psuedoName>Red</psuedoName>
 	</student>
 	<student>
-		<firstName>Chris</firstName>
-		<lastName>Weddle</lastName>
+		<name>Chris Weddle</name>
 		<psuedoName>Orange</psuedoName>
 	</student>
 	<student>
-		<firstName>Jacob</firstName>
-		<lastName>Foster</lastName>
+		<name>Jacob Foster</name>
 		<psuedoName>Yellow</psuedoName>
 	</student>
 	<student>
-		<firstName>Jesse</firstName>
-		<lastName>Milburn</lastName>
+		<name>Jesse Milburn</name>
 		<psuedoName>Green</psuedoName>
 	</student>
 	<student>
-		<firstName>Justin</firstName>
-		<lastName>Spreadborough</lastName>
+		<name>Justin Spreadborough</name>
 		<psuedoName>Teal</psuedoName>
 	</student>
 	<student>
-		<firstName>Lilong</firstName>
-		<lastName>Huang</lastName>
+		<name>Lilong Huang</name>
 		<psuedoName>Blue</psuedoName>
 	</student>
 	<student>
-		<firstName>Tarah</firstName>
-		<lastName>Marlow</lastName>
+		<name>Tarah Marlow</name>
 		<psuedoName>Violet</psuedoName>
 	</student>
 	<student>
-		<firstName>Zach</firstName>
-		<lastName>Hudson</lastName>
+		<name>Zach Hudson </name>
 		<psuedoName>Purple</psuedoName>
 	</student>
-<!-- Ghost Students -->
-	<ghostStudent>
-		<ghostName>fakePurple</ghostName>
-	</ghostStudent>
-	<ghostStudent>
-		<ghostName>fakeBlue</ghostName>
-	</ghostStudent>
-	<ghostStudent>
-		<ghostName>fakeOrange</ghostName>
-	</ghostStudent>
-	<ghostStudent>
-		<ghostName>fakeYellow</ghostName>
-	</ghostStudent>
-	<category>
-		<categoryName>Homework</categoryName>
-		<assignment>
-			<assignmentName>hw1</assignmentName>
-			<worth>100</worth>
-			<grade id="Story, Brett">80.0</grade>
-			<grade id="Weddle, Chris">83.0</grade>
-			<grade id="Foster, Jacob">98.0</grade>
-			<grade id="Milburn, Jesse">94.0</grade>
-			<grade id="Spreadborough, Justin">86.0</grade>
-			<grade id="Huang, Lilong">80.0</grade>
-			<grade id="Marlow, Tarah">89.0</grade>
-			<grade id="Hudson, Zach">90.0</grade>
-<!-- Ghost Students -->
-			<grade id="fakePurple">80.0</grade>
-			<grade id="fakeBlue">83.0</grade>
-			<grade id="fakeOrange">98.0</grade>
-			<grade id="fakeYellow">94.0</grade>
-		</assignment>
-	</category>
-	<category>
-		<categoryName>Test</categoryName>
-		<assignment>
-			<assignmentName>test1</assignmentName>
-			<worth>100</worth>
-			<grade id="Story, Brett">65.0</grade>
-			<grade id="Weddle, Chris">86.0</grade>
-			<grade id="Foster, Jacob">90.0</grade>
-			<grade id="Milburn, Jesse">88.0</grade>
-			<grade id="Spreadborough, Justin">90.0</grade>
-			<grade id="Huang, Lilong">97.0</grade>
-			<grade id="Marlow, Tarah">93.0</grade>
-			<grade id="Hudson, Zach">84.0</grade>
-<!-- Ghost Students -->
-			<grade id="fakePurple">80.0</grade>
-			<grade id="fakeBlue">83.0</grade>
-			<grade id="fakeOrange">98.0</grade>
-			<grade id="fakeYellow">94.0</grade>
-		</assignment>
-	</category>
+	<!-- ... -->
+	
+	<assignment>
+		<assignmentName>hw1</assignmentName>
+		<category>Homework</category>
+		<grade id="Brett Story">80</grade>
+		<grade id="Chris Weddle">83</grade>
+		<grade id="Jacob Foster">98</grade>
+		<grade id="Jesse Milburn">94</grade>
+		<grade id="Justin Spreadborough">86</grade>
+		<grade id="Lilong Huang">80</grade>
+		<grade id="Tarah Marlow">89</grade>
+		<grade id="Zach Hudson">90</grade>
+	</assignment>
+	<assignment>
+		<assignmentName>test1</assignmentName>
+		<category>Test</category>
+		<grade id="Brett Story">65</grade>
+		<grade id="Chris Weddle">86</grade>
+		<grade id="Jacob Foster">90</grade>
+		<grade id="Jesse Milburn">88</grade>
+		<grade id="Justin Spreadborough">90</grade>
+		<grade id="Lilong Huang">97</grade>
+		<grade id="Tarah Marlow">93</grade>
+		<grade id="Zach Hudson">84</grade>
+	</assignment>
+	
 </class>
