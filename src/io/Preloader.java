@@ -10,6 +10,7 @@ package io;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
 
 import objects.MyCourse;
 import io.parseXML;
@@ -19,7 +20,7 @@ public class Preloader
     private static String directory = "gradebooks";
     private static File directoryFolder = new File(directory);
     private static File[] files;
-	private static MyCourse[] courses;
+	private static ArrayList<MyCourse> courses = new ArrayList<MyCourse>();
 	
 	/**
      * Constructs a new Preloader object with a default String directory.
@@ -49,7 +50,7 @@ public class Preloader
      * 
      * @param   dir  string designating what directory to look into.
      */
-    public static boolean setDirectory(String dir) {
+    public boolean setDirectory(String dir) {
         File folder = new File(dir);
         if (folder.isDirectory()) {
             directoryFolder = folder;
@@ -64,7 +65,7 @@ public class Preloader
      * 
      * @param   extension  string designating what type of files to load.
      */
-    public static boolean loadFiles(final String extension) {
+    public boolean loadFiles(final String extension) {
         try {
             files = directoryFolder.listFiles(new FilenameFilter() {
                 public boolean accept(File dir, String filename)
@@ -81,7 +82,7 @@ public class Preloader
      * @return File array
      * 
      */
-    public static File[] geFilesArray() {
+    public File[] geFilesArray() {
         return files;
     }
     
@@ -89,7 +90,7 @@ public class Preloader
      * @return MyCourse array
      * 
      */
-	public static MyCourse[] getCourseArray() {
+	public ArrayList<MyCourse> getCourseArray() {
 		return courses;
 	}
 	
@@ -97,9 +98,9 @@ public class Preloader
      * @param  index int
      * @return a single MyCourse object.
      */
-	public static MyCourse getCourse(int index) {
-		if (courses != null && index >= 0 && index < courses.length)
-			return courses[index];
+	public MyCourse getCourse(int index) {
+		if (courses != null && index >= 0 && index < courses.size())
+			return courses.get(index);
 		return null;
 	}
 	
@@ -107,7 +108,7 @@ public class Preloader
      * @return File which was most recently modified
      * 
      */
-    public static File getLastUpdated() {
+    public File getLastUpdated() {
         File current = files[0];
         for (int i = 1; i < files.length; i++) {
             if (current.lastModified() < files[i].lastModified())
@@ -120,11 +121,11 @@ public class Preloader
      * Populates MyCourse[] courses
      * 
      */
-	private static void loadFileContents() {
-		courses = new MyCourse[files.length];
+	private void loadFileContents() {
+		
 		for (int i = 0; i < files.length; i++) {
 			try {
-				courses[i] = parseXML.loadXML(files[i]);
+				courses.add(parseXML.loadXML(files[i]));
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -136,7 +137,7 @@ public class Preloader
      * Note: New line for each file.
      * 
      */
-    private static String listPathsToString() {
+    private String listPathsToString() {
     	String out ="";
         for (int i = 0; i < files.length; i++) {
             try {
@@ -146,15 +147,5 @@ public class Preloader
             }
         }
         return out;
-    }
-    
-    public static void main (String argv[]) {
-        directoryFolder =  new File(directory);
-        if (loadFiles(".xml"))
-        	loadFileContents();
-        File last = getLastUpdated();
-        System.out.println(listPathsToString() + "\n" + last.getName());
-        for (int i = 0; i < courses.length; i++)
-        	System.out.println(courses[i].toString());
     }
 }

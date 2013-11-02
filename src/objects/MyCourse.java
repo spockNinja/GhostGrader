@@ -2,7 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.text.*;
+import java.text.DecimalFormat;
 
 /**
  * Course defines a actual teacher's course, with name, course ID, course number, section number,
@@ -29,6 +29,7 @@ public class MyCourse {
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
     private PseudoNameGenerator pnGenerator = new PseudoNameGenerator();
     private DecimalFormat decimalFormat = new DecimalFormat("#.#");
+    private boolean isGradingWeighted;
     
     /**
      * Constructs a new MyCourse object, note there is no 'empty' constructor
@@ -136,6 +137,69 @@ public class MyCourse {
      */
     public int getCourseNumber() {
         return courseNumber;
+    }
+    
+    /**
+     * Returns the course grade average, all return values are
+     * as a percentage not the actual grade.
+     * helper functions trail the main function
+     * 
+     * @return			Average course grade as a percentage
+     */
+    public Double getCourseAverageGrade() {
+    	double average = 0.0;
+    	
+    	if (isGradingWeighted) {
+    		return this.getCourseWeightedGrade();
+    	}
+    	
+    	double studentPoints = getTotalStudentPoints();
+    	double totalPoints = getTotalCoursePoints();
+    	average = studentPoints / totalPoints;
+    	
+    	return Double.parseDouble(decimalFormat.format(average * 100));
+    }
+    public Double getTotalStudentPoints() {
+    	double total = 0.0;
+    	
+    	for (int i = 0; i < categories.size(); i++) {
+    		total += categories.get(i).getTotalCategoryStudentPoints(students);
+    	}
+    	
+    	return total;
+    }
+    public Double getTotalCoursePoints() {
+    	double total = 0.0;
+    	
+    	for (int i = 0; i < categories.size(); i++) {
+    		total += categories.get(i).getTotalPoints();
+    	}
+    	
+    	return total * students.size();
+    }
+    
+    /**
+     * Returns the total course average grade if the grade is weighted flag
+     * is set to true
+     * 
+     * @return			the courses average grade.
+     */
+    private Double getCourseWeightedGrade() {
+    	double weightedGrade = 0.0;
+    	if (!verifyWeights()) return -1.0;
+    	for (int i = 0; i < categories.size(); i++) {
+    		weightedGrade += this.getAssignmentCategory(i).getAssignmentCategoryAverageGrade(students) * 
+    						 (this.getAssignmentCategory(i).getGradingWeight() / 100); 
+    	}
+    	return weightedGrade;
+    }
+    private boolean verifyWeights() {
+    	double total = 0.0;
+    	for (int i = 0; i < categories.size(); i++) {
+    		total += categories.get(i).getGradingWeight();
+    	}
+    	if (total != 100.0) return false;
+    	return true;
     }
     
     /**
@@ -458,5 +522,9 @@ public class MyCourse {
     
     public int getTotalStudents() {
     	return ghostStudents.size() + students.size();
+    }
+    
+    public void setIsGradingWeighted(boolean is) {
+    	isGradingWeighted = is;
     }
 }
