@@ -2,6 +2,7 @@ package objects;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.text.DecimalFormat;
 
 /**
@@ -356,6 +357,14 @@ public class MyCourse {
     		return false;
     	}
         students.add(new Student(fn, ln, pnGenerator.generateName()));
+        
+        Random generator = new Random();
+        int ghostAmount = generator.nextInt(5) + 5; //Random number between 5 and 10
+        
+        for (int i = 0; i < ghostAmount; i++) {
+        	addGhostStudent();
+        }
+        
         return true;
     }
     
