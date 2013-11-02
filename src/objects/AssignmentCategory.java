@@ -12,6 +12,8 @@ import java.util.List;
 public class AssignmentCategory {
     private String categoryName;
     private List<Assignment> assignments = new ArrayList<Assignment>();
+    //private boolean isGradingWeighted;
+    private double gradingWeight;
         
     /**
      * Creates a category of assignments
@@ -63,16 +65,32 @@ public class AssignmentCategory {
      * Fetches the average grades for an assignment category based only
      * on the students grades
      * 
-     * @param assignmentCategory	The AssignmentCategoy object being solved for average grades
      * @param students				The list of students in the classs
      * @return						The overall average for the assignment category
      */
-    public double getAssignmentCategoryAverageGrade(AssignmentCategory assignmentCategory, List<Student> students){
+    public Double getAssignmentCategoryAverageGrade(List<Student> students){
+    	double totalStudentPoints = getTotalCategoryStudentPoints(students);
+    	double totalMaxPoints = getTotalCategoryWorth(students);
+    	return (totalStudentPoints / totalMaxPoints * 100);
+    }
+    public Double getTotalCategoryStudentPoints(List<Student> students) {
     	double total = 0.0;
-    	for (int i = 0; i < assignmentCategory.getNumberOfAssignments(); i++) {
-    		total += assignments.get(i).getAssignmentAverageGrade(students);
+    	
+    	for (int i = 0; i < assignments.size(); i++) {
+    		total += assignments.get(i).getTotalStudentPoints(students);
     	}
-    	return (total / assignments.size());
+    	
+    	return total;
+    }
+    public Double getTotalCategoryWorth(List<Student> students) {
+    	double total = 0.0;
+    	
+    	for (int i = 0; i < assignments.size(); i++) {
+    		for (int j = 0; j < students.size(); j++) {
+    			total += assignments.get(i).getWorth();
+    		}
+    	}
+    	return total;
     }
     
     /**
@@ -86,6 +104,15 @@ public class AssignmentCategory {
         	if (name == assignments.get(i).getName()) return i;
         }
     	return -1;
+    }
+    
+    /**
+     * returns the weight of the grade for this assignment category
+     * 
+     * @return		value of the weight the assignment category is being graded
+     */
+    public double getGradingWeight() {
+    	return gradingWeight;
     }
     
     /**
@@ -104,6 +131,22 @@ public class AssignmentCategory {
      * @param an	Name of the assignment
      * @param val	The maximum point value of the assignment
      */
+    
+    /**
+     * returns the total number of points in the assignment category
+     * 
+     * @return			Total points
+     */
+    public double getTotalPoints() {
+    	double total = 0.0;
+    	for (int i = 0; i < assignments.size(); i++) {
+    		total += assignments.get(i).getWorth();
+    	}
+    	return total;
+    }
+    
+    
+    
     public void addAssignment(String an, int val) {
         assignments.add(new Assignment(an, val));
     }
@@ -123,4 +166,14 @@ public class AssignmentCategory {
     	}
     	
     }
+    
+    /**
+     * Set the weight of this assignment categorys grade
+     * 
+     * @param weight	value of the percentage the grades weight will hold
+     */
+    public void setGradingWeight(double weight){
+    	gradingWeight = weight;
+    }
+    
 }

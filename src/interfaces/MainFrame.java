@@ -4,13 +4,20 @@
  */
 package interfaces;
 
+import io.Preloader;
+
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+import objects.MyCourse;
 
 /**
  *
  * @author Lilong
+ * @edit Zach; preloader changes
  */
 public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
@@ -20,9 +27,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     
     private SimpleMode simpleMode;
     private AddNewClass addNewClass;
-    private Courses courses;
+    private GradebooksWindow gradebookWindow;
     
-    
+    public static ArrayList<MyCourse> gradebooks;
     /**
      * Creates new form WelcomeWindow Initial form of WelcomeWindow
      */
@@ -38,17 +45,44 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
         simpleMode = new SimpleMode();
         addNewClass = new AddNewClass();
-        courses = new Courses();
+        gradebookWindow = new GradebooksWindow();
         editCourses = new interfaces.editClass.EditSelectedClass(this, true);
         editCourses.setLocation(500, 300);
         
+        preloadGradebooks();
+        populateTable();
         getWelcomeWindowLayOut();  //add all the panels into the main frame
         simpleMode.setVisible(false);
         addNewClass.setVisible(false);
-        courses.setVisible(true);
+        gradebookWindow.setVisible(true);
         synchronize();    //Update all other JPanel classes
         pack();
         //jMenuItem_simpleMode.doClick();
+    }
+    
+    private void preloadGradebooks() {
+    	Preloader preload = new Preloader(".xml");
+    	gradebooks = preload.getCourseArray();
+    }
+    
+    private void populateTable() {
+    	gradebookWindow.model.removeRow(0);
+    	for (int i = 0; i < gradebooks.size(); i++) {
+    		addCourseToTable(i);
+    		//Does not add to simple mode just yet
+    	}
+    }
+    
+    private void addCourseToTable(int i) {
+        gradebookWindow.model.addRow(new Object[]{
+        							gradebookWindow.classTable.getRowCount()+1,
+        							gradebooks.get(i).getName(), 
+        							gradebooks.get(i).getCourseID(), 
+        							gradebooks.get(i).getCourseNumber(), 
+        							gradebooks.get(i).getSection(), 
+        							gradebooks.get(i).getBuilding(), 
+        							gradebooks.get(i).getRoomID(), 
+        							gradebooks.get(i).getMeetingTime()});
     }
     
     //important:
@@ -74,7 +108,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         } else if (evt.getActionCommand().equals("Cancel/Go back")) {
             addNewClass.setVisible(false);
             simpleMode.setVisible(false);
-            courses.setVisible(true);
+            gradebookWindow.setVisible(true);
             pack();
         }
         addNewClass.courseData.clear();
@@ -116,12 +150,12 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     }
     
     private void newClassCreater() {
-        courses.model.addRow(new Object[]{null, null, null, null, null, null, null, null, null});
-        for (int r = 0; r < courses.classTable.getRowCount() - 1; r++) {
-            if (courses.classTable.getValueAt(r, 0) == null) {
-                courses.classTable.setValueAt(r, r, 0);
-                for (int c = 0; c < courses.classTable.getColumnCount() - 1; c++) {
-                    courses.classTable.setValueAt(addNewClass.courseData.get(c), r, c + 1);
+        gradebookWindow.model.addRow(new Object[]{null, null, null, null, null, null, null, null, null});
+        for (int r = 0; r < gradebookWindow.classTable.getRowCount() - 1; r++) {
+            if (gradebookWindow.classTable.getValueAt(r, 0) == null) {
+                gradebookWindow.classTable.setValueAt(r, r, 0);
+                for (int c = 0; c < gradebookWindow.classTable.getColumnCount() - 1; c++) {
+                    gradebookWindow.classTable.setValueAt(addNewClass.courseData.get(c), r, c + 1);
                 }
                 showButtonInSimpleMode(r);
                 
@@ -134,9 +168,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     // @para row the index of row in class table
     private void showButtonInSimpleMode(int row) {
         if (simpleModeButtonsCounter < 20) {
-            String courseName = courses.classTable.getValueAt(row, 1).toString();
-            String coursePrefix = courses.classTable.getValueAt(row, 2).toString();
-            String courseNumber = courses.classTable.getValueAt(row, 3).toString();
+            String courseName = gradebookWindow.classTable.getValueAt(row, 1).toString();
+            String coursePrefix = gradebookWindow.classTable.getValueAt(row, 2).toString();
+            String courseNumber = gradebookWindow.classTable.getValueAt(row, 3).toString();
             simpleMode.getButton().setText(courseName + " " + coursePrefix + courseNumber);
             simpleModeButtonsCounter++;
             } else {
@@ -276,12 +310,12 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(courses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gradebookWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(courses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(gradebookWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         pack();
@@ -293,9 +327,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             io.Openfile fileReader = new io.Openfile();
             fileReader.open(fc);
-            courses.courseData = fileReader.dataFromOpenFile;
-            int row = courses.upDateWelcomeWindow();
-            showButtonInSimpleMode(row);
+            gradebooks.add(fileReader.gradebookToOpen);
+            addCourseToTable(gradebooks.size()-1);
+            //showButtonInSimpleMode(row);
         }
         addNewClass.courseData.clear();
     }//GEN-LAST:event_JMenuItem_addClassFromXMLActionPerformed
@@ -313,8 +347,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
     
     private void jMenuItem_simpleModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_simpleModeActionPerformed
-        if (courses.isVisible()) {
-            courses.setVisible(false);
+        if (gradebookWindow.isVisible()) {
+            gradebookWindow.setVisible(false);
             addNewClass.setVisible(false);
             simpleMode.setVisible(true);
             pack();
@@ -325,25 +359,25 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         if (simpleMode.isVisible()) {
             simpleMode.setVisible(false);
             addNewClass.setVisible(false);
-            courses.setVisible(true);
+            gradebookWindow.setVisible(true);
             pack();
         }
     }//GEN-LAST:event_jMenuItem_DetialModeActionPerformed
 
     private void jMenuItem_addNewClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
-        courses.setVisible(false);
+        gradebookWindow.setVisible(false);
         simpleMode.setVisible(false);
         addNewClass.setVisible(true);
         pack();
     }//GEN-LAST:event_jMenuItem_addNewClassActionPerformed
 
     private void jMenuItem_removeClassMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_removeClassMenuActionPerformed
-        if (courses.classTable.getSelectedRow() != -1 && courses.isVisible()) {
-            if (courses.classTable.getValueAt(courses.classTable.getSelectedRow(), 0) != null) {
-                int r = courses.classTable.getSelectedRow();
-                courses.model.removeRow(courses.classTable.getSelectedRow());
-                while (courses.classTable.getValueAt(r, 0) != null) {
-                    courses.classTable.setValueAt(r, r, 0);
+        if (gradebookWindow.classTable.getSelectedRow() != -1 && gradebookWindow.isVisible()) {
+            if (gradebookWindow.classTable.getValueAt(gradebookWindow.classTable.getSelectedRow(), 0) != null) {
+                int r = gradebookWindow.classTable.getSelectedRow();
+                gradebookWindow.model.removeRow(gradebookWindow.classTable.getSelectedRow());
+                while (gradebookWindow.classTable.getValueAt(r, 0) != null) {
+                    gradebookWindow.classTable.setValueAt(r, r, 0);
                     r++;
                 }
             }
@@ -351,8 +385,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     }//GEN-LAST:event_jMenuItem_removeClassMenuActionPerformed
 
     private void jMenuItem_editClassMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_editClassMenuActionPerformed
-        if (courses.classTable.getSelectedRow() != -1) {
-            if (courses.classTable.getValueAt(courses.classTable.getSelectedRow(), 0) != null) {
+        if (gradebookWindow.classTable.getSelectedRow() != -1) {
+            if (gradebookWindow.classTable.getValueAt(gradebookWindow.classTable.getSelectedRow(), 0) != null) {
                 this.setVisible(false);
                 //editCourses.setVisible(true);
                 this.setVisible(true);
