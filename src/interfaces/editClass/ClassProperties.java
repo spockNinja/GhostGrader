@@ -1,4 +1,4 @@
-package GhostGradeBook.editClass;
+package interfaces.editClass;
 
 /*
  * To change this template, choose Tools | Templates
