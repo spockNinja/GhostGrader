@@ -1,11 +1,13 @@
 package io;
 
 import java.io.*;
+import java.util.Collections;
 import java.net.URL;
 import java.net.URISyntaxException;
 import freemarker.template.*;
 
 import objects.MyCourse;
+import objects.Student;
 
 // This class encapsulates logic to export the html
 public class Exporter
@@ -32,6 +34,8 @@ public class Exporter
             Writer templateWriter = new FileWriter(filepath);
 
             Template temp = cfg.getTemplate("export_template.html");
+
+            Collections.sort(course.getStudents(), Student.PseudoNameComparator);
             temp.process(course, templateWriter);
 
             templateWriter.close();
