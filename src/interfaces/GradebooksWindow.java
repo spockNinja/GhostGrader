@@ -12,13 +12,13 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Lilong
  */
-public class Courses extends javax.swing.JPanel {
+public class GradebooksWindow extends javax.swing.JPanel {
     public DefaultTableModel model;
     public ArrayList<String> courseData = new ArrayList<String>();
     /**
      * Creates new form CurrentClass
      */
-    public Courses() {
+    public GradebooksWindow() {
         initComponents();
         setup();
     }
