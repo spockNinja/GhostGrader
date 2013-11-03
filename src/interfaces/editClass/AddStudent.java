@@ -11,15 +11,19 @@ package interfaces.editClass;
  *
  * @author Zach
  */
-public class NewStudent extends javax.swing.JDialog {
+public class AddStudent extends javax.swing.JDialog {
 
+    private EditSelectedClass editClass;
+    private RemoveStudent removeStudent;
     public String actionStatus = "";
+    private int rowIndex = 1;
 
     /**
      * Creates new form NewStudent
      */
-    public NewStudent(java.awt.Dialog parent, boolean modal) {
+    public AddStudent(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
+        
         initComponents();
     }
     
@@ -113,6 +117,9 @@ public class NewStudent extends javax.swing.JDialog {
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
         actionStatus = "Add";
+        editClass.tableModel.addRow(new Object[]{studentName.getText()});
+        removeStudent.comboModel.addElement(studentName.getText());
+        rowIndex += 1;
         this.setVisible(false);
         dispose();
     }//GEN-LAST:event_addButtonActionPerformed
@@ -145,13 +152,13 @@ public class NewStudent extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddStudent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -161,7 +168,7 @@ public class NewStudent extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                NewStudent dialog = new NewStudent(new javax.swing.JDialog(), true);
+                AddStudent dialog = new AddStudent(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

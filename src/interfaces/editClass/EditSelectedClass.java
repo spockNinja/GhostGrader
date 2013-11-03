@@ -6,7 +6,6 @@ package interfaces.editClass;
  */
 import javax.swing.JMenu;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -14,10 +13,9 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class EditSelectedClass extends javax.swing.JDialog {
 
-    private NewStudent addStudent;
+    private AddStudent addStudent;
     private RemoveStudent removeStudent;    
-    private NewAssignment newAssignment;
-    private int rowIndex = 1;
+    private AddAssignment addAssignment;    
     public String actionStatus = "Closing";
     public DefaultTableModel tableModel;
     
@@ -40,11 +38,11 @@ public class EditSelectedClass extends javax.swing.JDialog {
     }
     
     private void actionPerform() {
-        addStudent = new NewStudent(this, true);
-        addStudent.setLocation(500, 300);
+        addStudent = new AddStudent(this, true);
+        addStudent.setLocation(550, 300);
         removeStudent = new RemoveStudent(this, true);
-        removeStudent.setLocation(500, 300);
-        newAssignment = new NewAssignment(this, true);
+        removeStudent.setLocation(550, 300);
+        addAssignment = new AddAssignment(this, true);
         tableModel = (DefaultTableModel)assignmentTable.getModel();
         //createCategory = new CreateCategory(this, true);
     }
@@ -240,8 +238,8 @@ public class EditSelectedClass extends javax.swing.JDialog {
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        newAssignment.setVisible(true);
-        if (newAssignment.actionStatus.equals("Add")) {
+        addAssignment.setVisible(true);
+        if (addAssignment.actionStatus.equals("Add")) {
  
         }
        
@@ -261,10 +259,7 @@ public class EditSelectedClass extends javax.swing.JDialog {
 
     private void addNewStudentMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewStudentMenuActionPerformed
         this.setVisible(false);
-        addStudent.setVisible(true);        
-        tableModel.addRow(new Object[]{addStudent.getStudentName()});
-        removeStudent.comboModel.addElement(addStudent.getStudentName());
-        rowIndex += 1;
+        addStudent.setVisible(true);               
         this.setVisible(true);
     }//GEN-LAST:event_addNewStudentMenuActionPerformed
     
