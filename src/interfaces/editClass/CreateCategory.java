@@ -42,7 +42,7 @@ public class CreateCategory extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         categoryNameLabe.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        categoryNameLabe.setText("Category Name (requeire):");
+        categoryNameLabe.setText("Category Name (required):");
 
         categoryNameTextField.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         categoryNameTextField.setText("");
@@ -78,7 +78,7 @@ public class CreateCategory extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(categoryNameLabe)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(categoryNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))))
+                        .addComponent(categoryNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
