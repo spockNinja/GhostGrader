@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Comparator;
 
 /**
  * Class Student models a students first, last, and full name as well
@@ -32,7 +33,19 @@ public class Student {
         pseudoName = p;
         fullName = ln + ", " + fn;
     }
-    
+
+    /**
+     * Allows for comparison/sorting based on the Students' PseudoNames
+     * Simply pass this into Collections.sort() as the comparator
+     */
+    public static Comparator<Student> PseudoNameComparator = new Comparator<Student>() {
+        public int compare(Student s1, Student s2) {
+            String psName1 = s1.getPseudoName().toUpperCase();
+            String psName2 = s2.getPseudoName().toUpperCase();
+            return psName1.compareTo(psName2);
+        };
+    };
+
     /**
      * Sets the students first name, in case of a correction to the first name
      * it re-factors the full name of the student by changing the first name in 
