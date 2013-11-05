@@ -4,19 +4,23 @@ package interfaces.editClass;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JMenu;
-import javax.swing.JDialog;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Lilong
  */
 public class EditSelectedClass extends javax.swing.JDialog {
 
-    private NewStudent addStudent;
+    private AddStudent addStudent;
+    private RemoveStudent removeStudent;    
+    private AddAssignment addAssignment;    
     public String actionStatus = "Closing";
-    private NewAssignment newAssignment;
+    public DefaultTableModel tableModel;
+    
+    
+
     //private CreateCategory createCategory;
     /**
      * Creates new form ClassRoom
@@ -34,9 +38,12 @@ public class EditSelectedClass extends javax.swing.JDialog {
     }
     
     private void actionPerform() {
-        addStudent = new NewStudent(this, true);
-        addStudent.setLocation(300, 300);
-        newAssignment = new NewAssignment(this, true);
+        addStudent = new AddStudent(this, true);
+        addStudent.setLocation(550, 300);
+        removeStudent = new RemoveStudent(this, true);
+        removeStudent.setLocation(550, 300);
+        addAssignment = new AddAssignment(this, true);
+        tableModel = (DefaultTableModel)assignmentTable.getModel();
         //createCategory = new CreateCategory(this, true);
     }
 
@@ -50,7 +57,7 @@ public class EditSelectedClass extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        assignment1 = new javax.swing.JTable();
+        assignmentTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -61,8 +68,8 @@ public class EditSelectedClass extends javax.swing.JDialog {
         createMenu = new javax.swing.JMenu();
         Category_CreateMenu = new javax.swing.JMenuItem();
         studentMenu = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        addNewStudentMenu = new javax.swing.JMenuItem();
+        RemoveStudentMenu = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
         assignmentMenu = new javax.swing.JMenu();
@@ -81,19 +88,16 @@ public class EditSelectedClass extends javax.swing.JDialog {
         setTitle("Class Room");
         setBackground(java.awt.Color.darkGray);
 
-        assignment1.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        assignment1.setModel(new javax.swing.table.DefaultTableModel(
+        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Student", "Grade", "Feedback"
             }
         ));
-        jScrollPane1.setViewportView(assignment1);
+        jScrollPane1.setViewportView(assignmentTable);
 
         jLabel1.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         jLabel1.setText("Class Name");
@@ -128,11 +132,21 @@ public class EditSelectedClass extends javax.swing.JDialog {
 
         studentMenu.setText("Student");
 
-        jMenuItem3.setText("Add");
-        studentMenu.add(jMenuItem3);
+        addNewStudentMenu.setText("Add");
+        addNewStudentMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addNewStudentMenuActionPerformed(evt);
+            }
+        });
+        studentMenu.add(addNewStudentMenu);
 
-        jMenuItem4.setText("Remove");
-        studentMenu.add(jMenuItem4);
+        RemoveStudentMenu.setText("Remove");
+        RemoveStudentMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveStudentMenuActionPerformed(evt);
+            }
+        });
+        studentMenu.add(RemoveStudentMenu);
         studentMenu.add(jSeparator3);
 
         jMenuItem6.setText("Edit");
@@ -140,7 +154,7 @@ public class EditSelectedClass extends javax.swing.JDialog {
 
         menuBar.add(studentMenu);
 
-        assignmentMenu.setText("Assignement");
+        assignmentMenu.setText("Assignment");
 
         jMenuItem5.setText("Add");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -224,8 +238,8 @@ public class EditSelectedClass extends javax.swing.JDialog {
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        newAssignment.setVisible(true);
-        if (newAssignment.actionStatus.equals("Add")) {
+        addAssignment.setVisible(true);
+        if (addAssignment.actionStatus.equals("Add")) {
  
         }
        
@@ -243,6 +257,25 @@ public class EditSelectedClass extends javax.swing.JDialog {
         this.setVisible(true);
     }//GEN-LAST:event_Category_CreateMenuActionPerformed
 
+    private void addNewStudentMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewStudentMenuActionPerformed
+        this.setVisible(false);
+        addStudent.setVisible(true);               
+        this.setVisible(true);
+    }//GEN-LAST:event_addNewStudentMenuActionPerformed
+    
+    private void RemoveStudentMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveStudentMenuActionPerformed
+        // TODO add your handling code here:
+        
+        this.setVisible(false);        
+        removeStudent.setVisible(true);
+        Object selectedStudent = removeStudent.comboModel.getSelectedItem();
+        int removeRow = removeStudent.comboModel.getIndexOf(selectedStudent);
+        removeStudent.comboModel.removeElement(selectedStudent);
+        tableModel.removeRow(removeRow);
+        this.setVisible(true);
+        
+    }//GEN-LAST:event_RemoveStudentMenuActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -294,8 +327,10 @@ public class EditSelectedClass extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Category_CreateMenu;
-    private javax.swing.JTable assignment1;
+    private javax.swing.JMenuItem RemoveStudentMenu;
+    private javax.swing.JMenuItem addNewStudentMenu;
     private javax.swing.JMenu assignmentMenu;
+    private javax.swing.JTable assignmentTable;
     private javax.swing.JMenu createMenu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -307,8 +342,6 @@ public class EditSelectedClass extends javax.swing.JDialog {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
