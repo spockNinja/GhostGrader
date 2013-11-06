@@ -151,9 +151,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     
     private void newClassCreater() {
         gradebookWindow.model.addRow(new Object[]{null, null, null, null, null, null, null, null, null});
-        for (int r = 0; r < gradebookWindow.classTable.getRowCount() - 1; r++) {
+        for (int r = 0; r < gradebookWindow.classTable.getRowCount(); r++) {
             if (gradebookWindow.classTable.getValueAt(r, 0) == null) {
-                gradebookWindow.classTable.setValueAt(r, r, 0);
+                gradebookWindow.classTable.setValueAt(gradebookWindow.classTable.getRowCount(), r, 0);
                 for (int c = 0; c < gradebookWindow.classTable.getColumnCount() - 1; c++) {
                     gradebookWindow.classTable.setValueAt(addNewClass.courseData.get(c), r, c + 1);
                 }
