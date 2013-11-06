@@ -13,30 +13,30 @@ import javax.swing.JButton;
 
 import objects.MyCourse;
 import interfaces.MainFrame;
+import interfaces.editClass.EditSelectedClass;
 /**
  *
  * @author Lilong
  */
 public class SimpleMode extends javax.swing.JPanel implements ActionListener {
-	private MainFrame mainFrame;
+	private MainFrame parent;
 	private ArrayList<JButton> courseButtons = new ArrayList<JButton>();
     private javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     /**
      * Creates new form SimpleMode
      */
     public SimpleMode(MainFrame frame) {
-    	mainFrame = frame;
+    	parent = frame;
         initComponents();
         setup();
         getSimpleModeLayOut();
-        //System.out.print(newButton1.getText() + "test");
     }
     
     private void setup() {
-    	for (int i = 0; i < mainFrame.getCourses().size(); i++) {
+    	for (int i = 0; i < parent.getCourses().size(); i++) {
     		JButton button = new JButton();
     		button.setFont(new java.awt.Font("Georgia", 0, 14));
-    		button.setText(mainFrame.getCourses().get(i).getName());
+    		button.setText(parent.getCourses().get(i).getName());
     		button.setVisible(true);
     		button.addActionListener(this);
     		courseButtons.add(button);
@@ -54,7 +54,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Current Class", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 258, Short.MAX_VALUE)
@@ -78,13 +78,12 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     	for (int i = 0; i < courseButtons.size(); i++) {
     		horizontal.addComponent(courseButtons.get(i), javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE);
     		vertical.addComponent(courseButtons.get(i));
-    		if (i != courseButtons.size() - 1)
-    			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+   			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
     	}
     	
     	vertical.addContainerGap(40, Short.MAX_VALUE);
     	
-        this.setLayout(layout);
+        setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -103,8 +102,13 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     	Object source = evt.getSource();
     	if (source instanceof JButton) {
     		int index = getButtonIndex((JButton)source);
-    		//FIXME Should open EditSelectedClass and send mainFrame.getCourses().get(index) as a constructor
-    		//System.out.println(mainFrame.getCourses().get(index).getName());
+    		//FIXME Should open EditSelectedClass and send parent.getCourses().get(index) as a constructor
+    		EditSelectedClass currentCourse = new EditSelectedClass(parent);
+    		parent.setEditSelectedClass(currentCourse);
+    		parent.setContentPane(currentCourse);
+    		parent.setEditSelectedClassVisible();
+    		currentCourse.setPanelMenu();
+    		//System.out.println(parent.getCourses().get(index).getName());
     	}
     }
     

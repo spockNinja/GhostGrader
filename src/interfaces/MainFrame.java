@@ -4,6 +4,7 @@
  */
 package interfaces;
 
+import interfaces.editClass.EditSelectedClass;
 import io.Preloader;
 
 import java.awt.event.ActionListener;
@@ -23,13 +24,12 @@ import objects.MyCourse;
  */
 public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
-    private interfaces.editClass.EditSelectedClass editCourses;
     public boolean isDetialMode = false;
-    private int simpleModeButtonsCounter = 0; //the maximun of buttons in simple mode is 20
     
     private SimpleMode simpleMode;
     private AddNewClass addNewClass;
     private GradebooksWindow gradebookWindow;
+    private EditSelectedClass editSelectedClassWindow;
     
     private static ArrayList<MyCourse> courses;
     private MyCourse currentCourse;
@@ -49,18 +49,32 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         simpleMode = new SimpleMode(this);
         addNewClass = new AddNewClass();
         gradebookWindow = new GradebooksWindow();
-        editCourses = new interfaces.editClass.EditSelectedClass(this, true);
-        editCourses.setLocation(500, 300);
-        
+        editSelectedClassWindow = new EditSelectedClass(this);        
 
         populateTable();
-        getWelcomeWindowLayOut();  //add all the panels into the main frame
+        getWelcomeWindowLayout();  //add all the panels into the main frame
+        setSimpleModeVisible();
+        //jMenuItem_simpleMode.doClick();
+    }
+    
+    public void setSimpleModeVisible() {
         simpleMode.setVisible(true);
         addNewClass.setVisible(false);
         gradebookWindow.setVisible(false);
-        synchronize();    //Update all other JPanel classes
+        editSelectedClassWindow.setVisible(false);
         pack();
-        //jMenuItem_simpleMode.doClick();
+    }
+    
+    public void setEditSelectedClassVisible() {
+        simpleMode.setVisible(false);
+        addNewClass.setVisible(false);
+        gradebookWindow.setVisible(false);
+        editSelectedClassWindow.setVisible(true);
+        pack();
+    }
+    
+    public void setEditSelectedClass(EditSelectedClass window) {
+    	editSelectedClassWindow = window;
     }
     
     public MyCourse getCurrentCourse() {
@@ -167,28 +181,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
                 gradebookWindow.classTable.setValueAt(r, r, 0);
                 for (int c = 0; c < gradebookWindow.classTable.getColumnCount() - 1; c++) {
                     gradebookWindow.classTable.setValueAt(addNewClass.courseData.get(c), r, c + 1);
-                }
-                showButtonInSimpleMode(r);
-                
+                }               
             }
         }
-    }
-    
-    //show a button corresponding to the course in simple mode
-    //there are 20 buttons avaiable in simple mode
-    // @para row the index of row in class table
-    private void showButtonInSimpleMode(int row) {
-        if (simpleModeButtonsCounter < 20) {
-            String courseName = gradebookWindow.classTable.getValueAt(row, 1).toString();
-            String coursePrefix = gradebookWindow.classTable.getValueAt(row, 2).toString();
-            String courseNumber = gradebookWindow.classTable.getValueAt(row, 3).toString();
-            simpleModeButtonsCounter++;
-            } else {
-                JOptionPane.showMessageDialog(null,
-                    String.format("%100s","The maximun number of courses can display in simple is 20"
-                        + ", and you already have 20 courses"),"Error",
-                    JOptionPane.ERROR_MESSAGE);
-            }
     }
 
     /**
@@ -315,18 +310,20 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void getWelcomeWindowLayOut() {
+    private void getWelcomeWindowLayout() {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(gradebookWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editSelectedClassWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(gradebookWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editSelectedClassWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         pack();
     }
@@ -339,7 +336,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
             fileReader.open(fc);
             courses.add(fileReader.gradebookToOpen);
             addCourseToTable(courses.size()-1);
-            //showButtonInSimpleMode(row);
         }
         addNewClass.courseData.clear();
     }//GEN-LAST:event_JMenuItem_addClassFromXMLActionPerformed
@@ -361,6 +357,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
             gradebookWindow.setVisible(false);
             addNewClass.setVisible(false);
             simpleMode.setVisible(true);
+            editSelectedClassWindow.setVisible(false);
             pack();
         }
     }//GEN-LAST:event_jMenuItem_simpleModeActionPerformed
@@ -370,6 +367,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
             simpleMode.setVisible(false);
             addNewClass.setVisible(false);
             gradebookWindow.setVisible(true);
+            editSelectedClassWindow.setVisible(false);
             pack();
         }
     }//GEN-LAST:event_jMenuItem_DetialModeActionPerformed
@@ -378,6 +376,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         gradebookWindow.setVisible(false);
         simpleMode.setVisible(false);
         addNewClass.setVisible(true);
+        editSelectedClassWindow.setVisible(false);
         pack();
     }//GEN-LAST:event_jMenuItem_addNewClassActionPerformed
 
