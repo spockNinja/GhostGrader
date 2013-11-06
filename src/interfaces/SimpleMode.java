@@ -40,6 +40,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     		button.setVisible(true);
     		button.addActionListener(this);
     		courseButtons.add(button);
+    		parent.addCourseWindow(parent.getCourse(i));
     	}
     }
 
@@ -51,8 +52,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Current Class", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
-
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Courses", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,11 +103,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     	if (source instanceof JButton) {
     		int index = getButtonIndex((JButton)source);
     		//FIXME Should open EditSelectedClass and send parent.getCourses().get(index) as a constructor
-    		EditSelectedClass currentCourse = new EditSelectedClass(parent);
-    		parent.setEditSelectedClass(currentCourse);
-    		parent.setContentPane(currentCourse);
-    		parent.setEditSelectedClassVisible();
-    		currentCourse.setPanelMenu();
+    		parent.setEditSelectedClassVisible(parent.getCourseWindow(index));
     		//System.out.println(parent.getCourses().get(index).getName());
     	}
     }

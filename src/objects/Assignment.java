@@ -106,7 +106,10 @@ public class Assignment {
      * 						does not exist as a key.
      */
     public Double getGrade(String pseudoName) {
-    	return grades.get(pseudoName);
+		if (grades.get(pseudoName) != null)
+			return grades.get(pseudoName);
+		else
+			return 0.0;
     }
     
     /**
