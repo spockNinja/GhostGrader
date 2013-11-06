@@ -9,14 +9,14 @@ package interfaces.editClass;
  *
  * @author Zach
  */
-public class NewAssignment extends javax.swing.JDialog {
+public class AddAssignment extends javax.swing.JDialog {
 
     public String actionStatus;
     public String[] dataFromAddingNewAssignment;
     /**
      * Creates new form NewAssignment
      */
-    public NewAssignment(java.awt.Dialog parent, boolean modal) {
+    public AddAssignment(java.awt.Dialog parent, boolean modal) {
         super(parent, modal);
         initComponents();
         dataFromAddingNewAssignment = new String[3];
@@ -65,7 +65,12 @@ public class NewAssignment extends javax.swing.JDialog {
         descriptionText.setRows(5);
         jScrollPane2.setViewportView(descriptionText);
 
-        typeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        typeCB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Reading", "Problems", "Paper", "Take Home Test" }));
+        typeCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeCBActionPerformed(evt);
+            }
+        });
 
         titleField.setText("");
 
@@ -129,6 +134,10 @@ public class NewAssignment extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void typeCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeCBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeCBActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -150,13 +159,13 @@ public class NewAssignment extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddAssignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -166,7 +175,7 @@ public class NewAssignment extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                NewAssignment dialog = new NewAssignment(new javax.swing.JDialog(), true);
+                AddAssignment dialog = new AddAssignment(new javax.swing.JDialog(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

@@ -7,10 +7,12 @@ package interfaces;
 import io.Preloader;
 
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import objects.MyCourse;
 
@@ -29,7 +31,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     private AddNewClass addNewClass;
     private GradebooksWindow gradebookWindow;
     
-    public static ArrayList<MyCourse> gradebooks;
+    private static ArrayList<MyCourse> courses;
+    private MyCourse currentCourse;
     /**
      * Creates new form WelcomeWindow Initial form of WelcomeWindow
      */
@@ -42,32 +45,40 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
 
     private void SetUp() {
         this.setLocation(400, 300);
-
-        simpleMode = new SimpleMode();
+        preloadGradebooks();
+        simpleMode = new SimpleMode(this);
         addNewClass = new AddNewClass();
         gradebookWindow = new GradebooksWindow();
         editCourses = new interfaces.editClass.EditSelectedClass(this, true);
         editCourses.setLocation(500, 300);
         
-        preloadGradebooks();
+
         populateTable();
         getWelcomeWindowLayOut();  //add all the panels into the main frame
-        simpleMode.setVisible(false);
+        simpleMode.setVisible(true);
         addNewClass.setVisible(false);
-        gradebookWindow.setVisible(true);
+        gradebookWindow.setVisible(false);
         synchronize();    //Update all other JPanel classes
         pack();
         //jMenuItem_simpleMode.doClick();
     }
     
+    public MyCourse getCurrentCourse() {
+    	return currentCourse;
+    }
+    
+    public  ArrayList<MyCourse> getCourses() {
+    	return courses;
+    }
+    
     private void preloadGradebooks() {
     	Preloader preload = new Preloader(".xml");
-    	gradebooks = preload.getCourseArray();
+    	courses = preload.getCourseArray();
     }
     
     private void populateTable() {
     	gradebookWindow.model.removeRow(0);
-    	for (int i = 0; i < gradebooks.size(); i++) {
+    	for (int i = 0; i < courses.size(); i++) {
     		addCourseToTable(i);
     		//Does not add to simple mode just yet
     	}
@@ -76,13 +87,13 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
     private void addCourseToTable(int i) {
         gradebookWindow.model.addRow(new Object[]{
         							gradebookWindow.classTable.getRowCount()+1,
-        							gradebooks.get(i).getName(), 
-        							gradebooks.get(i).getCourseID(), 
-        							gradebooks.get(i).getCourseNumber(), 
-        							gradebooks.get(i).getSection(), 
-        							gradebooks.get(i).getBuilding(), 
-        							gradebooks.get(i).getRoomID(), 
-        							gradebooks.get(i).getMeetingTime()});
+        							courses.get(i).getName(), 
+        							courses.get(i).getCourseID(), 
+        							courses.get(i).getCourseNumber(), 
+        							courses.get(i).getSection(), 
+        							courses.get(i).getBuilding(), 
+        							courses.get(i).getRoomID(), 
+        							courses.get(i).getMeetingTime()});
     }
     
     //important:
@@ -171,7 +182,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
             String courseName = gradebookWindow.classTable.getValueAt(row, 1).toString();
             String coursePrefix = gradebookWindow.classTable.getValueAt(row, 2).toString();
             String courseNumber = gradebookWindow.classTable.getValueAt(row, 3).toString();
-            simpleMode.getButton().setText(courseName + " " + coursePrefix + courseNumber);
             simpleModeButtonsCounter++;
             } else {
                 JOptionPane.showMessageDialog(null,
@@ -327,8 +337,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             io.Openfile fileReader = new io.Openfile();
             fileReader.open(fc);
-            gradebooks.add(fileReader.gradebookToOpen);
-            addCourseToTable(gradebooks.size()-1);
+            courses.add(fileReader.gradebookToOpen);
+            addCourseToTable(courses.size()-1);
             //showButtonInSimpleMode(row);
         }
         addNewClass.courseData.clear();
@@ -437,7 +447,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener {
             public void run() {
                 MainFrame GhostGrader = new MainFrame();
                 GhostGrader.setVisible(true);
-                
             }
         });
     }
