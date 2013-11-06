@@ -9,9 +9,11 @@ import interfaces.MainFrame;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.ParallelGroup;
+import javax.swing.GroupLayout.ParallelGroup; 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +25,6 @@ import objects.*;
  * @author Lilong, Brett M. Story
  */
 public class EditSelectedClass extends javax.swing.JPanel implements ActionListener {
-
 	private MainFrame parent;
 	private MyCourse course;
 	private Assignment assignment;
@@ -34,8 +35,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     /**
      * Creates new form ClassRoom
      */
-    public EditSelectedClass(MainFrame frame) {
+    public EditSelectedClass(MainFrame frame, MyCourse currentCourse) {
         parent = frame;
+        course = currentCourse;
         initComponents();
         getEditCurrentClassLayout();
     }
@@ -63,42 +65,29 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         studentMenu = new javax.swing.JMenu();
         addNewStudentMenu = new javax.swing.JMenuItem();
         RemoveStudentMenu = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
-        //FIXME should do a loop to get all categories
-        assignmentMenu = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        ghostStudentMenu = new javax.swing.JMenu();
 
-        setBackground(java.awt.Color.darkGray);
-
-        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Student", "Grade"
-            }
-        ));
+        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        assignmentTable.setModel(model);
+        assignment = course.getCategories().get(0).getAssignment(0);
+        populateTable();
+        
         jScrollPane1.setViewportView(assignmentTable);
 
         classNameLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        classNameLabel.setText("Class Name");
+        classNameLabel.setText(course.getName() + " - " + assignment.getName() + " - " + assignment.getWorth());
 
         saveButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         saveButton.setText("Save");
 
         backButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         backButton.setText("Go Back");
-
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parent.setSimpleModeVisible();
+            }
+        });
+        
         fileMenu.setText("File");
 
         jMenuItem12.setText("Save");
@@ -138,45 +127,30 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
             }
         });*/
         studentMenu.add(RemoveStudentMenu);
-        studentMenu.add(jSeparator3);
 
         jMenuItem6.setText("Edit");
         studentMenu.add(jMenuItem6);
 
         menuBar.add(studentMenu);
-
-        assignmentMenu.setText("Assignment");
-
-        jMenuItem5.setText("Add");
-        /*jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
-            }
-        });*/
-        assignmentMenu.add(jMenuItem5);
-
-        jMenuItem7.setText("Remove");
-        assignmentMenu.add(jMenuItem7);
-        assignmentMenu.add(jSeparator4);
-
-        jMenuItem8.setText("Edit");
-        assignmentMenu.add(jMenuItem8);
-
-        menuBar.add(assignmentMenu);
-
-        jMenuItem9.setText("Add");
-
-        jMenuItem10.setText("Remove");
-
-        jMenuItem11.setText("Edit");
-        /*jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });*/
-
-        ghostStudentMenu.setText("GhostStudent");
-        menuBar.add(ghostStudentMenu);        
+        
+        for (int i = 0; i < course.getNumberOfAssignmentCategories(); i++) {
+        	//FIXME Should have add/remove buttons
+        	javax.swing.JMenu categoryMenu = new javax.swing.JMenu();
+        	categoryMenu.setText(course.getAssignmentCategory(i).getName());
+        	
+        	for (int j = 0; j < course.getAssignmentCategory(i).getNumberOfAssignments(); j++) {
+        		javax.swing.JMenuItem assignmentMenuItem = new javax.swing.JMenuItem();
+        		assignmentMenuItem.setText(course.getAssignmentCategory(i).getAssignment(j).getName());
+        		assignmentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        //assignment = course.getAssignmentCategory(i).getAssignment(j);
+                        populateTable();
+                    }
+                });
+        		categoryMenu.add(assignmentMenuItem);   		
+        	}
+        	menuBar.add(categoryMenu);
+        }     
     }// </editor-fold>//GEN-END:initComponents
     
     private void getEditCurrentClassLayout() {
@@ -213,6 +187,15 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 	                  .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
 	                  .addContainerGap(52, Short.MAX_VALUE)))
 	      );
+    }
+    
+    private void populateTable() {
+    	for (int i = model.getRowCount() - 1; i >= 0; i--) {
+    		model.removeRow(i);
+    	}
+    	for (int i = 0; i < course.getNumberOfStudents(); i++) {
+    		model.insertRow(i, new Object[]{ course.getStudent(i).getFullName(), assignment.getGrade(course.getStudent(i).getPseudoName())});
+    	}
     }
     /*
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -262,31 +245,28 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student", "Grade"
+            }
+        );
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem Category_CreateMenu;
     private javax.swing.JMenuItem RemoveStudentMenu;
     private javax.swing.JMenuItem addNewStudentMenu;
-    private javax.swing.JMenu assignmentMenu;
     private javax.swing.JTable assignmentTable;
     private javax.swing.JMenu createMenu;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton backButton;
     private javax.swing.JLabel classNameLabel;
-    private javax.swing.JMenu ghostStudentMenu;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JMenu studentMenu;
     // End of variables declaration//GEN-END:variables
 
