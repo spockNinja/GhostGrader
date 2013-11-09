@@ -245,14 +245,22 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+    @SuppressWarnings("serial")
+	private javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "Student", "Grade"
             }
-        );
+        ) {
+    	public boolean isCellEditable(int row, int column) {
+    		if (column == 0)
+    			return false;
+    		else
+    			return true;
+    	}
+    };
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem Category_CreateMenu;
     private javax.swing.JMenuItem RemoveStudentMenu;
