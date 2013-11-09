@@ -1,9 +1,13 @@
 package io;
 
 import java.io.*;
+import java.util.Collections;
+import java.net.URL;
+import java.net.URISyntaxException;
 import freemarker.template.*;
 
 import objects.MyCourse;
+import objects.Student;
 
 // This class encapsulates logic to export the html
 public class Exporter
@@ -14,9 +18,12 @@ public class Exporter
 
     public Exporter() {
         try {
-            cfg.setDirectoryForTemplateLoading(new File("."+File.separator+"io"));
+            URL dirPath = this.getClass().getResource("");
+            cfg.setDirectoryForTemplateLoading(new File(dirPath.toURI()));
         }
         catch (IOException e) {
+            System.out.println("Unable to find the resource directory.");
+        } catch (URISyntaxException e) {
             System.out.println("Unable to find the resource directory.");
         }
         cfg.setDefaultEncoding("UTF-8");
@@ -29,6 +36,8 @@ public class Exporter
             Writer templateWriter = new FileWriter(filepath);
 
             Template temp = cfg.getTemplate("export_template.html");
+
+            Collections.sort(course.getStudents(), Student.PseudoNameComparator);
             temp.process(course, templateWriter);
 
             templateWriter.close();
