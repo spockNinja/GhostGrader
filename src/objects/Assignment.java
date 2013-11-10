@@ -13,7 +13,7 @@ import java.util.List;
 public class Assignment {
     private String name;
     private int worth;
-    private Map<String, Double> grades = new HashMap<String, Double>();
+    private Map<String, Integer> grades = new HashMap<String, Integer>();
     
     /**
      * Creates an Assignment object
@@ -56,15 +56,15 @@ public class Assignment {
     	double maximumPoints = getMaximumPoints(students);
     	return ((studentPoints / maximumPoints) * 100); //FIXME get rid of the magic number or format at an upper layer
     }
-    public double getTotalStudentPoints(List<Student> students) {
-    	double total = 0.0;
+    public int getTotalStudentPoints(List<Student> students) {
+    	int total = 0;
     	for (int i = 0; i < students.size(); i++) {
     		if (grades.get(students.get(i).getPseudoName()) != null) 
     			total += grades.get(students.get(i).getPseudoName());
     	}
     	return total;
     }
-    public double getMaximumPoints(List<Student> students) {
+    public int getMaximumPoints(List<Student> students) {
     	return (worth * students.size());
     }
     
@@ -93,7 +93,7 @@ public class Assignment {
      * @param grade			The score the student is being assigned for the assignment
      * @return				The previous value associated to the key.
      */
-    public Double setGrade(String pseudoName, Double grade) {
+    public Integer setGrade(String pseudoName, int grade) {
     	return grades.put(pseudoName, grade);
     }
     
@@ -101,11 +101,11 @@ public class Assignment {
      * Gets the grade for the requested student
      * 
      * @param pseudoName	The pseudo name of the student
-     * @return				Double value representing the students grade. Returns
+     * @return				Integer value representing the students grade. Returns
      * 						null if the mapping is empty, or if the pseudo name 
      * 						does not exist as a key.
      */
-    public Double getGrade(String pseudoName) {
+    public Integer getGrade(String pseudoName) {
     	return grades.get(pseudoName);
     }
     
@@ -115,7 +115,7 @@ public class Assignment {
      * 
      * @return		Collection of values in the grades HashMap
      */
-    public Collection<Double> getAllGrades() {
+    public Collection<Integer> getAllGrades() {
     	return grades.values();
     }
 }
