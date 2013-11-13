@@ -166,7 +166,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Georgia" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Course section:"/>
+        <Property name="text" type="java.lang.String" value="Course section(require):"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="classBuilding">
@@ -270,9 +270,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Add to table"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
@@ -284,9 +281,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Cancel/Go back"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
