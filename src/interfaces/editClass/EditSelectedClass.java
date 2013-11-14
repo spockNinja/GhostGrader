@@ -9,9 +9,15 @@ import interfaces.MainFrame;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
+<<<<<<< .merge_file_CUlAPX
 import javax.swing.GroupLayout.ParallelGroup;
+=======
+import javax.swing.GroupLayout.ParallelGroup; 
+import javax.swing.JButton;
+>>>>>>> .merge_file_3b7YpO
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +40,13 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     /**
      * Creates new form ClassRoom
      */
+<<<<<<< .merge_file_CUlAPX
     public EditSelectedClass(MainFrame frame) {
+=======
+    public EditSelectedClass(MainFrame frame, MyCourse currentCourse) {
+>>>>>>> .merge_file_3b7YpO
         parent = frame;
+        course = currentCourse;
         initComponents();
         getEditCurrentClassLayout();
     }
@@ -83,6 +94,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
+<<<<<<< .merge_file_CUlAPX
             },
             new String [] {
                 "Student", "Grade"
@@ -92,13 +104,33 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         classNameLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         classNameLabel.setText("Class Name");
+=======
+        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
+        assignmentTable.setModel(model);
+        assignment = course.getCategories().get(0).getAssignment(0);
+        populateTable();
+        
+        jScrollPane1.setViewportView(assignmentTable);
+
+        classNameLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        classNameLabel.setText(course.getName() + " - " + assignment.getName() + " - " + assignment.getWorth());
+>>>>>>> .merge_file_3b7YpO
 
         saveButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         saveButton.setText("Save");
 
         backButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         backButton.setText("Go Back");
+<<<<<<< .merge_file_CUlAPX
 
+=======
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parent.setSimpleModeVisible();
+            }
+        });
+        
+>>>>>>> .merge_file_3b7YpO
         fileMenu.setText("File");
 
         jMenuItem12.setText("Save");
@@ -144,6 +176,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         studentMenu.add(jMenuItem6);
 
         menuBar.add(studentMenu);
+<<<<<<< .merge_file_CUlAPX
 
         assignmentMenu.setText("Assignment");
 
@@ -177,6 +210,27 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         ghostStudentMenu.setText("GhostStudent");
         menuBar.add(ghostStudentMenu);        
+=======
+        
+        for (int i = 0; i < course.getNumberOfAssignmentCategories(); i++) {
+        	//FIXME Should have add/remove buttons
+        	javax.swing.JMenu categoryMenu = new javax.swing.JMenu();
+        	categoryMenu.setText(course.getAssignmentCategory(i).getName());
+        	
+        	for (int j = 0; j < course.getAssignmentCategory(i).getNumberOfAssignments(); j++) {
+        		javax.swing.JMenuItem assignmentMenuItem = new javax.swing.JMenuItem();
+        		assignmentMenuItem.setText(course.getAssignmentCategory(i).getAssignment(j).getName());
+        		assignmentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        //assignment = course.getAssignmentCategory(i).getAssignment(j);
+                        populateTable();
+                    }
+                });
+        		categoryMenu.add(assignmentMenuItem);   		
+        	}
+        	menuBar.add(categoryMenu);
+        }     
+>>>>>>> .merge_file_3b7YpO
     }// </editor-fold>//GEN-END:initComponents
     
     private void getEditCurrentClassLayout() {
@@ -213,6 +267,15 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 	                  .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
 	                  .addContainerGap(52, Short.MAX_VALUE)))
 	      );
+    }
+    
+    private void populateTable() {
+    	for (int i = model.getRowCount() - 1; i >= 0; i--) {
+    		model.removeRow(i);
+    	}
+    	for (int i = 0; i < course.getNumberOfStudents(); i++) {
+    		model.insertRow(i, new Object[]{ course.getStudent(i).getFullName(), assignment.getGrade(course.getStudent(i).getPseudoName())});
+    	}
     }
     /*
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -262,6 +325,22 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    @SuppressWarnings("serial")
+	private javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student", "Grade"
+            }
+        ) {
+    	public boolean isCellEditable(int row, int column) {
+    		if (column == 0)
+    			return false;
+    		else
+    			return true;
+    	}
+    };
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem Category_CreateMenu;
     private javax.swing.JMenuItem RemoveStudentMenu;
