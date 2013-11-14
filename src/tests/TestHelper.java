@@ -97,21 +97,21 @@ public class TestHelper {
             //populate random grades
             for (int j = 0; j < homeworkAssignments.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[0])));
+                    int randomGrade = Integer.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[0])));
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(0).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
             }
             for (int j = 0; j < quizes.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[1])));
+                    int randomGrade = Integer.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[1])));
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(1).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
             }
             for (int j = 0; j < exams.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[2])));
+                    int randomGrade = Integer.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[2])));
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(2).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }

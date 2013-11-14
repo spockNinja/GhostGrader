@@ -13,7 +13,7 @@ import java.util.List;
 public class Assignment {
     private String name;
     private int worth;
-    private Map<String, Double> grades = new HashMap<String, Double>();
+    private Map<String, Integer> grades = new HashMap<String, Integer>();
     
     /**
      * Creates an Assignment object
@@ -90,11 +90,11 @@ public class Assignment {
      * Sets the grade for the student by the students pseudo name
      * 
      * @param pseudoName	The pseudo name of the student
-     * @param grade			The score the student is being assigned for the assignment
+     * @param i			The score the student is being assigned for the assignment
      * @return				The previous value associated to the key.
      */
-    public Double setGrade(String pseudoName, Double grade) {
-    	return grades.put(pseudoName, grade);
+    public int setGrade(String pseudoName, int i) {
+    	return grades.put(pseudoName, i);
     }
     
     /**
@@ -105,7 +105,7 @@ public class Assignment {
      * 						null if the mapping is empty, or if the pseudo name 
      * 						does not exist as a key.
      */
-    public Double getGrade(String pseudoName) {
+    public Integer getGrade(String pseudoName) {
     	return grades.get(pseudoName);
     }
     
@@ -115,7 +115,7 @@ public class Assignment {
      * 
      * @return		Collection of values in the grades HashMap
      */
-    public Collection<Double> getAllGrades() {
+    public Collection<Integer> getAllGrades() {
     	return grades.values();
     }
 }
