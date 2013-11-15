@@ -12,12 +12,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
-<<<<<<< .merge_file_CUlAPX
 import javax.swing.GroupLayout.ParallelGroup;
-=======
 import javax.swing.GroupLayout.ParallelGroup; 
 import javax.swing.JButton;
->>>>>>> .merge_file_3b7YpO
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.table.DefaultTableModel;
