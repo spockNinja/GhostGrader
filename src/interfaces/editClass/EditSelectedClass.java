@@ -29,7 +29,6 @@ import objects.*;
  * @author Lilong, Brett M. Story
  */
 public class EditSelectedClass extends javax.swing.JPanel implements ActionListener {
-
 	private MainFrame parent;
 	private MyCourse course;
 	private Assignment assignment;
@@ -40,11 +39,10 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     /**
      * Creates new form ClassRoom
      */
-<<<<<<< .merge_file_CUlAPX
+
     public EditSelectedClass(MainFrame frame) {
-=======
+
     public EditSelectedClass(MainFrame frame, MyCourse currentCourse) {
->>>>>>> .merge_file_3b7YpO
         parent = frame;
         course = currentCourse;
         initComponents();
@@ -94,7 +92,6 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
-<<<<<<< .merge_file_CUlAPX
             },
             new String [] {
                 "Student", "Grade"
@@ -104,7 +101,6 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         classNameLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         classNameLabel.setText("Class Name");
-=======
         assignmentTable.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         assignmentTable.setModel(model);
         assignment = course.getCategories().get(0).getAssignment(0);
@@ -114,23 +110,19 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         classNameLabel.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
         classNameLabel.setText(course.getName() + " - " + assignment.getName() + " - " + assignment.getWorth());
->>>>>>> .merge_file_3b7YpO
 
         saveButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         saveButton.setText("Save");
 
         backButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         backButton.setText("Go Back");
-<<<<<<< .merge_file_CUlAPX
 
-=======
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 parent.setSimpleModeVisible();
             }
         });
         
->>>>>>> .merge_file_3b7YpO
         fileMenu.setText("File");
 
         jMenuItem12.setText("Save");
@@ -176,7 +168,6 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         studentMenu.add(jMenuItem6);
 
         menuBar.add(studentMenu);
-<<<<<<< .merge_file_CUlAPX
 
         assignmentMenu.setText("Assignment");
 
@@ -209,8 +200,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         });*/
 
         ghostStudentMenu.setText("GhostStudent");
-        menuBar.add(ghostStudentMenu);        
-=======
+        menuBar.add(ghostStudentMenu);
         
         for (int i = 0; i < course.getNumberOfAssignmentCategories(); i++) {
         	//FIXME Should have add/remove buttons
@@ -229,8 +219,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         		categoryMenu.add(assignmentMenuItem);   		
         	}
         	menuBar.add(categoryMenu);
-        }     
->>>>>>> .merge_file_3b7YpO
+        }
     }// </editor-fold>//GEN-END:initComponents
     
     private void getEditCurrentClassLayout() {
