@@ -10,9 +10,14 @@ import interfaces.MainFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
+import java.io.File;
+import java.io.IOException;
 import objects.Assignment;
 import objects.AssignmentCategory;
 import objects.MyCourse;
+import io.Exporter;
 
 /**
  *
@@ -104,6 +109,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         File_Save = new javax.swing.JMenuItem();
+        File_ExportToHTML = new javax.swing.JMenuItem();
         createMenu = new javax.swing.JMenu();
         newMenu = new javax.swing.JMenuItem();
         studentMenu = new javax.swing.JMenu();
@@ -118,6 +124,14 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         File_Save.setText("Save");
         fileMenu.add(File_Save);
+
+        File_ExportToHTML.setText("Export to HTML");
+        File_ExportToHTML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                File_ExportToHTMLActionPerformed(evt);
+            }
+        });
+        fileMenu.add(File_ExportToHTML);
 
         menuBar.add(fileMenu);
 
@@ -198,9 +212,24 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         parent.setSimpleModeVisible();
     }//GEN-LAST:event_goBackButtonActionPerformed
 
+    private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_File_ExportToHTMLActionPerformed
+        JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showSaveDialog(EditSelectedClass.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            Exporter exp = new Exporter();
+            File file = fc.getSelectedFile();
+            try {
+                exp.exportCourseToHTML(course, file.getCanonicalPath());
+            }
+            catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error exporting HTML.");
+            }
+        }
+    }//GEN-LAST:event_JMenuItem_exportToHTMLActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem File_Save;
+    private javax.swing.JMenuItem File_ExportToHTML;
     private javax.swing.JMenuItem addStudent;
     private javax.swing.JTable assignmentTable;
     private javax.swing.JLabel courseName;
