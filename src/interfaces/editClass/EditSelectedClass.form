@@ -18,6 +18,14 @@
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="File_ExportToHTML">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Export To HTML"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="File_ExportToHTMLActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="createMenu">
