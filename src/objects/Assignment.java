@@ -109,7 +109,7 @@ public class Assignment {
         if(grades.get(psuedoName) != null)
             return grades.get(pseudoName);
         else
-            return 0.0;
+            return 0;
     }
     
     /**
