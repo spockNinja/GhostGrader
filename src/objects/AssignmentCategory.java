@@ -73,8 +73,8 @@ public class AssignmentCategory {
     	double totalMaxPoints = getTotalCategoryWorth(students);
     	return (totalStudentPoints / totalMaxPoints * 100);
     }
-    public Double getTotalCategoryStudentPoints(List<Student> students) {
-    	double total = 0.0;
+    public int getTotalCategoryStudentPoints(List<Student> students) {
+    	int total = 0;
     	
     	for (int i = 0; i < assignments.size(); i++) {
     		total += assignments.get(i).getTotalStudentPoints(students);
@@ -82,8 +82,8 @@ public class AssignmentCategory {
     	
     	return total;
     }
-    public Double getTotalCategoryWorth(List<Student> students) {
-    	double total = 0.0;
+    public int getTotalCategoryWorth(List<Student> students) {
+    	int total = 0;
     	
     	for (int i = 0; i < assignments.size(); i++) {
     		for (int j = 0; j < students.size(); j++) {
@@ -137,8 +137,8 @@ public class AssignmentCategory {
      * 
      * @return			Total points
      */
-    public double getTotalPoints() {
-    	double total = 0.0;
+    public int getTotalPoints() {
+    	int total = 0;
     	for (int i = 0; i < assignments.size(); i++) {
     		total += assignments.get(i).getWorth();
     	}
@@ -168,7 +168,7 @@ public class AssignmentCategory {
     }
     
     /**
-     * Set the weight of this assignment categorys grade
+     * Set the weight of this assignment category's grade
      * 
      * @param weight	value of the percentage the grades weight will hold
      */
