@@ -1,27 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
 
-import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 
-import objects.MyCourse;
-import interfaces.MainFrame;
-import interfaces.editClass.EditSelectedClass;
 /**
  *
  * @author Lilong
+ * @edut Bret
  */
 public class SimpleMode extends javax.swing.JPanel implements ActionListener {
-	private MainFrame parent;
-	private ArrayList<JButton> courseButtons = new ArrayList<JButton>();
+    private MainFrame parent;
+    private ArrayList<JButton> courseButtons = new ArrayList<JButton>();
     private javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+    
+    public String courseToBeEdited;
+    
     /**
      * Creates new form SimpleMode
      */
@@ -34,14 +30,23 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     
     private void setup() {
     	for (int i = 0; i < parent.getCourses().size(); i++) {
-    		JButton button = new JButton();
-    		button.setFont(new java.awt.Font("Georgia", 0, 14));
-    		button.setText(parent.getCourses().get(i).getName());
-    		button.setVisible(true);
-    		button.addActionListener(this);
-    		courseButtons.add(button);
-    		parent.addCourseWindow(parent.getCourse(i));
+            final JButton button = new JButton();
+            button.setFont(new java.awt.Font("Georgia", 0, 14));
+            button.setText(parent.getCourses().get(i).getName() + 
+                            "-" + parent.getCourses().get(i).getSection());
+            button.setVisible(true);
+            parent.addCourseWindow(parent.getCourses().get(i));             //add new single course into arrlaylist 
+                                                                            //of edit class windows
+            button.addActionListener(parent.courseWindows.get(i));          //at the same time add acction listener 
+                                                                            //to edit class windows
+            button.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    buttonActionPerformed(evt);
+                }
+            });
+            courseButtons.add(button);
     	}
+        
     }
 
     /**
@@ -52,9 +57,11 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Courses", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        setLayout(layout);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 258, Short.MAX_VALUE)
@@ -78,12 +85,13 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     	for (int i = 0; i < courseButtons.size(); i++) {
     		horizontal.addComponent(courseButtons.get(i), javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE);
     		vertical.addComponent(courseButtons.get(i));
-   			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+    		if (i != courseButtons.size() - 1)
+    			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
     	}
     	
     	vertical.addContainerGap(40, Short.MAX_VALUE);
     	
-        setLayout(layout);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -96,24 +104,36 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vertical)
         );
+        courseButtons.clear();
     }
     
+    /* 
+     * this actionPerformed will update the buttons on simple mode
+     * note: open editselectedcalss is another action perform which
+     * will be involved in this method
+     */    
     public void actionPerformed(java.awt.event.ActionEvent evt) {
-    	Object source = evt.getSource();
-    	if (source instanceof JButton) {
-    		int index = getButtonIndex((JButton)source);
-    		//FIXME Should open EditSelectedClass and send parent.getCourses().get(index) as a constructor
-    		parent.setEditSelectedClassVisible(parent.getCourseWindow(index));
-    		//System.out.println(parent.getCourses().get(index).getName());
-    	}
+        this.removeAll();
+        parent.courseWindows.clear();
+        setup();
+        getSimpleModeLayOut();
     }
     
-    private int getButtonIndex(JButton button) {
-        for (int i = 0; i < courseButtons.size(); i++) {
-            if (button == courseButtons.get(i)) return i;
+    /*
+     * Action to be perform when user click on course button
+     */
+    public void buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        courseToBeEdited = evt.getActionCommand(); //knowing which couse selected
+        String[] courseInfo = courseToBeEdited.split("-");
+        for (int i = 0; i < parent.courses.size(); i++) {
+            if (parent.courses.get(i).getName().equals(courseInfo[0]) &&
+                    parent.courses.get(i).getSection().equals(courseInfo[1])) {
+                parent.setEditSelectedClassVisible(parent.getCourseWindow(i));
+                break;
+            }
         }
-        return -1;
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
