@@ -1,28 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package interfaces;
 
-import java.awt.Container;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import objects.MyCourse;
+
+
 /**
- *
+ * Create a new course, and return it as a single MyCourse object
  * @author Lilong
  */
-public class AddNewClass extends javax.swing.JPanel {
+public class AddNewClass extends javax.swing.JPanel implements ActionListener{
 
-    public ArrayList<String> courseData = new ArrayList<String>();
-    public String actionStatus = "Wating";
+    public String actionStatus = "waiting";
     
-    public Thread threadObject = new Thread();
-    /**
-     * Creates new form AddNewClass
-     */
+    private MyCourse newCourse;
+   
     public AddNewClass() {
         initComponents();
         setup();
@@ -30,6 +26,10 @@ public class AddNewClass extends javax.swing.JPanel {
     
     private void setup() {
         addButton.setActionCommand("AddNewCLass_addToTable");
+    }
+    
+    public MyCourse getNewCourse() {
+        return newCourse;
     }
 
     /**
@@ -72,7 +72,7 @@ public class AddNewClass extends javax.swing.JPanel {
         courseNumber.setText("Course Number(require):");
 
         classSection.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        classSection.setText("Course section:");
+        classSection.setText("Course section(require):");
 
         classBuilding.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         classBuilding.setText("Class Building:");
@@ -99,19 +99,9 @@ public class AddNewClass extends javax.swing.JPanel {
 
         addButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         addButton.setText("Add to table");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
-            }
-        });
 
         cancelButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         cancelButton.setText("Cancel/Go back");
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelButtonActionPerformed(evt);
-            }
-        });
 
         semeter.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         semeter.setText("Semester:");
@@ -202,19 +192,63 @@ public class AddNewClass extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-
-    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if (evt.getActionCommand().equals("Cancel/Go back")) {
-            actionStatus = "Cancel";
-            setVisible(false);
+    
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        readNewClassData();
+    }
+    
+    private void readNewClassData() {
+        newCourse = new MyCourse("newCourse");
+        String string_courseName = classNameTextField.getText();
+        String string_courseID = courseIDTextField.getText();
+        String string_courseNumber = courseNumberTextField.getText();
+        String string_classSection = classSectionTextField.getText();
+        String string_classBuilding = classBuildingTextField.getText();
+        String string_classRoom = classRoomNumberTextField.getText();
+        String string_meetingTime = meetingTimeTextField.getText();
+        String string_semester = semesterTextField.getText();
+        if (!textChecker(string_courseName, courseName) ||
+            !textChecker(string_courseID, courseID) ||
+            !textChecker(string_courseNumber, courseNumber) ||
+            !textChecker(string_classSection, classSection) ||
+            !integerChecker(string_courseNumber)) {
+        } else {
+            newCourse.setName(string_courseName);
+            newCourse.setCourseID(string_courseID);
+            int integer_courseNumber = Integer.parseInt(string_courseNumber);
+            newCourse.setCourseNumber(integer_courseNumber);
+            newCourse.setSection(string_classSection);
+            newCourse.setBuilding(string_classBuilding);
+            newCourse.setRoomID(string_classRoom);
+            newCourse.setMeetingTime(string_meetingTime);
+            newCourse.setSemester(string_semester);
+            newCourse.setNewCourse(true);
+            actionStatus = "dataReady";
         }
-    }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        
-    }//GEN-LAST:event_addButtonActionPerformed
-
+    }
+    
+    private boolean textChecker(String text, JLabel textLabel) {
+        if (text.equals((""))) {
+            JOptionPane.showMessageDialog(null,
+		      String.format("%33s",textLabel.getText() + " can't be empty"),"Error",
+		      JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean integerChecker(String text) {
+        try {
+            Integer.parseInt(text);
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+		      String.format("%33s",text + " is not a number"),"Error",
+		      JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton addButton;
     public javax.swing.JButton cancelButton;
@@ -235,4 +269,5 @@ public class AddNewClass extends javax.swing.JPanel {
     public javax.swing.JTextField semesterTextField;
     private javax.swing.JLabel semeter;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -21,7 +21,9 @@ public class Exporter
             URL dirPath = this.getClass().getResource("");
             cfg.setDirectoryForTemplateLoading(new File(dirPath.toURI()));
         }
-        catch (IOException|URISyntaxException e) {
+        catch (IOException e) {
+            System.out.println("Unable to find the resource directory.");
+        } catch (URISyntaxException e) {
             System.out.println("Unable to find the resource directory.");
         }
         cfg.setDefaultEncoding("UTF-8");

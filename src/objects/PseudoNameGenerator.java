@@ -19,8 +19,8 @@ import java.net.URISyntaxException;
 public class PseudoNameGenerator
 {
     private Set<String> usedNames = new HashSet<String>();
-    private ArrayList<String> animals = new ArrayList<>();
-    private ArrayList<String> colors = new ArrayList<>();
+    private ArrayList<String> animals = new ArrayList<String>();
+    private ArrayList<String> colors = new ArrayList<String>();
      
     //load the color and animal name files and put them into arrays
     
@@ -44,7 +44,9 @@ public class PseudoNameGenerator
         animalScanner.close();
         colorScanner.close();
             
-		} catch(FileNotFoundException|URISyntaxException e){
+		} catch(FileNotFoundException e) {
+			System.out.println(e);
+		} catch(URISyntaxException e){
 			System.out.println(e);
 		}
     }

@@ -35,7 +35,7 @@ public class TestHelper {
     public int[] assignmentValues = {10, 25, 100};
     public int numberOfAssignments = homeworkAssignments.length + quizes.length + exams.length;
     public int numberOfStudents = studentList.length;
-    public double[][] grades = new double[numberOfAssignments][numberOfStudents];
+    public int[][] grades = new int[numberOfAssignments][numberOfStudents];
     public DecimalFormat twoDecimals = new DecimalFormat("#.##");
     public Random rng = new Random(SEED);
     public MyCourse[] courses = new MyCourse[courseNames.length];
@@ -97,21 +97,21 @@ public class TestHelper {
             //populate random grades
             for (int j = 0; j < homeworkAssignments.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[0])));
+                    int randomGrade = (rng.nextInt() * assignmentValues[0]);
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(0).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
             }
             for (int j = 0; j < quizes.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[1])));
+                    int randomGrade = (rng.nextInt() * assignmentValues[1]);
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(1).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
             }
             for (int j = 0; j < exams.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    double randomGrade = Double.valueOf(twoDecimals.format((rng.nextFloat() * assignmentValues[2])));
+                    int randomGrade = (rng.nextInt() * assignmentValues[2]);
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(2).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
