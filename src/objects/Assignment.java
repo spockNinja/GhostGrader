@@ -106,7 +106,10 @@ public class Assignment {
      * 						does not exist as a key.
      */
     public Integer getGrade(String pseudoName) {
-    	return grades.get(pseudoName);
+        if(grades.get(psuedoName) != null)
+            return grades.get(pseudoName);
+        else
+            return 0.0;
     }
     
     /**
