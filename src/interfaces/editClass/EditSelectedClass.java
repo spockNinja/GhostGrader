@@ -7,13 +7,19 @@
 package interfaces.editClass;
 
 import interfaces.MainFrame;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
+
 import java.io.File;
 import java.io.IOException;
+
 import objects.Assignment;
 import objects.AssignmentCategory;
 import objects.MyCourse;
@@ -30,6 +36,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     public MyCourse course;
     private Assignment assignment;
     private AssignmentCategory assignmentCategory;
+    private int assignmentIndex, categoryIndex, courseIndex;
     
     /**
      * Creates new form EditCourse
@@ -45,9 +52,10 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     private void setup() {
         model = (DefaultTableModel)assignmentTable.getModel();
-        courseName.setText(course.getName() + "-" + course.getSection());
-        if (!course.isNewCourse()) {
-            //assignment = course.getCategories().get(0).getAssignment(0);
+        if (course != null)
+        	courseName.setText(course.getName() + "-" + course.getSection());
+        if (course != null) {
+          //  assignment = course.getCategories().get(0).getAssignment(0);
             loadCourseData();
         }
     }
@@ -60,14 +68,14 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
             for (int j = 0; j < course.getAssignmentCategory(i).getNumberOfAssignments(); j++) {
                     assignment = course.getCategories().get(i).getAssignment(j);
-                    final int indexOfCatecory = i;
+                    final int indexOfCategory = i;
                     final int indexOfAssignment = j;
                     final javax.swing.JMenuItem assignmentMenuItem = new javax.swing.JMenuItem();
                     assignmentMenuItem.setText(course.getAssignmentCategory(i).getAssignment(j).getName());
                     assignmentMenuItem.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
                             //assignment = course.getAssignmentCategory(i).getAssignment(j);
-                            assignment = course.getCategories().get(indexOfCatecory).getAssignment(indexOfAssignment);
+                            assignment = course.getCategories().get(indexOfCategory).getAssignment(indexOfAssignment);
                             populateTable();
                             courseName.setText(course.getName() + "-" + course.getSection() + " " +
                                                 assignmentMenuItem.getText());
@@ -152,7 +160,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar.add(studentMenu);
 
-        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        assignmentTable.getModel().addTableModelListener(changedData());
         assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -207,7 +216,30 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                 .addGap(6, 6, 6))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void saveCurrentAssignmentToObject() {
+    	for (int i = 0; i < course.getTotalStudents(); i++) {
+    		parent.courses.get(courseIndex).getCategories()
+    			.get(categoryIndex)
+    			.getAssignment(assignmentIndex)
+    			.setGrade(model.getValueAt(i, 0).toString(), 
+    					  Integer.parseInt(model.getValueAt(i, 1).toString()));
+    	}
+    }
+    
+    private TableModelListener changedData() {
+    	// Do Total so Ghost Students are factored with their new grades too
+    	TableModelListener cha = new TableModelListener() {
+ 		   public void tableChanged(TableModelEvent e) {
+ 			   if (model.getRowCount() == course.getNumberOfStudents()) {
+ 				   int r = e.getLastRow();
+ 				   assignment.setGrade(model.getValueAt(r, 0).toString(), 
+						    Integer.parseInt(model.getValueAt(r, 1).toString()));
+ 			   }
+ 		   }
+		};
+		return cha;
+    }
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
         parent.setSimpleModeVisible();
     }//GEN-LAST:event_goBackButtonActionPerformed
