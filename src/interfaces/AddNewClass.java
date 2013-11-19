@@ -203,7 +203,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         	generateNewCourse();
             if (parent.addNewClass.actionStatus.equals("dataReady")) {
                 if (checkRepeatedCourse(getNewCourse())) {
-                	addNewCourse();
+                    addNewCourse(parent.simpleMode.indexOfCourse);
                     parent.simpleMode.indexOfCourse++;
                 } else {
                     JOptionPane.showMessageDialog(null,
@@ -248,11 +248,11 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
             actionStatus = "dataReady";
         }
     }
-    private void addNewCourse() {
+    private void addNewCourse(int i) {
     	parseXML.saveXML(newCourse);
         parent.getCourses().add(newCourse);
+        parent.simpleMode.addToRemoveMenu(i);
         parent.setSimpleModeVisible();
-        //FIXME should reinitialize table here
     }
 
     private boolean checkRepeatedCourse(MyCourse newCourse) {
