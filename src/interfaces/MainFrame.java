@@ -52,7 +52,7 @@ public class MainFrame extends javax.swing.JFrame {
             currentCourseWindow = courseWindows.get(0);
         }
         else {
-            currentCourseWindow = new EditSelectedClass(this, null);
+            currentCourseWindow = new EditSelectedClass(this, -1);
         }
     
         getWelcomeWindowLayOut();  //add all the panels into the main frame
@@ -99,8 +99,8 @@ public class MainFrame extends javax.swing.JFrame {
      * add a single course into the edit course window arraylist
      * @course my courses object
      */
-    public void addCourseWindow(MyCourse course) {
-    	courseWindows.add(new EditSelectedClass(this, course));
+    public void addCourseWindow(int courseIndex) {
+    	courseWindows.add(new EditSelectedClass(this, courseIndex));
     }
     
     /*

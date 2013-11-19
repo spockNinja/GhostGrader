@@ -44,7 +44,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             button.setText(parent.getCourses().get(i).getName() + 
                             "-" + parent.getCourses().get(i).getSection());
             button.setVisible(true);
-            parent.addCourseWindow(parent.getCourses().get(i));             //add new single course into arrlaylist 
+            parent.addCourseWindow(i);             //add new single course into arrlaylist 
                                                                             //of edit class windows
             button.addActionListener(parent.courseWindows.get(i));          //at the same time add acction listener 
                                                                             //to edit class windows
