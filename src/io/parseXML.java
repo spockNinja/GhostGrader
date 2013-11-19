@@ -305,7 +305,11 @@ public class parseXML {
     	return course;
     }
     
-    public static void saveXML(MyCourse tmpCourse, File file) {  	
+    public static void saveXML(MyCourse tmpCourse) {  	
+    	
+    	String fileDir = "gradebooks" + File.separator + tmpCourse.getCourseID() + "-" + tmpCourse.getCourseNumber() + "-" + tmpCourse.getSection() + "-" + tmpCourse.getName() + "-" + tmpCourse.getSemester() + ".xml";
+    	
+    	File file = new File(fileDir);
 		if (file.exists())
 			file.delete();
 		
@@ -326,53 +330,53 @@ public class parseXML {
     	    
     	    //FIXME use non-OS-specific newlines
     	    //Add general course information to file
-    	    writer.write("\t<courseName>" + course.getName() + "</courseName>\n");
-    	    writer.write("\t<courseID>" + course.getCourseID() + "</courseID>\n");
-    	    writer.write("\t<courseNumber>" + course.getCourseNumber() + "</courseNumber>\n");
-    	    writer.write("\t<section>" + course.getSection() + "</section>\n");
-    	    writer.write("\t<building>" + course.getBuilding() + "</building>\n");
-    	    writer.write("\t<roomID>" + course.getRoomID() + "</roomID>\n");
-    	    writer.write("\t<meetingTime>" + course.getMeetingTime() + "</meetingTime>\n\n");
-    	    writer.write("\t<semester>" + course.getSemester() + "</semester>\n\n");
+    	    writer.write("\t<courseName>" + tmpCourse.getName() + "</courseName>\n");
+    	    writer.write("\t<courseID>" + tmpCourse.getCourseID() + "</courseID>\n");
+    	    writer.write("\t<courseNumber>" + tmpCourse.getCourseNumber() + "</courseNumber>\n");
+    	    writer.write("\t<section>" + tmpCourse.getSection() + "</section>\n");
+    	    writer.write("\t<building>" + tmpCourse.getBuilding() + "</building>\n");
+    	    writer.write("\t<roomID>" + tmpCourse.getRoomID() + "</roomID>\n");
+    	    writer.write("\t<meetingTime>" + tmpCourse.getMeetingTime() + "</meetingTime>\n\n");
+    	    writer.write("\t<semester>" + tmpCourse.getSemester() + "</semester>\n\n");
     	    
     	    //Add student information
-            for (int i = 0; i < course.getNumberOfStudents(); i++) {
+            for (int i = 0; i < tmpCourse.getNumberOfStudents(); i++) {
                 writer.write("\t<student>\n");
-                writer.write("\t\t<firstName>" + course.getStudent(i).getFirstName() + "</firstName>\n");
-                writer.write("\t\t<lastName>" + course.getStudent(i).getLastName() + "</lastName>\n");
-                writer.write("\t\t<psuedoName>" + course.getStudent(i).getPseudoName() + "</psuedoName>\n");
+                writer.write("\t\t<firstName>" + tmpCourse.getStudent(i).getFirstName() + "</firstName>\n");
+                writer.write("\t\t<lastName>" + tmpCourse.getStudent(i).getLastName() + "</lastName>\n");
+                writer.write("\t\t<psuedoName>" + tmpCourse.getStudent(i).getPseudoName() + "</psuedoName>\n");
                 writer.write("\t</student>\n");
             }
             
         	writer.write("\t<!-- Ghost Students -->\n");
             
             //Add ghost students
-            for (int i = 0; i <course.getNumberOfGhostStudents(); i++) {
+            for (int i = 0; i <tmpCourse.getNumberOfGhostStudents(); i++) {
                 writer.write("\t<ghostStudent>\n");
-                writer.write("\t\t<ghostName>" + course.getGhostStudent(i).getPseudoName() + "</ghostName>\n");
+                writer.write("\t\t<ghostName>" + tmpCourse.getGhostStudent(i).getPseudoName() + "</ghostName>\n");
                 writer.write("\t</ghostStudent>\n");
             }
     	    
             //Add assignment information           
-            for (int i = 0; i < course.getNumberOfAssignmentCategories(); i++) {
+            for (int i = 0; i < tmpCourse.getNumberOfAssignmentCategories(); i++) {
             	writer.write("\t<category>\n");
-            	writer.write("\t\t<categoryName>" + course.getAssignmentCategory(i).getName() + "</categoryName>\n");
+            	writer.write("\t\t<categoryName>" + tmpCourse.getAssignmentCategory(i).getName() + "</categoryName>\n");
             	
-            	for (int j = 0; j < course.getAssignmentCategory(i).getNumberOfAssignments(); j++) {
+            	for (int j = 0; j < tmpCourse.getAssignmentCategory(i).getNumberOfAssignments(); j++) {
                 	writer.write("\t\t<assignment>\n");
-                	writer.write("\t\t\t<assignmentName>" + course.getAssignmentCategory(i).getAssignment(j).getName() + "</assignmentName>\n");
-                	writer.write("\t\t\t<worth>" + course.getAssignmentCategory(i).getAssignment(j).getWorth() + "</worth>\n");
+                	writer.write("\t\t\t<assignmentName>" + tmpCourse.getAssignmentCategory(i).getAssignment(j).getName() + "</assignmentName>\n");
+                	writer.write("\t\t\t<worth>" + tmpCourse.getAssignmentCategory(i).getAssignment(j).getWorth() + "</worth>\n");
                 	
-                	for (int k = 0; k < course.getNumberOfStudents(); k++) {
-                		writer.write("\t\t\t<grade id=\"" + course.getStudent(k).getFullName() + "\">" + 
-                				course.getAssignmentCategory(i).getAssignment(j).getGrade(course.getStudent(k).getPseudoName()) + "</grade>\n");
+                	for (int k = 0; k < tmpCourse.getNumberOfStudents(); k++) {
+                		writer.write("\t\t\t<grade id=\"" + tmpCourse.getStudent(k).getFullName() + "\">" + 
+                				tmpCourse.getAssignmentCategory(i).getAssignment(j).getGrade(tmpCourse.getStudent(k).getPseudoName()) + "</grade>\n");
                 	}
                 	
                 	writer.write("\t\t\t<!-- Ghost Students -->\n");
 
-                	for (int k = 0; k < course.getNumberOfGhostStudents(); k++) {
-                		writer.write("\t\t\t<grade id=\"" + course.getGhostStudent(k).getPseudoName() + "\">" +
-                				course.getAssignmentCategory(i).getAssignment(j).getGrade(course.getGhostStudent(k).getPseudoName()) + "</grade>\n");
+                	for (int k = 0; k < tmpCourse.getNumberOfGhostStudents(); k++) {
+                		writer.write("\t\t\t<grade id=\"" + tmpCourse.getGhostStudent(k).getPseudoName() + "\">" +
+                				tmpCourse.getAssignmentCategory(i).getAssignment(j).getGrade(tmpCourse.getGhostStudent(k).getPseudoName()) + "</grade>\n");
                 	}
                 	
                 	writer.write("\t\t</assignment>\n");
