@@ -135,6 +135,7 @@ public class MainFrame extends javax.swing.JFrame {
      * invokeLater in main method make the action performed to run in a reverse order 
      */
     private void synchronize() {
+        addNewClass.addButton.addActionListener(simpleMode);
     	addNewClass.cancelButton.addActionListener(addNewClass);
         addNewClass.addButton.addActionListener(addNewClass); //run first        
     }    
