@@ -24,6 +24,7 @@ import objects.Assignment;
 import objects.AssignmentCategory;
 import objects.MyCourse;
 import io.Exporter;
+import io.parseXML;
 
 /**
  *
@@ -155,6 +156,11 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         File_Save.setText("Save");
         fileMenu.add(File_Save);
+        File_Save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parseXML.saveXML(parent.courses.get(courseIndex));
+            }
+        });
 
         File_ExportToHTML.setText("Export to HTML");
         File_ExportToHTML.addActionListener(new java.awt.event.ActionListener() {
@@ -241,6 +247,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 		return cha;
     }
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
+        parseXML.saveXML(parent.courses.get(courseIndex));
         parent.setSimpleModeVisible();
     }//GEN-LAST:event_goBackButtonActionPerformed
 
