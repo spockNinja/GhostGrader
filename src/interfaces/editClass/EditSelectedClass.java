@@ -22,9 +22,12 @@ import java.io.IOException;
 
 import objects.Assignment;
 import objects.AssignmentCategory;
-import objects.MyCourse;
 import io.Exporter;
 import io.parseXML;
+import java.util.ArrayList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import objects.MyCourse;
 
 /**
  *
@@ -32,14 +35,18 @@ import io.parseXML;
  */
 public class EditSelectedClass extends javax.swing.JPanel implements ActionListener{
 
-    private MainFrame parent;
+    public CreateCategoryPanel categoryWindow  = new CreateCategoryPanel(this);
+    private Assignment assignment;
+    public MainFrame parent;
+    private MyCourse refresh;
     private int assignmentIndex, categoryIndex, courseIndex;
     private boolean isTableSet = false;
+    private ArrayList<AssignmentCategory> assignmentCategories = new ArrayList<AssignmentCategory>();
     
     /**
      * Creates new form EditCourse
      * @param frame
-     * @param currentCourse
+     * @param currentCourseInd
      */
     public EditSelectedClass(MainFrame frame, int currentCourseInd) {
         parent = frame;
@@ -86,8 +93,25 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
              	categoryMenu.add(assignmentMenuItem);   		
             }
             menuBar.add(categoryMenu);
+            addToRemoveCategoryMenu(categoryMenu);
+            categoryMenu.add(new javax.swing.JPopupMenu.Separator());
+            addNewAssignmentButton(categoryMenu);
+            removeAssignmentButton(categoryMenu);
         }     
     }
+    
+    
+    private void addToRemoveCategoryMenu(JMenu category) {
+        final JMenuItem caToBeRemove = new JMenuItem(category.getText());
+        removeCategory.add(caToBeRemove);
+        caToBeRemove.addActionListener(this);
+        caToBeRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeCategoryActionPerformed(evt, caToBeRemove);
+            }
+        });
+    }
+    
     
     private void populateTable() {
     	for (int i = model.getRowCount()-1; i >= 0; i--) {
@@ -109,7 +133,59 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     public void actionPerformed(ActionEvent evt) {
-        //loadCourseData();
+        if (categoryWindow.actionStatus.equals("addCategory")) {
+            createNewCategory();
+        }
+    }
+    
+    private void createNewCategory() {
+        if (repeatCategoryChecker()) {
+            JMenu newCategory = new JMenu(categoryWindow.getCategoryName());
+            menuBar.add(newCategory);
+            //adding add new assignment button
+            addNewAssignmentButton(newCategory);
+
+            //adding remove assignment button
+            removeAssignmentButton(newCategory);
+            parent.courses.get(courseIndex).addAssignmentCategory(categoryWindow.getCategoryName()); // add new category
+                                                                                                     // to the course object
+            addToRemoveCategoryMenu(newCategory); //add to remove category menu
+            categoryWindow.actionStatus = "waiting";
+        }
+    }
+    
+    private void addNewAssignmentButton(JMenu category) {
+        JMenuItem addAssignmentButton = new JMenuItem("Add");
+        category.add(addAssignmentButton, -1);
+        addAssignmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAssignmentActionPerformed(evt);
+            }
+        });
+    }
+    
+    private void removeAssignmentButton(JMenu category) {
+        JMenuItem removeAssignmentButton = new JMenuItem("Remove");
+        category.add(removeAssignmentButton, -1);
+        removeAssignmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeAssignmentActionPerformed(evt);
+            }
+        });
+    }
+    
+    public boolean repeatCategoryChecker() {
+        for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfAssignmentCategories(); i++) {
+            if (parent.courses.get(courseIndex).getAssignmentCategory(i).getName().equals(categoryWindow.getCategoryName())) {
+                System.out.print(i);
+                JOptionPane.showMessageDialog(null,
+                            String.format("%33s",categoryWindow.getCategoryName() + 
+                            " category already exited"),"Error",
+                            JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
     
     @SuppressWarnings("serial")
@@ -143,10 +219,12 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         File_Save = new javax.swing.JMenuItem();
         File_ExportToHTML = new javax.swing.JMenuItem();
         createMenu = new javax.swing.JMenu();
-        newMenu = new javax.swing.JMenuItem();
+        addCategory = new javax.swing.JMenuItem();
+        removeCategory = new javax.swing.JMenu();
         studentMenu = new javax.swing.JMenu();
         addStudent = new javax.swing.JMenuItem();
         removeStudent = new javax.swing.JMenuItem();
+        separator = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         assignmentTable = new javax.swing.JTable();
         goBackButton = new javax.swing.JButton();
@@ -156,13 +234,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         File_Save.setText("Save");
         fileMenu.add(File_Save);
-        File_Save.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                parseXML.saveXML(parent.courses.get(courseIndex));
-            }
-        });
 
-        File_ExportToHTML.setText("Export to HTML");
+        File_ExportToHTML.setText("Export To HTML");
         File_ExportToHTML.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 File_ExportToHTMLActionPerformed(evt);
@@ -174,8 +247,16 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         createMenu.setText("Create");
 
-        newMenu.setText("New Category");
-        createMenu.add(newMenu);
+        addCategory.setText("Add Category");
+        addCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCategoryActionPerformed(evt);
+            }
+        });
+        createMenu.add(addCategory);
+
+        removeCategory.setText("removeCategory");
+        createMenu.add(removeCategory);
 
         menuBar.add(createMenu);
 
@@ -189,9 +270,23 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar.add(studentMenu);
 
-        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        assignmentTable.setModel(model);
-        assignmentTable.getModel().addTableModelListener(changedData());
+        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
+        assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student", "Grade"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(assignmentTable);
 
         goBackButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
@@ -210,7 +305,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(goBackButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -225,9 +320,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                 .addComponent(courseName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(goBackButton)
-                .addGap(6, 6, 6))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -246,12 +341,46 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 		};
 		return cha;
     }
+    
+    
+    private void removeCategoryActionPerformed(java.awt.event.ActionEvent evt, JMenuItem category) {
+         String categoryName = evt.getActionCommand();
+         for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfAssignmentCategories(); i++) {
+             if (parent.courses.get(courseIndex).getAssignmentCategory(i).getName().equals(categoryName)) {
+                //FIXME it does not remove after new class added
+            	parent.courses.get(courseIndex).removeAssignmentCategory(categoryName); //remove from course object
+                removeCategory.remove(category); // rmove from the menu
+                for (int j = 0; j < menuBar.getComponentCount(); j++) {
+                    if (menuBar.getMenu(j).getText().equals(category.getText())) {
+                        menuBar.remove(j);
+                        
+                        j = menuBar.getComponentCount();
+                    }
+                }
+                i = parent.courses.get(courseIndex).getNumberOfAssignmentCategories();
+             }
+         }
+         this.setPanelMenu();
+    }
+    
+    private void addAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
+        //TODO
+    }
+    
+    private void removeAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
+        //TODO
+    }
+    
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
         parseXML.saveXML(parent.courses.get(courseIndex));
         parent.setSimpleModeVisible();
     }//GEN-LAST:event_goBackButtonActionPerformed
 
-    private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_File_ExportToHTMLActionPerformed
+    private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
+        parent.setCreateCategoryVisible();
+    }//GEN-LAST:event_addCategoryActionPerformed
+
+    private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showSaveDialog(EditSelectedClass.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -264,11 +393,12 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                 JOptionPane.showMessageDialog(null, "Error exporting HTML.");
             }
         }
-    }//GEN-LAST:event_JMenuItem_exportToHTMLActionPerformed
+    }                                                      
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem File_Save;
     private javax.swing.JMenuItem File_ExportToHTML;
+    private javax.swing.JMenuItem File_Save;
+    private javax.swing.JMenuItem addCategory;
     private javax.swing.JMenuItem addStudent;
     private javax.swing.JTable assignmentTable;
     private javax.swing.JLabel courseName;
@@ -277,8 +407,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private javax.swing.JButton goBackButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem newMenu;
+    private javax.swing.JMenu removeCategory;
     private javax.swing.JMenuItem removeStudent;
+    private javax.swing.JSeparator separator;
     private javax.swing.JMenu studentMenu;
     // End of variables declaration//GEN-END:variables
 }
