@@ -35,6 +35,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private MainFrame parent;
     private int assignmentIndex, categoryIndex, courseIndex;
     private boolean isTableSet = false;
+    public AddNewStudent addNewStudent;
     
     /**
      * Creates new form EditCourse
@@ -151,6 +152,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         assignmentTable = new javax.swing.JTable();
         goBackButton = new javax.swing.JButton();
         courseName = new javax.swing.JLabel();
+        
+        addNewStudent = new AddNewStudent(parent);
 
         fileMenu.setText("File");
 
@@ -183,6 +186,12 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         addStudent.setText("Add Student");
         studentMenu.add(addStudent);
+        addStudent.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    setAddNewStudentVisible();
+               }
+            });
 
         removeStudent.setText("Remove Student");
         studentMenu.add(removeStudent);
@@ -230,6 +239,24 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                 .addGap(6, 6, 6))
         );
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void setEditSelectedClassVisible() {
+        parent.setCurrentCourseWindow(this);
+        parent.setContentPane(this);
+        this.setPanelMenu();
+        addNewStudent.setVisible(false);
+        parent.currentCourseWindow.setVisible(true);
+        parent.pack();
+   }
+
+	public void setAddNewStudentVisible(){
+		parent.setContentPane(addNewStudent);
+		addNewStudent.setVisible(true);
+		parent.simpleMode.setVisible(false);
+		parent.addNewClass.setVisible(false);
+		parent.currentCourseWindow.setVisible(false);    	
+		parent.pack();
+	}
     
     private TableModelListener changedData() {
     	TableModelListener cha = new TableModelListener() {

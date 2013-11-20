@@ -36,7 +36,13 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     public MyCourse getNewCourse() {
         return newCourse;
     }
-
+    
+    public void setAddNewClass() {
+        parent.setContentPane(this);
+        parent.addNewClass.setVisible(true);
+        parent.pack();
+   }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -252,7 +258,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     	parseXML.saveXML(newCourse);
         parent.getCourses().add(newCourse);
         parent.simpleMode.addToRemoveMenu(i);
-        parent.setSimpleModeVisible();
+        parent.simpleMode.setSimpleModeVisible();
     }
 
     private boolean checkRepeatedCourse(MyCourse newCourse) {

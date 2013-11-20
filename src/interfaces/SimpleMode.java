@@ -61,7 +61,14 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         
     	parent.setJMenuBar(mainMenuBar);
     }
-
+    
+    public void setSimpleModeVisible() {
+        parent.simpleMode.setPanelMenu();
+        parent.setContentPane(this);
+        parent.simpleMode.setVisible(true);
+        parent.pack();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -202,7 +209,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     }
 
     private void jMenuItem_addNewClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
-    	parent.setAddNewClass();
+    	parent.addNewClass.setAddNewClass();
     }//GEN-LAST:event_jMenuItem_addNewClassActionPerformed
 
      private void courseActionPerformed(java.awt.event.ActionEvent evt, JMenuItem course) {   
@@ -228,7 +235,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         for (int i = 0; i < parent.courses.size(); i++) {
             if (parent.courses.get(i).getName().equals(courseInfo[0]) &&
                     parent.courses.get(i).getSection().equals(courseInfo[1])) {
-                parent.setEditSelectedClassVisible(parent.getCourseWindow(i));
+            	parent.getCourseWindow(i).setEditSelectedClassVisible();
                 break;
             }
         }

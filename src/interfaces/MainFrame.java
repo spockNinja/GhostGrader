@@ -27,12 +27,12 @@ import objects.MyCourse;
 @SuppressWarnings("serial")
 public class MainFrame extends javax.swing.JFrame {
 
-    public boolean isDetialMode = false;
+    public boolean isDetaillMode = false;
     
     public SimpleMode simpleMode;
     public AddNewClass addNewClass;
     public EditSelectedClass currentCourseWindow;
-    
+    public AddNewStudent addNewStudent;
     public ArrayList<MyCourse> courses;
     public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();;
     public MyCourse currentCourse;
@@ -60,7 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
         synchronize();    //Update all other JPanel classes
         pack();
     }
-    
+    /*
     public void setSimpleModeVisible() {
         simpleMode.setPanelMenu();
         setContentPane(simpleMode);
@@ -79,7 +79,7 @@ public class MainFrame extends javax.swing.JFrame {
         currentCourseWindow.setVisible(true);
         pack();
     }
-    
+    */
     public void setAddNewClass() {
         setContentPane(addNewClass);
         simpleMode.setVisible(false);
