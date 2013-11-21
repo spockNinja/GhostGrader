@@ -6,6 +6,10 @@
 
 package interfaces.editClass;
 
+import interfaces.MainFrame;
+import objects.AssignmentCategory;
+import objects.MyCourse;
+
 /**
  *
  * @author Lilong
@@ -13,10 +17,14 @@ package interfaces.editClass;
 public class CreateCategoryPanel extends javax.swing.JPanel {
 
     public String actionStatus = "";
+    public AssignmentCategory assignmentCategory;
+    
+    private EditSelectedClass parent;
     /**
      * Creates new form CreateCategoryPanel
      */
-    public CreateCategoryPanel() {
+    public CreateCategoryPanel(EditSelectedClass parent) {
+        this.parent = parent;
         initComponents();
     }
 
@@ -42,6 +50,7 @@ public class CreateCategoryPanel extends javax.swing.JPanel {
 
         addButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         addButton.setText("Add");
+        addButton.addActionListener(parent);
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -93,13 +102,12 @@ public class CreateCategoryPanel extends javax.swing.JPanel {
     }
     
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        actionStatus = "Add";
-        this.setVisible(false);
+        actionStatus = "addCategory";
+        parent.parent.setEditSelectedClassVisible(parent);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        actionStatus = evt.getActionCommand();
-        this.setVisible(false);
+        parent.parent.setEditSelectedClassVisible(parent);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
 
