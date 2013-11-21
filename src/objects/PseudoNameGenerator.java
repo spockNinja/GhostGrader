@@ -3,6 +3,8 @@ package objects;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
@@ -26,29 +28,28 @@ public class PseudoNameGenerator
     
     
 
-    public PseudoNameGenerator() {
-        try {
-            URL animalsPath = this.getClass().getResource("animals.txt");
-            URL colorsPath = this.getClass().getResource("colors.txt");
-            Scanner animalScanner = new Scanner(new File(animalsPath.toURI()));
-            Scanner colorScanner = new Scanner(new File(colorsPath.toURI()));
-        
-        while(animalScanner.hasNextLine()){
-            animals.add(animalScanner.next());
-        }
-        while(colorScanner.hasNextLine()){
-            String result = colorScanner.next();
-            result = result.replaceAll("(.)([A-Z])", "$1 $2");
-            colors.add(result);
-        }
-        animalScanner.close();
-        colorScanner.close();
-            
-		} catch(FileNotFoundException e) {
-			System.out.println(e);
-		} catch(URISyntaxException e){
-			System.out.println(e);
+    public PseudoNameGenerator() throws IOException {
+		Scanner animalScanner = null;
+		Scanner colorScanner = null;
+    	
+		try {
+			InputStream animalsPath = getClass().getResourceAsStream("animals.txt");
+			InputStream colorsPath = getClass().getResourceAsStream("colors.txt");
+			animalScanner = new Scanner(animalsPath);
+			colorScanner = new Scanner(colorsPath);
+		  
+		while(animalScanner.hasNextLine()){
+			animals.add(animalScanner.next());
 		}
+		while(colorScanner.hasNextLine()){
+			String result = colorScanner.next();
+			result = result.replaceAll("(.)([A-Z])", "$1 $2");
+			colors.add(result);
+		  }
+    	} finally {
+    		animalScanner.close();
+			colorScanner.close();
+    	}
     }
     
     public String generateName() {
