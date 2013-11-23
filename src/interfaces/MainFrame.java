@@ -58,47 +58,12 @@ public class MainFrame extends javax.swing.JFrame {
         currentCategoryWindow = new CreateCategoryPanel(currentCourseWindow);
     
         getWelcomeWindowLayOut();  //add all the panels into the main frame
-        setSimpleModeVisible();
+        simpleMode.setSimpleModeVisible();
         synchronize();    //Update all other JPanel classes
         pack();
     }
     
-    public void setSimpleModeVisible() {
-        simpleMode.setPanelMenu();
-        setContentPane(simpleMode);
-        simpleMode.setVisible(true);
-        addNewClass.setVisible(false);
-        currentCourseWindow.setVisible(false);
-        pack();
-    }
     
-    public void setEditSelectedClassVisible(EditSelectedClass selectedCourse) {
-        setCurrentCourseWindow(selectedCourse);
-        setCurrentCategoryWindow(selectedCourse.categoryWindow);
-        setContentPane(selectedCourse);
-        selectedCourse.setPanelMenu();
-        simpleMode.setVisible(false);
-        addNewClass.setVisible(false);
-        currentCourseWindow.setVisible(true);
-        pack();
-    }
-    
-    public void setAddNewClass() {
-        setContentPane(addNewClass);
-        simpleMode.setVisible(false);
-        currentCourseWindow.setVisible(false);
-        addNewClass.setVisible(true);
-        pack();
-    }
-    
-    public void setCreateCategoryVisible() {
-        setContentPane(currentCategoryWindow);
-        simpleMode.setVisible(false);
-        addNewClass.setVisible(false);
-        currentCourseWindow.setVisible(false);
-        currentCategoryWindow.setVisible(true);
-        pack();
-    }
     
     /**
      *  set which course needs to be edited
@@ -231,9 +196,5 @@ public class MainFrame extends javax.swing.JFrame {
                 GhostGrader.setVisible(true);
             }
         });
-    }
-
-    private int toInteger(String string_courseNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

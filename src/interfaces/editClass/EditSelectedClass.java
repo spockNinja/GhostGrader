@@ -20,14 +20,14 @@ import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.IOException;
 
-import objects.Assignment;
 import objects.AssignmentCategory;
 import io.Exporter;
 import io.parseXML;
+
 import java.util.ArrayList;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import objects.MyCourse;
 
 /**
  *
@@ -36,9 +36,7 @@ import objects.MyCourse;
 public class EditSelectedClass extends javax.swing.JPanel implements ActionListener{
 
     public CreateCategoryPanel categoryWindow  = new CreateCategoryPanel(this);
-    private Assignment assignment;
     public MainFrame parent;
-    private MyCourse refresh;
     private int assignmentIndex, categoryIndex, courseIndex;
     private boolean isTableSet = false;
     private ArrayList<AssignmentCategory> assignmentCategories = new ArrayList<AssignmentCategory>();
@@ -204,6 +202,14 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                         return true;
         }
     };
+    
+    public void setEditSelectedClassVisible() {
+        parent.setCurrentCourseWindow(this);
+        parent.setCurrentCategoryWindow(this.categoryWindow);
+        parent.setContentPane(this);
+        this.setPanelMenu();
+        parent.pack();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -270,23 +276,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar.add(studentMenu);
 
-        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        assignmentTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Student", "Grade"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        assignmentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        assignmentTable.setModel(model);
+        assignmentTable.getModel().addTableModelListener(changedData());
         jScrollPane1.setViewportView(assignmentTable);
 
         goBackButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
@@ -373,11 +365,11 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     private void goBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goBackButtonActionPerformed
         parseXML.saveXML(parent.courses.get(courseIndex));
-        parent.setSimpleModeVisible();
+        parent.simpleMode.setSimpleModeVisible();
     }//GEN-LAST:event_goBackButtonActionPerformed
 
     private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
-        parent.setCreateCategoryVisible();
+        categoryWindow.setCreateCategoryVisible();
     }//GEN-LAST:event_addCategoryActionPerformed
 
     private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {                                                  
