@@ -2,8 +2,6 @@ package io;
 
 import java.io.*;
 import java.util.Collections;
-import java.net.URL;
-import java.net.URISyntaxException;
 import freemarker.template.*;
 
 import objects.MyCourse;
@@ -17,15 +15,7 @@ public class Exporter
     private Configuration cfg = new Configuration();
 
     public Exporter() {
-        try {
-            URL dirPath = this.getClass().getResource("");
-            cfg.setDirectoryForTemplateLoading(new File(dirPath.toURI()));
-        }
-        catch (IOException e) {
-            System.out.println("Unable to find the resource directory.");
-        } catch (URISyntaxException e) {
-            System.out.println("Unable to find the resource directory.");
-        }
+        cfg.setClassForTemplateLoading(this.getClass(), "/res");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setObjectWrapper(ObjectWrapper.BEANS_WRAPPER);
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
