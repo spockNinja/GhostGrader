@@ -101,7 +101,7 @@ public class AssignmentCategory {
      */
     public int getAssignmentIndex(String name) {
         for (int i = 0; i < assignments.size(); i++) {
-        	if (name == assignments.get(i).getName()) return i;
+        	if (name.equals(assignments.get(i).getName())) return i;
         }
     	return -1;
     }
