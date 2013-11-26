@@ -299,7 +299,7 @@ public class MyCourse {
         //iterates through AssignmentCategor objects and performs name checking, 
         //returns index if successful else returns -1
         for (int i = 0; i < categories.size(); i++) {
-            if (name == categories.get(i).getName()) return i;
+            if (name.equals(categories.get(i).getName())) return i;
         }
         
         return -1;
@@ -417,7 +417,7 @@ public class MyCourse {
     public int getStudentIndex(String name) {
         //iterates through Student objects and performs name checking, returns index if successful else returns -1
         for (int i = 0; i < students.size(); i++) {
-            if (name == students.get(i).getFullName()) return i;
+            if (name.equals(students.get(i).getFullName())) return i;
         }
         
         return -1;
@@ -495,7 +495,7 @@ public class MyCourse {
         //iterates through GhostStudent objects and performs name checking, 
     	//returns index if successful else returns -1
         for (int i = 0; i < ghostStudents.size(); i++) {
-            if (name == ghostStudents.get(i).getPseudoName()) return i;
+            if (name.equals(ghostStudents.get(i).getPseudoName())) return i;
         }
         return -1;
     }
