@@ -15,10 +15,6 @@ public class TestHelper {
     public String[] studentList = {"Wanda Styles", "Peter Frampton", "Bobby Cox", "Linda Friendly",
                                     "Grinds Gears", "Super Cheeky", "Randy Baby", "Seth McFarlane",
                                     "Andy Dick", "Ten Isenuf"};
-    public String[] pns = {"Alice Blue", "Acid Green", "Brown", "Deep Champagne", "Donkey Brown",
-                            "Flame", "Han Purple", "Iceberg", "Kombu Green", "Ghost White",
-                            "Patriarch", "Phlox", "Light Coral", "Khaki", "Lavender Blush",
-                            "Medium Turquoise", "Navy", "Olive", "Plum", "Salmon"};
     public String[] courseNames = {"Physics", "Physics Lab", "Calculus I", "Calculus II", "Business", "Theatre"};
     public String[] courseID = {"PHY", "PHY", "MTH", "MTH", "BUS", "THR"};
     public int[] courseNumbers = {204, 204, 280, 281, 135, 110};
@@ -37,10 +33,9 @@ public class TestHelper {
     public int numberOfStudents = studentList.length;
     public int[][] grades = new int[numberOfAssignments][numberOfStudents];
     public DecimalFormat twoDecimals = new DecimalFormat("#.##");
-    public Random rng = new Random(SEED);
+    public Random rng = new Random();
     public MyCourse[] courses = new MyCourse[courseNames.length];
-    public PseudoNameGenerator pnGenerator = new PseudoNameGenerator();
-
+    
     public TestHelper() {
         generateTestCourses();
     }
@@ -97,21 +92,21 @@ public class TestHelper {
             //populate random grades
             for (int j = 0; j < homeworkAssignments.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    int randomGrade = (rng.nextInt() * assignmentValues[0]);
+                    int randomGrade = (rng.nextInt(assignmentValues[0]+1));
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(0).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
             }
             for (int j = 0; j < quizes.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    int randomGrade = (rng.nextInt() * assignmentValues[1]);
+                    int randomGrade = (rng.nextInt(assignmentValues[1]+1));
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(1).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
             }
             for (int j = 0; j < exams.length; j++) {
                 for (int k = 0; k < studentList.length; k++) {
-                    int randomGrade = (rng.nextInt() * assignmentValues[2]);
+                    int randomGrade = (rng.nextInt(assignmentValues[2]+1));
                     String pseudoName = courses[i].getStudent(k).getPseudoName();
                     courses[i].getAssignmentCategory(2).getAssignment(j).setGrade(pseudoName, randomGrade);
                 }
