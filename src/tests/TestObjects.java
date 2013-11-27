@@ -35,11 +35,6 @@ public class TestObjects {
         //removing an assignment by index which is out of bounds
  
     	//adding a student adds a ghostStudent
-    	for (int i = 0; i < 10; i++) {
-    		t.courses[0].addStudent(Integer.toString(i), Integer.toString(i));
-    	}
-    	for (int i = 0; i < t.courses[0].getNumberOfGhostStudents(); i++) {
-    		System.out.println(i + " " + t.courses[0].getGhostStudent(i).getPseudoName());
-    	}
+    	
     }
 }

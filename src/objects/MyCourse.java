@@ -1,6 +1,5 @@
 package objects;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +28,7 @@ public class MyCourse {
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
-    //private final PseudoNameGenerator pnGenerator;
+    private final PseudoNameGenerator pnGenerator;
     private DecimalFormat decimalFormat = new DecimalFormat("#.#");
     private boolean isGradingWeighted;
     private boolean isNewCourse = false;
@@ -40,9 +39,35 @@ public class MyCourse {
      * @param   cn  string denoting what the callee has named the course
      */
     public MyCourse(String cn) {
-        //this.pnGenerator = new PseudoNameGenerator();
+        this.pnGenerator = new PseudoNameGenerator();
         courseName = cn;
     }
+    
+    /**
+     * Takes an Assignment object as a parameter and assigns initial ghost grades
+     * to all of the ghost students based on the mean of the real students while
+     * keeping the ranges similar 
+     * 
+     * @param assignment
+     */
+    public void assignGhostGrades(Assignment assignment) {
+   	    String[] ghostNames = new String[ghostStudents.size()];
+    	populateNames(ghostNames);
+    	assignment.setGhostGrades(ghostNames);
+    }
+    
+    /**
+     * FIXME  what is going on here?
+     * 
+     * @param names
+     */
+    private void populateNames(String[] names) {
+    	System.out.println(names.length+"============");
+    	for (int i = 0; i < names.length; i++) {
+    		names[i] = ghostStudents.get(i).getPseudoName();
+    	}
+    }
+    
     
     /**
      * Set the name of the course.
@@ -359,7 +384,7 @@ public class MyCourse {
     	if (!nameAvailable(fn, ln)) {
     		return false;
     	}
-        //students.add(new Student(fn, ln, pnGenerator.generateName()));
+        students.add(new Student(fn, ln, pnGenerator.generateName()));
         
         Random generator = new Random();
         int ghostAmount = generator.nextInt(5) + 5; //Random number between 5 and 10
@@ -463,7 +488,7 @@ public class MyCourse {
      * Constructs a new GhostStudent object and adds it into the fakeStudents ArrayList structure
      */
     public void addGhostStudent() {
-        //ghostStudents.add(new GhostStudent(pnGenerator.generateName()));
+        ghostStudents.add(new GhostStudent(pnGenerator.generateName()));
     }
     
     /**
