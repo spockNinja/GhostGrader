@@ -6,9 +6,7 @@
 
 package interfaces.editClass;
 
-import interfaces.MainFrame;
 import objects.AssignmentCategory;
-import objects.MyCourse;
 
 /**
  *
@@ -26,6 +24,11 @@ public class CreateCategoryPanel extends javax.swing.JPanel {
     public CreateCategoryPanel(EditSelectedClass parent) {
         this.parent = parent;
         initComponents();
+    }
+    
+    public void setCreateCategoryVisible() {
+        parent.parent.setContentPane(this);
+        parent.parent.pack();
     }
 
     /**
@@ -103,11 +106,11 @@ public class CreateCategoryPanel extends javax.swing.JPanel {
     
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         actionStatus = "addCategory";
-        parent.parent.setEditSelectedClassVisible(parent);
+        parent.setEditSelectedClassVisible();
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        parent.parent.setEditSelectedClassVisible(parent);
+        parent.setEditSelectedClassVisible();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
 

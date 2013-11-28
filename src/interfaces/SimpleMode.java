@@ -9,9 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-
-import objects.MyCourse;
-
 /**
  *
  * @author Lilong
@@ -64,6 +61,12 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public void setPanelMenu() {
         
     	parent.setJMenuBar(mainMenuBar);
+    }
+    
+    public void setSimpleModeVisible() {
+        parent.simpleMode.setPanelMenu();
+        parent.setContentPane(this);
+        parent.pack();
     }
 
     /**
@@ -205,7 +208,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     }
 
     private void jMenuItem_addNewClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
-    	parent.setAddNewClass();
+    	parent.addNewClass.setAddNewClass();
     }//GEN-LAST:event_jMenuItem_addNewClassActionPerformed
 
      private void courseActionPerformed(java.awt.event.ActionEvent evt, JMenuItem course) {   
@@ -229,7 +232,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         for (int i = 0; i < parent.courses.size(); i++) {
         	String possibleText = createButtonText(i);
             if (possibleText.equals(courseToBeEdited)) {
-                parent.setEditSelectedClassVisible(parent.getCourseWindow(i));
+                parent.currentCourseWindow.setEditSelectedClassVisible();
                 break;
             }
         }
