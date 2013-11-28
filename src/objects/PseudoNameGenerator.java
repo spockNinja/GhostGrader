@@ -1,14 +1,12 @@
 package objects;
 
 import java.util.ArrayList;
-import java.io.FileNotFoundException;
-import java.io.File;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Random;
-import java.net.URL;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.io.IOException;
 
 /**
  * Write a description of class PseudoNameGenerator here.
@@ -27,12 +25,17 @@ public class PseudoNameGenerator
     
 
     public PseudoNameGenerator() {
-        try {
-            URL animalsPath = this.getClass().getResource("animals.txt");
-            URL colorsPath = this.getClass().getResource("colors.txt");
-            Scanner animalScanner = new Scanner(new File(animalsPath.toURI()));
-            Scanner colorScanner = new Scanner(new File(colorsPath.toURI()));
-        
+        InputStream animalsStream = this.getClass().getResourceAsStream("/res/animals.txt");
+        InputStream colorsStream = this.getClass().getResourceAsStream("/res/colors.txt");
+
+        if (animalsStream == null || colorsStream == null) {
+            System.err.println("Unable to load PseudoName text files.");
+            return;
+        }
+
+        Scanner animalScanner = new Scanner(animalsStream);
+        Scanner colorScanner = new Scanner(colorsStream);
+
         while(animalScanner.hasNextLine()){
             animals.add(animalScanner.next());
         }
@@ -43,12 +46,6 @@ public class PseudoNameGenerator
         }
         animalScanner.close();
         colorScanner.close();
-            
-		} catch(FileNotFoundException e) {
-			System.out.println(e);
-		} catch(URISyntaxException e){
-			System.out.println(e);
-		}
     }
     
     public String generateName() {
