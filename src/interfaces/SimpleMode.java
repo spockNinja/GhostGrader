@@ -39,15 +39,14 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     
     private void setup() {
     	for (int i = 0; i < parent.getCourses().size(); i++) {
+    		String buttonText = createButtonText(i);
             final JButton button = new JButton();
             button.setFont(new java.awt.Font("Georgia", 0, 14));
-            button.setText(parent.getCourses().get(i).getName() + 
-                            "-" + parent.getCourses().get(i).getSection());
+            button.setText(buttonText);
+            button.setActionCommand(buttonText);
             button.setVisible(true);
             parent.addCourseWindow(i);             //add new single course into arrlaylist 
                                                                             //of edit class windows
-            button.addActionListener(parent.courseWindows.get(i));          //at the same time add acction listener 
-                                                                            //to edit class windows
             button.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     buttonActionPerformed(evt);
@@ -55,6 +54,11 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             });
             courseButtons.add(button);
     	}
+    }
+    
+    private String createButtonText(int i) {
+		return parent.getCourses().get(i).getCourseID() + parent.getCourses().get(i).getCourseNumber() 
+				+ "-" + parent.getCourses().get(i).getSection() + " " + parent.getCourses().get(i).getSemester();
     }
     
     public void setPanelMenu() {
@@ -167,8 +171,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     }
     
     public void addToRemoveMenu(int i) {
-        final JMenuItem course = new JMenuItem(parent.courses.get(i).getName() + 
-                                                "-" + parent.courses.get(i).getSection());
+        final JMenuItem course = new JMenuItem(createButtonText(i));
         removeClass.add(course);
         course.addActionListener(this);
         course.addActionListener(new java.awt.event.ActionListener() {
@@ -207,10 +210,9 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
 
      private void courseActionPerformed(java.awt.event.ActionEvent evt, JMenuItem course) {   
          String courseName = evt.getActionCommand();
-         String[] courseInfo = courseName.split("-");
          for (int i = 0; i < parent.courses.size(); i++) {
-             if (courseInfo[0].equals(parent.courses.get(i).getName()) &&
-                     courseInfo[1].equals(parent.courses.get(i).getSection())) {
+        	 String possibleText = createButtonText(i);
+             if (possibleText.equals(courseName)) {
             	parent.courses.remove(i).getName(); //remove from course object
                 removeClass.remove(course); // rmove from the menu
                 indexOfCourse--;
@@ -224,10 +226,9 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
      */
     public void buttonActionPerformed(java.awt.event.ActionEvent evt) {
         courseToBeEdited = evt.getActionCommand(); //knowing which couse selected
-        String[] courseInfo = courseToBeEdited.split("-");
         for (int i = 0; i < parent.courses.size(); i++) {
-            if (parent.courses.get(i).getName().equals(courseInfo[0]) &&
-                    parent.courses.get(i).getSection().equals(courseInfo[1])) {
+        	String possibleText = createButtonText(i);
+            if (possibleText.equals(courseToBeEdited)) {
                 parent.setEditSelectedClassVisible(parent.getCourseWindow(i));
                 break;
             }
