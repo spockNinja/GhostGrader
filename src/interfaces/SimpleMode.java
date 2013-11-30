@@ -41,6 +41,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     
     public void refreshButtons() {
     	courseButtons.clear();
+    	parent.sortCourses();
     	
     	JButton addButton = new JButton();
     	addButton.setFont(new java.awt.Font("Georgia", 0, 14));
@@ -74,8 +75,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     }
     
     private String createButtonText(int i) {
-		return parent.getCourses().get(i).getCourseID() + parent.getCourses().get(i).getCourseNumber() 
-				+ "-" + parent.getCourses().get(i).getSection() + " " + parent.getCourses().get(i).getSemester();
+		return parent.getCourses().get(i).getIdentifier();
     }
     
     public void setPanelMenu() {

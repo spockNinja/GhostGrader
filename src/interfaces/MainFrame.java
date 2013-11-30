@@ -10,6 +10,7 @@ import interfaces.editClass.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -112,6 +113,16 @@ public class MainFrame extends javax.swing.JFrame {
         currentCategoryWindow.setVisible(false);
         currentAssignmentWindow.setVisible(true);
         pack();
+    }
+    
+    public void sortCourses() {
+    	for (int i = 0; i < courses.size(); i++) {
+    		for (int j = i; j < courses.size(); j++) {
+    			if (courses.get(i).getIdentifier().compareTo(courses.get(j).getIdentifier()) > 0) {
+    				Collections.swap(courses, i, j);
+    			}
+    		}
+    	}
     }
     
     /**

@@ -307,7 +307,7 @@ public class parseXML {
     
     public static void saveXML(MyCourse tmpCourse) {  	
     	
-    	String fileDir = "gradebooks" + File.separator + tmpCourse.getCourseID() + "-" + tmpCourse.getCourseNumber() + "-" + tmpCourse.getSection() + "-" + tmpCourse.getName() + "-" + tmpCourse.getSemester() + ".xml";
+    	String fileDir = "gradebooks" + File.separator + tmpCourse.getIdentifier() + ".xml";
     	
     	File file = new File(fileDir);
 		if (file.exists())

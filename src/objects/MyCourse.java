@@ -142,6 +142,16 @@ public class MyCourse {
     }
     
     /**
+     * Gets identifying name for file names and buttons in menu
+     * 
+     * @return		gets identifying string
+     */
+    public String getIdentifier() {
+    	return getCourseID() + getCourseNumber() + "-" + 
+    			getSection() + " " +  getSemester();
+    }
+    
+    /**
      * Get the name of the course
      * 
      * @return      get the name of the course
