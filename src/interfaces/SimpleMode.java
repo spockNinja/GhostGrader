@@ -9,13 +9,15 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 import objects.MyCourse;
 
 /**
  *
  * @author Lilong
- * @edut Bret
+ * @edut Brett
  */
 public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private MainFrame parent;
@@ -31,13 +33,26 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public SimpleMode(MainFrame frame) {
     	parent = frame;
         initComponents();
-        setup();
+        refreshButtons();
         getSimpleModeLayOut();
         setRemoveMenu();
     }
     
     
-    private void setup() {
+    public void refreshButtons() {
+    	courseButtons.clear();
+    	
+    	JButton addButton = new JButton();
+    	addButton.setFont(new java.awt.Font("Georgia", 0, 14));
+    	addButton.setText("Add New Course");
+    	addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_addNewClassActionPerformed(evt);
+            }
+        });
+    	addButton.setVisible(true);
+        courseButtons.add(addButton);
+    	
     	for (int i = 0; i < parent.getCourses().size(); i++) {
     		String buttonText = createButtonText(i);
             final JButton button = new JButton();
@@ -54,6 +69,8 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             });
             courseButtons.add(button);
     	}
+    	
+        getSimpleModeLayOut();
     }
     
     private String createButtonText(int i) {
@@ -142,17 +159,16 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public final void getSimpleModeLayOut() {
     	GroupLayout.ParallelGroup horizontal = layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING);
         GroupLayout.SequentialGroup vertical = layout.createSequentialGroup();
-        
+
         vertical.addContainerGap();
         
     	for (int i = 0; i < courseButtons.size(); i++) {
     		horizontal.addComponent(courseButtons.get(i), javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE);
     		vertical.addComponent(courseButtons.get(i));
-    		if (i != courseButtons.size() - 1)
-    			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+   			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
     	}
     	
-    	vertical.addContainerGap(40, Short.MAX_VALUE);
+        vertical.addContainerGap();
     	
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,7 +183,6 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vertical)
         );
-        courseButtons.clear();
     }
     
     public void addToRemoveMenu(int i) {
@@ -200,7 +215,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
 	    this.removeAll();
 	    parent.courseWindows.clear();
-	    setup();
+	    refreshButtons();
 	    getSimpleModeLayOut();
     }
 
