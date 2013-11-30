@@ -203,8 +203,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         	generateNewCourse();
             if (parent.addNewClass.actionStatus.equals("dataReady")) {
                 if (checkRepeatedCourse(getNewCourse())) {
-                    addNewCourse(parent.simpleMode.indexOfCourse);
-                    parent.simpleMode.indexOfCourse++;
+                    addNewCourse(parent.courses.size());
                 } else {
                     JOptionPane.showMessageDialog(null,
                             String.format("%33s",parent.addNewClass.getNewCourse().getName() + " " +
@@ -253,7 +252,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     	parseXML.saveXML(newCourse);
         parent.getCourses().add(newCourse);
         parent.simpleMode.refreshButtons();
-        parent.simpleMode.addToRemoveMenu(i);
+        parent.simpleMode.setRemoveMenu();
         parent.setSimpleModeVisible();
     }
 

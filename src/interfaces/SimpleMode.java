@@ -23,7 +23,6 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private MainFrame parent;
     private ArrayList<JButton> courseButtons = new ArrayList<JButton>();
     private javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    public int indexOfCourse; 
     
     public String courseToBeEdited;
     
@@ -185,7 +184,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         );
     }
     
-    public void addToRemoveMenu(int i) {
+    private void addToRemoveMenu(int i) {
         final JMenuItem course = new JMenuItem(createButtonText(i));
         removeClass.add(course);
         course.addActionListener(this);
@@ -197,14 +196,11 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         });
     }
     
-    private void setRemoveMenu() {
-    	for (indexOfCourse = 0; indexOfCourse < parent.courses.size(); indexOfCourse++) {
-    		addCourseToTable(indexOfCourse);
+    public void setRemoveMenu() {
+    	removeClass.removeAll();
+    	for (int i = 0; i < parent.courses.size(); i++) {
+    		addToRemoveMenu(i);
     	}
-    }
-    
-    public void addCourseToTable(int i) {
-        addToRemoveMenu(i);
     }
     
     /* 
@@ -230,7 +226,6 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
              if (possibleText.equals(courseName)) {
             	parent.courses.remove(i).getName(); //remove from course object
                 removeClass.remove(course); // rmove from the menu
-                indexOfCourse--;
                 i = parent.courses.size();
              }
          }
