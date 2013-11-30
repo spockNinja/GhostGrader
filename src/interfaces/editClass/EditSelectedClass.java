@@ -162,13 +162,14 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
             JMenu newCategory = new JMenu(categoryWindow.getCategoryName());
             menuBar.add(newCategory);
             getCategoryName(newCategory);
+            parent.courses.get(courseIndex).addAssignmentCategory(categoryWindow.getCategoryName()); // add new category
+                                                                                                     // to the course object
             //adding add new assignment button
             addNewAssignmentButton(newCategory);
 
             //adding remove assignment button
             removeAssignmentButton(newCategory);
-            parent.courses.get(courseIndex).addAssignmentCategory(categoryWindow.getCategoryName()); // add new category
-                                                                                                     // to the course object
+            
             addToRemoveCategoryMenu(newCategory); //add to remove category menu
             categoryWindow.actionStatus = "waiting";
         }
@@ -203,6 +204,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private void removeAssignmentButton(JMenu category) {
         final JMenu removeAssignmentButton = new JMenu("Remove");
         category.add(removeAssignmentButton, -1);
+        System.out.println(parent.courses.get(courseIndex).getNumberOfAssignmentCategories());
         int cateIndex = parent.courses.get(courseIndex).getAssignmentCategoryIndex(category.getText());
         for (int i = 0; i < parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getNumberOfAssignments(); i++) {
             final JMenuItem removeItem = new JMenuItem(parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignment(i).getName());
@@ -512,10 +514,13 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     private void removeAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
         String assignmentName = evt.getActionCommand();
-        System.out.println("test1");
-        int cateIndex = parent.courses.get(courseIndex).getAssignmentCategoryIndex(categorySelected);
+        int cateIndex = 0;
+        if (!categorySelected.equals("")) {
+            cateIndex = parent.courses.get(courseIndex).getAssignmentCategoryIndex(categorySelected);
+        } else {
+            cateIndex = parent.courses.get(courseIndex).getNumberOfAssignmentCategories() - 1;
+        }
         for (int i = 0; i < parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getNumberOfAssignments(); i++) {
-            System.out.println("test3");
             if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignment(i).getName().equals(assignmentName)) {
                 parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).removeAssignment(assignmentName); //remove from course object
                 refreshMenu(this);
