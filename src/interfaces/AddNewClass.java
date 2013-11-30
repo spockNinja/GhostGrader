@@ -208,7 +208,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
                     JOptionPane.showMessageDialog(null,
                             String.format("%33s",parent.addNewClass.getNewCourse().getName() + " " +
                             parent.addNewClass.getNewCourse().getSection() +
-                            " already exited"),"Error",
+                            " already exists."),"Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 parent.addNewClass.actionStatus = "waiting";
@@ -257,9 +257,8 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     }
 
     private boolean checkRepeatedCourse(MyCourse newCourse) {
-        for (int t = 0; t < parent.courses.size(); t++) {
-            if (parent.courses.get(t).getName().equals(newCourse.getName()) &&
-            		parent.courses.get(t).getSection().equals(newCourse.getSection())) {
+        for (int i = 0; i < parent.courses.size(); i++) {
+            if (parent.courses.get(i).getIdentifier().equals(newCourse.getIdentifier())) {
                 return false;
             }
         }
