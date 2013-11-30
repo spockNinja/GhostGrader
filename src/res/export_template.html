@@ -21,8 +21,11 @@
             <div class="row">
                 <div class="col-md-12" id="grades">
                     <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#summary" data-toggle="tab"><h4>Summary</h4></a>
+                        </li>
                         <#list categories as category>
-                        <li <#if category_index == 0>class="active"</#if>>
+                        <li>
                             <a href="#${category.name}" data-toggle="tab">
                                 <h4>${category.name}</h4>
                             </a>
@@ -30,8 +33,29 @@
                         </#list>
                     </ul>
                     <div class="tab-content">
+                        <div class="tab-pane active" id="summary">
+                            <table class="table table-striped table-bordered table-condensed table-hover">
+                                <thead>
+                                    <th>Student</th>
+                                    <th>Current Grade</th>
+                                    <th>Best Possible Grade</th>
+                                    <th>Worst Possible Grade</th>
+                                </thead>
+                                <tbody>
+                                    <#list students as student>
+                                    <#assign pn=student.pseudoName>
+                                    <tr>
+                                        <td>${pn}</td>
+                                        <td>CG here</td>
+                                        <td>BPG here</td>
+                                        <td>WPG here</td>
+                                    </tr>
+                                    </#list>
+                                </tbody>
+                            </table>
+                        </div>
                         <#list categories as category>
-                        <div class="tab-pane <#if category_index == 0>active</#if>" id="${category.name}">
+                        <div class="tab-pane" id="${category.name}">
                             <table class="table table-striped table-bordered table-condensed table-hover">
                                 <thead>
                                     <th>Student</th>
