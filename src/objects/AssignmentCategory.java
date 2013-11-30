@@ -60,6 +60,22 @@ public class AssignmentCategory {
     public List<Assignment> getAssignments() {
         return assignments;    
     }
+
+    /**
+     * Computes the total points gained by a student for this category
+     * 
+     * @param pseudoName:   The pseudo name of the student to find grade info for
+     * @return              The overall average for the assignment category
+     */
+    public Integer getCategoryTotalGradeForStudent(String pseudoName){
+        Integer studentTotal = 0;
+
+        for (int i = 0; i < assignments.size(); i++) {
+            studentTotal += assignments.get(i).getGrade(pseudoName);
+        }
+
+        return studentTotal;
+    }
     
     /**
      * Fetches the average grades for an assignment category based only

@@ -62,6 +62,19 @@ public class Assignment {
     	double maximumPoints = getMaximumPoints(students);
     	return ((studentPoints / maximumPoints) * 100);
     }
+
+    /**
+     * Fetches the average point value for one assignment for students only
+     * does not ascertain the ghost students scores at all
+     * 
+     * @param students	List of Student objects
+     * @return			the average grade for the assignment
+     */
+    public double getAssignmentAveragePoints(List<Student> students){
+    	double studentPoints = getTotalStudentPoints(students);
+    	return (studentPoints / students.size());
+    }
+
     public int getTotalStudentPoints(List<Student> students) {
     	int total = 0;
     	for (int i = 0; i < students.size(); i++) {
