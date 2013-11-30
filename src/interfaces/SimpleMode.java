@@ -1,5 +1,7 @@
 package interfaces;
 
+import io.parseXML;
+
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -224,9 +226,10 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
          for (int i = 0; i < parent.courses.size(); i++) {
         	 String possibleText = createButtonText(i);
              if (possibleText.equals(courseName)) {
-            	parent.courses.remove(i).getName(); //remove from course object
-                removeClass.remove(course); // rmove from the menu
-                i = parent.courses.size();
+            	 parseXML.archiveCourse(parent.courses.remove(i));
+            	 refreshButtons();
+            	 setRemoveMenu();
+            	 return;
              }
          }
      }
