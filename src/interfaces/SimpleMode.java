@@ -107,7 +107,8 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         saveAll.setText("Save All");
         saveAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //FIXME Method which saves every course here
+                for (int i = 0; i < parent.courseWindows.size(); i++)
+                	parent.courseWindows.get(i).saveCurrentState();
             }
         });
         fileMenu.add(saveAll);

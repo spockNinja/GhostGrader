@@ -489,6 +489,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
  					   .getAssignment(assignmentIndex)
  					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 
  							     Integer.parseInt(model.getValueAt(r, 2).toString()));
+ 					   saveCurrentState();
  				   } catch (NumberFormatException changeback) {
  					   if (message.isEmpty()) message = "INVALID INPUT:\n" + model.getValueAt(r, 2).toString()
  							   							+ " is not a valid integer number.";
