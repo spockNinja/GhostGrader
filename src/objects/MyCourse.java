@@ -25,6 +25,8 @@ public class MyCourse {
     private String roomID;
     private String meetingTime;
     private String semester;
+    private Integer lastAssignmentIndex;
+    private Integer lastCategoryIndex;
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
@@ -41,6 +43,8 @@ public class MyCourse {
     public MyCourse(String cn) {
         this.pnGenerator = new PseudoNameGenerator();
         courseName = cn;
+        lastAssignmentIndex = null;
+        lastCategoryIndex = null;
     }
     
     /**
@@ -139,6 +143,24 @@ public class MyCourse {
      */
     public void setSemester(String sm) {
         semester = sm;
+    }
+    
+    /**
+     * Sets last assignment edited
+     * 
+     * @param   i	index of last assignment
+     */
+    public void setLastAssignmentIndex(Integer i) {
+        lastAssignmentIndex = i;
+    }
+    
+    /**
+     * Sets last category edited
+     * 
+     * @param   i	index of last category
+     */
+    public void setLastCategoryIndex(Integer i) {
+        lastCategoryIndex = i;
     }
     
     /**
@@ -284,6 +306,24 @@ public class MyCourse {
      */
     public String getSemester() {
         return semester;
+    }
+    
+    /**
+     * Get index of last assignment edited
+     * 
+     * @return      last assignment index
+     */
+    public Integer getLastAssignmentIndex() {
+        return lastAssignmentIndex;
+    }
+    
+    /**
+     * Get index of last category edited
+     * 
+     * @return      last category index
+     */
+    public Integer getLastCategoryIndex() {
+        return lastCategoryIndex;
     }
     
     /**

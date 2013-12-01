@@ -105,6 +105,22 @@ public class parseXML {
             
             course.setSemester(semesterNode.getFirstChild().getNodeValue());
             
+            /* ------------------------------
+             * Section for index
+             * -------------------------------*/
+            
+            NodeList indexList = doc.getElementsByTagName("index");
+            Node assignmentNode = indexList.item(0);
+            Node categoryNode = indexList.item(1);
+            if (assignmentNode.getFirstChild().getNodeValue().equals("null") || categoryNode.getFirstChild().getNodeValue().equals("null")) {
+            	course.setLastAssignmentIndex(null);
+            	course.setLastCategoryIndex(null);
+            }
+            else {
+                course.setLastAssignmentIndex(Integer.parseInt(assignmentNode.getFirstChild().getNodeValue()));
+                course.setLastCategoryIndex(Integer.parseInt(categoryNode.getFirstChild().getNodeValue()));
+            }
+            
         //Beyond this point are all catches
         }catch (SAXParseException err)
         {
@@ -336,8 +352,18 @@ public class parseXML {
     	    writer.write("\t<section>" + tmpCourse.getSection() + "</section>\n");
     	    writer.write("\t<building>" + tmpCourse.getBuilding() + "</building>\n");
     	    writer.write("\t<roomID>" + tmpCourse.getRoomID() + "</roomID>\n");
-    	    writer.write("\t<meetingTime>" + tmpCourse.getMeetingTime() + "</meetingTime>\n\n");
-    	    writer.write("\t<semester>" + tmpCourse.getSemester() + "</semester>\n\n");
+    	    writer.write("\t<meetingTime>" + tmpCourse.getMeetingTime() + "</meetingTime>\n");
+    	    writer.write("\t<semester>" + tmpCourse.getSemester() + "</semester>\n");
+    	    if (tmpCourse.getLastAssignmentIndex() != null && tmpCourse.getLastCategoryIndex() != null
+    	    		&& tmpCourse.getLastCategoryIndex() < tmpCourse.getNumberOfAssignmentCategories()
+    	    		&& tmpCourse.getLastAssignmentIndex() < tmpCourse.getCategories().get(tmpCourse.getLastCategoryIndex()).getNumberOfAssignments()) {
+	    	    writer.write("\t<index>" + tmpCourse.getLastAssignmentIndex() + "</index>\n");
+	    	    writer.write("\t<index>" + tmpCourse.getLastCategoryIndex() + "</index>\n\n");
+    	    }
+    	    else {
+	    	    writer.write("\t<index>null</index>\n");
+	    	    writer.write("\t<index>null</index>\n\n");
+    	    }
     	    
     	    //Add student information
             for (int i = 0; i < tmpCourse.getNumberOfStudents(); i++) {
