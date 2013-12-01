@@ -51,6 +51,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     public int assignmentIndex, categoryIndex, courseIndex;
     private boolean isTableSet = false;
     public String categorySelected = ""; 
+    public AddNewStudent studentWindow;
     
     /**
      * Creates new form EditCourse
@@ -62,6 +63,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         courseIndex = currentCourseInd;
         assignmentWindow = new AddAssignmentPanel(this);
         categoryWindow  = new CreateCategoryPanel(this);
+        studentWindow = new AddNewStudent(this);
         initComponents();
         
         if (parent.courses.get(courseIndex).getLastAssignmentIndex() != null && parent.courses.get(courseIndex).getLastCategoryIndex() != null) {
@@ -124,7 +126,6 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private void loadTable(int i, int j) {
 			categoryIndex = i;
 			assignmentIndex  = j;
-			isTableSet = false;
 			populateTable();
 			courseName.setText(parent.courses.get(courseIndex).getName() + " " + 
 			parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName());
@@ -142,7 +143,22 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     
-    private void populateTable() {
+    public void populateTable() {
+    	if (parent.courses.get(courseIndex).getNumberOfAssignmentCategories() == 0)
+    		return;
+    	
+    	boolean hasAssignments = false;
+    	
+    	for (int i = 0; i <parent.courses.get(courseIndex).getNumberOfAssignmentCategories(); i++) {
+    		if (parent.courses.get(courseIndex).getAssignmentCategory(i).getAssignments().size() == 0)
+    			continue;
+    		else
+    			hasAssignments = true;
+    	}
+    	if (!hasAssignments)
+    		return;
+    	
+		isTableSet = false;
     	for (int i = model.getRowCount()-1; i >= 0; i--) {
     		model.removeRow(i);
     	}
@@ -155,10 +171,15 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     				.getAssignment(assignmentIndex)
     				.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName())});
     	}
-    	
     	isTableSet = true;
     }
     
+    public void setStudentWindowVisible() {
+        parent.setContentPane(studentWindow);
+        this.setVisible(false);
+        studentWindow.setVisible(true);
+        parent.pack();
+    }    
     public void setPanelMenu() {
     	parent.setJMenuBar(menuBar);
     }
@@ -342,6 +363,11 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         studentMenu.setText("Student");
 
         addStudent.setText("Add Student");
+        addStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addStudentActionPerformed(evt);
+            }
+        });
         studentMenu.add(addStudent);
 
         removeStudent.setText("Remove Student");
@@ -365,7 +391,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         });
 
         courseName.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        courseName.setText("jLabel1");
+        courseName.setText(parent.courses.get(courseIndex).getName());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -562,9 +588,12 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }//GEN-LAST:event_goBackButtonActionPerformed
 
     private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
-    	saveCurrentState();
         parent.setCreateCategoryVisible();
     }//GEN-LAST:event_addCategoryActionPerformed
+    
+    private void addStudentActionPerformed(java.awt.event.ActionEvent evt) {
+    	setStudentWindowVisible();
+    }
    
     private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {
     	saveCurrentState();

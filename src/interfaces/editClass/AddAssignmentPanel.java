@@ -32,7 +32,6 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
         
         initComponents();
         setTable();
-        
     }
 
     /**
@@ -137,7 +136,6 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        isCorrectedFormat = true;
         if (!parent.parent.currentAssignmentWindow.table.isEditing() && isInteger()) {
             for (int i = 0; i < parent.parent.currentAssignmentWindow.table.getRowCount(); i++) {
                 if (isNullAndEmpty(i)
@@ -161,11 +159,9 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
             actionStatus = "addAssignment";
             parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
         } else {
-            if (isCorrectedFormat) {
-                JOptionPane.showMessageDialog(null,
-                    String.format("%33s","Selecting cell is editing, complete editing before save changes"),"Error",
-                    JOptionPane.ERROR_MESSAGE);
-            }
+        	JOptionPane.showMessageDialog(null,
+        			String.format("%33s","Selecting cell is editing, complete editing before save changes"),"Error",
+        			JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_addButtonActionPerformed
