@@ -1,5 +1,7 @@
 package interfaces;
 
+import io.parseXML;
+
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -9,19 +11,20 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 import objects.MyCourse;
 
 /**
  *
  * @author Lilong
- * @edut Bret
+ * @edut Brett
  */
 public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private MainFrame parent;
     private ArrayList<JButton> courseButtons = new ArrayList<JButton>();
     private javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    public int indexOfCourse; 
     
     public String courseToBeEdited;
     
@@ -31,13 +34,27 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public SimpleMode(MainFrame frame) {
     	parent = frame;
         initComponents();
-        setup();
+        refreshButtons();
         getSimpleModeLayOut();
         setRemoveMenu();
     }
     
     
-    private void setup() {
+    public void refreshButtons() {
+    	courseButtons.clear();
+    	parent.sortCourses();
+    	
+    	JButton addButton = new JButton();
+    	addButton.setFont(new java.awt.Font("Georgia", 0, 14));
+    	addButton.setText("Add New Course");
+    	addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_addNewClassActionPerformed(evt);
+            }
+        });
+    	addButton.setVisible(true);
+        courseButtons.add(addButton);
+    	
     	for (int i = 0; i < parent.getCourses().size(); i++) {
     		String buttonText = createButtonText(i);
             final JButton button = new JButton();
@@ -54,11 +71,12 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             });
             courseButtons.add(button);
     	}
+    	
+        getSimpleModeLayOut();
     }
     
     private String createButtonText(int i) {
-		return parent.getCourses().get(i).getCourseID() + parent.getCourses().get(i).getCourseNumber() 
-				+ "-" + parent.getCourses().get(i).getSection() + " " + parent.getCourses().get(i).getSemester();
+		return parent.getCourses().get(i).getIdentifier();
     }
     
     public void setPanelMenu() {
@@ -142,17 +160,16 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public final void getSimpleModeLayOut() {
     	GroupLayout.ParallelGroup horizontal = layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING);
         GroupLayout.SequentialGroup vertical = layout.createSequentialGroup();
-        
+
         vertical.addContainerGap();
         
     	for (int i = 0; i < courseButtons.size(); i++) {
     		horizontal.addComponent(courseButtons.get(i), javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE);
     		vertical.addComponent(courseButtons.get(i));
-    		if (i != courseButtons.size() - 1)
-    			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+   			vertical.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
     	}
     	
-    	vertical.addContainerGap(40, Short.MAX_VALUE);
+        vertical.addContainerGap();
     	
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -167,10 +184,9 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(vertical)
         );
-        courseButtons.clear();
     }
     
-    public void addToRemoveMenu(int i) {
+    private void addToRemoveMenu(int i) {
         final JMenuItem course = new JMenuItem(createButtonText(i));
         removeClass.add(course);
         course.addActionListener(this);
@@ -182,14 +198,11 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         });
     }
     
-    private void setRemoveMenu() {
-    	for (indexOfCourse = 0; indexOfCourse < parent.courses.size(); indexOfCourse++) {
-    		addCourseToTable(indexOfCourse);
+    public void setRemoveMenu() {
+    	removeClass.removeAll();
+    	for (int i = 0; i < parent.courses.size(); i++) {
+    		addToRemoveMenu(i);
     	}
-    }
-    
-    public void addCourseToTable(int i) {
-        addToRemoveMenu(i);
     }
     
     /* 
@@ -200,7 +213,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     public void actionPerformed(java.awt.event.ActionEvent evt) {
 	    this.removeAll();
 	    parent.courseWindows.clear();
-	    setup();
+	    refreshButtons();
 	    getSimpleModeLayOut();
     }
 
@@ -213,10 +226,10 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
          for (int i = 0; i < parent.courses.size(); i++) {
         	 String possibleText = createButtonText(i);
              if (possibleText.equals(courseName)) {
-            	parent.courses.remove(i).getName(); //remove from course object
-                removeClass.remove(course); // rmove from the menu
-                indexOfCourse--;
-                i = parent.courses.size();
+            	 parseXML.archiveCourse(parent.courses.remove(i));
+            	 refreshButtons();
+            	 setRemoveMenu();
+            	 return;
              }
          }
      }

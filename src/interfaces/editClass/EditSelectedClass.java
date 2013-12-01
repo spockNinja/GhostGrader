@@ -8,12 +8,14 @@ package interfaces.editClass;
 
 import interfaces.MainFrame;
 
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
@@ -21,9 +23,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import io.Exporter;
 import io.parseXML;
@@ -61,14 +67,27 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         	setup();
     }
     
-    private void setup() {
+    @SuppressWarnings("unchecked")
+	private void setup() {
         model = (DefaultTableModel)assignmentTable.getModel();
+    	TableRowSorter sorter = new TableRowSorter(model);
+    	sorter.setComparator(0, new Comparator(){
+            @Override
+            public int compare(Object arg0, Object arg1) {
+                return arg0.toString().compareTo(arg1.toString());
+            }
+    	});
         if (parent.courses.get(courseIndex) != null)
         	courseName.setText(parent.courses.get(courseIndex).getName() 
         			+ "-" + parent.courses.get(courseIndex).getSection());
         if (parent.courses.get(courseIndex).getNumberOfAssignmentCategories() > 0) {
             loadCourseData();
         }
+        ArrayList sortKeys = new ArrayList();
+        sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+        sorter.setSortKeys(sortKeys);
+        assignmentTable.setRowSorter(sorter);
+        sorter.sort();
     }
     
     private void loadCourseData() {
@@ -131,6 +150,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     				.getAssignment(assignmentIndex)
     				.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName())});
     	}
+    	
     	isTableSet = true;
     }
     
@@ -204,7 +224,6 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private void removeAssignmentButton(JMenu category) {
         final JMenu removeAssignmentButton = new JMenu("Remove");
         category.add(removeAssignmentButton, -1);
-        System.out.println(parent.courses.get(courseIndex).getNumberOfAssignmentCategories());
         int cateIndex = parent.courses.get(courseIndex).getAssignmentCategoryIndex(category.getText());
         for (int i = 0; i < parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getNumberOfAssignments(); i++) {
             final JMenuItem removeItem = new JMenuItem(parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignment(i).getName());

@@ -307,7 +307,7 @@ public class parseXML {
     
     public static void saveXML(MyCourse tmpCourse) {  	
     	
-    	String fileDir = "gradebooks" + File.separator + tmpCourse.getCourseID() + "-" + tmpCourse.getCourseNumber() + "-" + tmpCourse.getSection() + "-" + tmpCourse.getName() + "-" + tmpCourse.getSemester() + ".xml";
+    	String fileDir = "gradebooks" + File.separator + tmpCourse.getIdentifier() + ".xml";
     	
     	File file = new File(fileDir);
 		if (file.exists())
@@ -394,6 +394,27 @@ public class parseXML {
     		   System.out.println(e);
     	   }
     	}
+    }
+    
+    public static Boolean archiveCourse(MyCourse tmpCourse) {
+    	String fileDir = "gradebooks" + File.separator + tmpCourse.getIdentifier() + ".xml";
+    	String desiredDir = "gradebooks" + File.separator + "archive" + File.separator + tmpCourse.getIdentifier() + ".xml";
+    	
+    	File desired = new File (desiredDir);
+    	if (desired.exists())
+    		desired.delete();
+    	
+    	try {
+	    	File file = new File(fileDir);
+	    	if (file.renameTo(desired))
+	    		return true;
+	    	else
+	    		return false;
+	    	
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return false;    	
     }
     /*
     public static void main(String argv[]) {
