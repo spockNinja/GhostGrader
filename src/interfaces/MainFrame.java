@@ -48,14 +48,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void SetUp() {
         this.setLocation(400, 300);
         preloadGradebooks();
-        currentCourseWindow = new EditSelectedClass(this, -1);
         simpleMode = new SimpleMode(this);
         addNewClass = new AddNewClass(this);     
         if (courseWindows.size() > 0) {
             currentCourseWindow = courseWindows.get(0);
-        }
-        else {
-            currentCourseWindow = new EditSelectedClass(this, -1);
         }
         currentCategoryWindow = new CreateCategoryPanel(currentCourseWindow);
         currentAssignmentWindow = new AddAssignmentPanel(currentCourseWindow);
