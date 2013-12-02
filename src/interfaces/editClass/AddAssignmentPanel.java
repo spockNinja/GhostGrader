@@ -32,7 +32,6 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
         
         initComponents();
         setTable();
-        
     }
 
     /**
@@ -137,45 +136,42 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
     }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        isCorrectedFormat = true;
-        if (!parent.parent.currentAssignmentWindow.table.isEditing() && isInteger()) {
-            for (int i = 0; i < parent.parent.currentAssignmentWindow.table.getRowCount(); i++) {
-                if (isNullAndEmpty(i)
-                        && i < parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
-                    int worth = Integer.valueOf(parent.parent.currentAssignmentWindow.table.getValueAt(i, 1).toString());
-                    parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
-                            .getAssignment(i).setName((String)parent.parent.currentAssignmentWindow.table.getValueAt(i, 0));
-                    parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
-                            .getAssignment(i).setWorth(worth);
-                }
-
-               if (isNullAndEmpty(i)
-                        && i >= parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
-                    int worth = Integer.valueOf(parent.parent.currentAssignmentWindow.table.getValueAt(i, 1).toString());
-                    parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
-                            .addAssignment((String)parent.parent.currentAssignmentWindow.table.getValueAt(i, 0) , worth);
-                }
+        if (table.isEditing()) {
+        	table.getCellEditor().stopCellEditing();
+        }
+        if (!isInteger())
+        	return;
+        for (int i = 0; i < parent.assignmentWindow.table.getRowCount(); i++) {
+            if (isNullAndEmpty(i)
+                    && i < parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
+                int worth = Integer.valueOf(parent.assignmentWindow.table.getValueAt(i, 1).toString());
+                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
+                        .getAssignment(i).setName((String)parent.assignmentWindow.table.getValueAt(i, 0));
+                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
+                        .getAssignment(i).setWorth(worth);
+                parent.refreshMenu(parent);
             }
-            parent.parent.currentAssignmentWindow.table.clearSelection();
-            parseXML.saveXML(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex));
-            actionStatus = "addAssignment";
-            parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
-        } else {
-            if (isCorrectedFormat) {
-                JOptionPane.showMessageDialog(null,
-                    String.format("%33s","Selecting cell is editing, complete editing before save changes"),"Error",
-                    JOptionPane.ERROR_MESSAGE);
+
+           if (isNullAndEmpty(i)
+                    && i >= parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
+                int worth = Integer.valueOf(parent.assignmentWindow.table.getValueAt(i, 1).toString());
+                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
+                        .addAssignment((String)parent.assignmentWindow.table.getValueAt(i, 0) , worth);
             }
         }
+        parent.assignmentWindow.table.clearSelection();
+        parseXML.saveXML(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex));
+        actionStatus = "addAssignment";
+        parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
 
     }//GEN-LAST:event_addButtonActionPerformed
 
     private boolean isInteger() {
-        for (int k = 0; k < parent.parent.currentAssignmentWindow.table.getRowCount(); k++) {
-            if (parent.parent.currentAssignmentWindow.table.getValueAt(k, 0) != null
-                    && !parent.parent.currentAssignmentWindow.table.getValueAt(k, 0).equals("")) {
+        for (int k = 0; k < parent.assignmentWindow.table.getRowCount(); k++) {
+            if (parent.assignmentWindow.table.getValueAt(k, 0) != null
+                    && !parent.assignmentWindow.table.getValueAt(k, 0).equals("")) {
                 try {
-                    String s = parent.parent.currentAssignmentWindow.table.getValueAt(k, 1).toString();
+                    String s = parent.assignmentWindow.table.getValueAt(k, 1).toString();
                     Integer.parseInt(s);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null,
@@ -191,58 +187,46 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
     }
     
     private boolean isNullAndEmpty(int i) {
-        if (parent.parent.currentAssignmentWindow.table.getValueAt(i, 0) != null
-                && parent.parent.currentAssignmentWindow.table.getValueAt(i, 1) != null
-                && !parent.parent.currentAssignmentWindow.table.getValueAt(i, 0).equals("")
-                && !parent.parent.currentAssignmentWindow.table.getValueAt(i, 0).equals("")) {
+        if (parent.assignmentWindow.table.getValueAt(i, 0) != null
+                && parent.assignmentWindow.table.getValueAt(i, 1) != null
+                && !parent.assignmentWindow.table.getValueAt(i, 0).equals("")
+                && !parent.assignmentWindow.table.getValueAt(i, 0).equals("")) {
             return true;
         } else {
-            return false;
-        }
-    }
-    
-    private boolean isNull(int i) {
-        if (parent.parent.currentAssignmentWindow.table.getValueAt(i, 0) != null
-        && parent.parent.currentAssignmentWindow.table.getValueAt(i, 1) != null) {
-            return true;
-        }   else {
             return false;
         }
     }
     
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if (!parent.parent.currentAssignmentWindow.table.isEditing()) {
-            parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
-        } else {
-            JOptionPane.showMessageDialog(null,
-                String.format("%33s","Selecting cell is editing, complete editing before cancel"),"Error",
-                JOptionPane.ERROR_MESSAGE);
+        if (parent.assignmentWindow.table.isEditing()) {
+        	table.getCellEditor().stopCellEditing();
         }
+        parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        for (int i = 0; i < parent.parent.currentAssignmentWindow.table.getRowCount(); i++) {
-            if (parent.parent.currentAssignmentWindow.table.getValueAt(i, 0) != null
-                    || parent.parent.currentAssignmentWindow.table.getValueAt(i, 1) != null) {
-                parent.parent.currentAssignmentWindow.table.setValueAt(null, i, 0);
-                parent.parent.currentAssignmentWindow.table.setValueAt(null, i, 1);
+        for (int i = 0; i < parent.assignmentWindow.table.getRowCount(); i++) {
+            if (parent.assignmentWindow.table.getValueAt(i, 0) != null
+                    || parent.assignmentWindow.table.getValueAt(i, 1) != null) {
+                parent.assignmentWindow.table.setValueAt(null, i, 0);
+                parent.assignmentWindow.table.setValueAt(null, i, 1);
             }
         }
         
-        parent.parent.currentCourseWindow.changeTabActionsToEnterActions(parent.parent.currentAssignmentWindow.table);
+        parent.parent.currentCourseWindow.changeTabActionsToEnterActions(parent.assignmentWindow.table);
         categoryIndex = parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategoryIndex(parent.parent.currentCourseWindow.categorySelected);
-        parent.parent.currentAssignmentWindow.courseInfo.setText(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getName() + "-" +
+        parent.assignmentWindow.courseInfo.setText(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getName() + "-" +
                             parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getSection() + " " + 
                             parent.parent.currentCourseWindow.categorySelected);
         for (int i = 0; i < parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments(); i++) {
             String assignmentName = parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getAssignment(i).getName();
             int assignmentGrade = parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getAssignment(i).getWorth();
-            parent.parent.currentAssignmentWindow.table.setValueAt(assignmentName, i, 0);
-            parent.parent.currentAssignmentWindow.table.setValueAt(assignmentGrade, i, 1);
-            parent.parent.currentAssignmentWindow.model.addRow(new Object[]{null, null});
+            parent.assignmentWindow.table.setValueAt(assignmentName, i, 0);
+            parent.assignmentWindow.table.setValueAt(assignmentGrade, i, 1);
+            parent.assignmentWindow.model.addRow(new Object[]{null, null});
         }
-        parent.parent.currentAssignmentWindow.categoryIndex = categoryIndex;
+        parent.assignmentWindow.categoryIndex = categoryIndex;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
