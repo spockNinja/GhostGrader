@@ -102,7 +102,7 @@ public class CreateCategoryPanel extends javax.swing.JPanel {
     }
     
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        actionStatus = "addCategory";
+    	parent.createNewCategory();
         parent.parent.setEditSelectedClassVisible(parent);
     }//GEN-LAST:event_addButtonActionPerformed
 
