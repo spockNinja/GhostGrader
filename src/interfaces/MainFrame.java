@@ -33,8 +33,6 @@ public class MainFrame extends javax.swing.JFrame {
     public SimpleMode simpleMode;
     public AddNewClass addNewClass;
     public EditSelectedClass currentCourseWindow;
-    public CreateCategoryPanel currentCategoryWindow;
-    public AddAssignmentPanel currentAssignmentWindow;
     
     public ArrayList<MyCourse> courses;
     public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();;
@@ -52,11 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
         addNewClass = new AddNewClass(this);     
         if (courseWindows.size() > 0) {
             currentCourseWindow = courseWindows.get(0);
-        }
-        currentCategoryWindow = new CreateCategoryPanel(currentCourseWindow);
-        currentAssignmentWindow = new AddAssignmentPanel(currentCourseWindow);
-    
-        getWelcomeWindowLayOut();  //add all the panels into the main frame
+        }    
         setSimpleModeVisible();
         synchronize();    //Update all other JPanel classes
         pack();
@@ -68,14 +62,13 @@ public class MainFrame extends javax.swing.JFrame {
         simpleMode.setVisible(true);
         addNewClass.setVisible(false);
         currentCourseWindow.setVisible(false);
-        currentAssignmentWindow.setVisible(false);
         pack();
     }
     
     public void setEditSelectedClassVisible(EditSelectedClass selectedCourse) {
         setCurrentCourseWindow(selectedCourse);
-        setCurrentCategoryWindow(selectedCourse.categoryWindow);
         setContentPane(selectedCourse);
+        selectedCourse.populateTable();
         selectedCourse.setPanelMenu();
         simpleMode.setVisible(false);
         addNewClass.setVisible(false);
@@ -88,26 +81,6 @@ public class MainFrame extends javax.swing.JFrame {
         simpleMode.setVisible(false);
         currentCourseWindow.setVisible(false);
         addNewClass.setVisible(true);
-        pack();
-    }
-    
-    public void setCreateCategoryVisible() {
-        setContentPane(currentCategoryWindow);
-        simpleMode.setVisible(false);
-        addNewClass.setVisible(false);
-        currentCourseWindow.setVisible(false);
-        currentAssignmentWindow.setVisible(false);
-        currentCategoryWindow.setVisible(true);
-        pack();
-    }
-    
-    public void setAssignmentWindowVisible() {
-        setContentPane(currentAssignmentWindow);
-        simpleMode.setVisible(false);
-        addNewClass.setVisible(false);
-        currentCourseWindow.setVisible(false);
-        currentCategoryWindow.setVisible(false);
-        currentAssignmentWindow.setVisible(true);
         pack();
     }
     
@@ -127,22 +100,6 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public void setCurrentCourseWindow(EditSelectedClass window) {
     	currentCourseWindow = window;
-    }
-    
-    /**
-     *  Set a category window to a edit class window
-     * @param window category window to be called within the edit class window
-     */
-    public void setCurrentCategoryWindow(CreateCategoryPanel window) {
-    	currentCategoryWindow = window;
-    }
-    
-    /**
-     * set assignment window to edit class window
-     * @param window assignment window to be called within the edit class window
-     */
-    public void setCurrentAssignmentWindow(AddAssignmentPanel window) {
-        currentAssignmentWindow = window;
     }
     
     /*
@@ -209,26 +166,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void getWelcomeWindowLayOut() {
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentCourseWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentCategoryWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentAssignmentWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentCourseWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentCategoryWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentAssignmentWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        pack();
-    }
 
     /**
      * @param args the command line arguments

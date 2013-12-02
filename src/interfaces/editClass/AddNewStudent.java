@@ -134,9 +134,9 @@ public class AddNewStudent extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(title)
-                            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(title)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -177,6 +177,9 @@ public class AddNewStudent extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
         private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+            if (studentTable.isEditing()) {
+            	studentTable.getCellEditor().stopCellEditing();
+            }
         	if (!checkName(firstNameTextField.getText(), lastNameTextField.getText())) {
         		parent.parent.courses.get(parent.courseIndex).addStudent(firstNameTextField.getText(), lastNameTextField.getText());
         		firstNameTextField.setText("");
@@ -186,6 +189,9 @@ public class AddNewStudent extends javax.swing.JPanel {
         }//GEN-LAST:event_addButtonActionPerformed
 
         private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+            if (studentTable.isEditing()) {
+            	studentTable.getCellEditor().stopCellEditing();
+            }
         	parent.populateTable();
             parent.parent.setEditSelectedClassVisible(parent);
             parent.saveCurrentState();

@@ -179,7 +179,22 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         this.setVisible(false);
         studentWindow.setVisible(true);
         parent.pack();
-    }    
+    }
+    
+    public void setAssignmentWindowVisible() {
+        parent.setContentPane(assignmentWindow);
+        setVisible(false);
+        assignmentWindow.setVisible(true);
+        parent.pack();
+    }
+    
+    public void setCreateCategoryVisible() {
+        parent.setContentPane(categoryWindow);
+        setVisible(false);
+        categoryWindow.setVisible(true);
+       parent.pack();
+    }
+    
     public void setPanelMenu() {
     	parent.setJMenuBar(menuBar);
     }
@@ -189,18 +204,18 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
             createNewCategory();
         }
         
-        if (parent.currentAssignmentWindow.actionStatus.equals("addAssignment")) {
+        if (assignmentWindow.actionStatus.equals("addAssignment")) {
             refreshMenu(parent.currentCourseWindow);
         }      
     }
     
-    private void refreshMenu(EditSelectedClass window) {
+    public void refreshMenu(EditSelectedClass window) {
         window.removeAll();
         window.menuBar.removeAll();
         window.initComponents();
         window.setup();
         parent.setEditSelectedClassVisible(window);
-        parent.currentAssignmentWindow.actionStatus = "waiting";
+        assignmentWindow.actionStatus = "waiting";
     }
     
     private void createNewCategory() {
@@ -562,7 +577,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     private void addAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
     	saveCurrentState();
-        parent.setAssignmentWindowVisible();  
+        setAssignmentWindowVisible();  
     }
     
     private void removeAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
@@ -588,7 +603,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }//GEN-LAST:event_goBackButtonActionPerformed
 
     private void addCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCategoryActionPerformed
-        parent.setCreateCategoryVisible();
+       setCreateCategoryVisible();
     }//GEN-LAST:event_addCategoryActionPerformed
     
     private void addStudentActionPerformed(java.awt.event.ActionEvent evt) {
