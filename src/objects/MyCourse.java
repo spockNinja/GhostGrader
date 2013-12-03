@@ -62,7 +62,6 @@ public class MyCourse {
      * @param names
      */
     private void populateNames(String[] names) {
-    	System.out.println(names.length+"============");
     	for (int i = 0; i < names.length; i++) {
     		names[i] = ghostStudents.get(i).getPseudoName();
     	}
