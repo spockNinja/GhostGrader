@@ -145,6 +145,9 @@ public class Assignment {
     public void setGhostGrades(String[] ghostNames) {
     	int[] ghostGrades = new int[ghostNames.length];
     	assignGhostGrades(ghostGrades);
+    	for (int i = 0; i < ghostNames.length; i++) {
+    		this.setGrade(ghostNames[i], ghostGrades[i]);
+    	}
     }
     private void assignGhostGrades(int[] ghostGrades) {
     	int numberOfGhosts = ghostGrades.length;
