@@ -102,6 +102,11 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         jMenuItem_editClassMenu = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         
+        helpMenu = new javax.swing.JMenu();
+        helpAbout = new javax.swing.JMenuItem();
+        helpContent = new javax.swing.JMenuItem();
+        
+        
         fileMenu.setText("File");
 
         saveAll.setText("Save All");
@@ -129,7 +134,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         removeClass.setText("RemoveClass");
         editMenu.add(removeClass);
 
-        jMenuItem_editClassMenu.setText("EditClass");
+        jMenuItem_editClassMenu.setText("EditClass"); 
         jMenuItem_editClassMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                // jMenuItem_editClassMenuActionPerformed(evt);
@@ -139,6 +144,26 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         editMenu.add(jSeparator2);
 
         mainMenuBar.add(editMenu);
+        
+        helpMenu.setText("Help");
+        mainMenuBar.add(helpMenu);
+        
+        helpAbout.setText("About");
+        helpAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpAboutActionPerformed(evt);
+            }
+        });
+        
+        helpContent.setText("Help");
+        helpContent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpContentActionPerformed(evt);
+            }
+        });
+        
+        helpMenu.add(helpAbout);
+        helpMenu.add(helpContent);
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Courses", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
 
@@ -221,6 +246,14 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private void jMenuItem_addNewClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
     	parent.setAddNewClass();
     }//GEN-LAST:event_jMenuItem_addNewClassActionPerformed
+    
+    private void helpAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
+    	//TODO
+    }
+    
+    private void helpContentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
+    	//TODO
+    }
 
      private void courseActionPerformed(java.awt.event.ActionEvent evt, JMenuItem course) {   
          String courseName = evt.getActionCommand();
@@ -249,6 +282,10 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         }
     }
     
+    /*
+     * Displaying the helpAbout JFrame
+     */
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
@@ -259,5 +296,8 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JMenu removeClass;
     private javax.swing.JMenuItem saveAll;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem helpAbout;
+    private javax.swing.JMenuItem helpContent;
     // End of variables declaration//GEN-END:variables
 }

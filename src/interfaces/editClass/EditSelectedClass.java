@@ -329,6 +329,10 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         removeStudent = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         
+        helpMenu = new javax.swing.JMenu();
+        helpAbout = new javax.swing.JMenuItem();
+        helpContent = new javax.swing.JMenuItem();
+        
         assignmentTable = new JTable() {
         	public void changeSelection(final int row, final int column, boolean toggle, boolean extend) {
     		 super.changeSelection(row, column, toggle, extend);
@@ -389,6 +393,26 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         studentMenu.add(removeStudent);
 
         menuBar.add(studentMenu);
+        
+        helpMenu.setText("Help");
+        menuBar.add(helpMenu);
+        
+        helpAbout.setText("About");
+        helpAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpAboutActionPerformed(evt);
+            }
+        });
+        
+        helpContent.setText("Help");
+        helpContent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpContentActionPerformed(evt);
+            }
+        });
+        
+        helpMenu.add(helpAbout);
+        helpMenu.add(helpContent);
 
         assignmentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         assignmentTable.setModel(model);
@@ -624,7 +648,15 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                 JOptionPane.showMessageDialog(null, "Error exporting HTML.");
             }
         }
-    }               
+    }
+    
+    private void helpAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
+    	//TODO
+    }
+    
+    private void helpContentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_addNewClassActionPerformed
+    	//TODO
+    }
     
     public void saveCurrentState() {
     	parent.courses.get(courseIndex).setLastAssignmentIndex(assignmentIndex);
@@ -647,5 +679,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private javax.swing.JMenu removeCategory;
     private javax.swing.JMenuItem removeStudent;
     private javax.swing.JMenu studentMenu;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenuItem helpAbout;
+    private javax.swing.JMenuItem helpContent;
     // End of variables declaration//GEN-END:variables
 }
