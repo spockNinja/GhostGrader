@@ -112,7 +112,7 @@ public class Assignment {
      * @param grade			The score the student is being assigned for the assignment
      * @return				The previous value associated to the key.
      */
-    public Integer setGrade(String pseudoName, int grade) {
+    public Integer setGrade(String pseudoName, Integer grade) {
     	grades.put(pseudoName, grade);
     	if (grades.containsKey(pseudoName)) studentGrades.add(grade);
     	return grades.get(pseudoName);

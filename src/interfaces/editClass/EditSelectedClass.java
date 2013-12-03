@@ -19,6 +19,7 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
@@ -48,7 +49,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     public CreateCategoryPanel categoryWindow;
     public AddAssignmentPanel assignmentWindow;
     public MainFrame parent;
-    public int assignmentIndex, categoryIndex, courseIndex;
+    public Integer assignmentIndex, categoryIndex = null;
+    public int courseIndex;
     private boolean isTableSet = false;
     public String categorySelected = ""; 
     public AddNewStudent studentWindow;
@@ -97,9 +99,10 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     private void loadCourseData() {
         for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfAssignmentCategories(); i++) {
-            javax.swing.JMenu categoryMenu = new javax.swing.JMenu();
-            categoryMenu.setText(parent.courses.get(courseIndex).getAssignmentCategory(i).getName());
-            getCategoryName(categoryMenu); 
+            javax.swing.JMenu catMenu = new javax.swing.JMenu();
+            catMenu.setText(parent.courses.get(courseIndex).getAssignmentCategory(i).getName());
+         	catMenu.setName(parent.courses.get(courseIndex).getAssignmentCategory(i).getName());
+            getCategoryName(catMenu); 
 
             for (int j = 0; j < parent.courses.get(courseIndex).getAssignmentCategory(i).getNumberOfAssignments(); j++) {
                 final int indexOfCategory = i;
@@ -113,22 +116,41 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
              			loadTable(indexOfCategory, indexOfAssignment);
                      }
                 });
-             	categoryMenu.add(assignmentMenuItem);   		
+             	catMenu.add(assignmentMenuItem);  
             }
-            menuBar.add(categoryMenu);
-            addToRemoveCategoryMenu(categoryMenu);
-            categoryMenu.add(new javax.swing.JPopupMenu.Separator());
-            addNewAssignmentButton(categoryMenu);
-            removeAssignmentButton(categoryMenu);
+            categoryMenu.add(catMenu);
+            addToRemoveCategoryMenu(catMenu);
+            catMenu.add(new javax.swing.JPopupMenu.Separator());
+            addNewAssignmentButton(catMenu);
+            removeAssignmentButton(catMenu);
         }     
+        
+        for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfStudents(); i++) {
+        	addRemoveStudent(i);
+        }
     }
     
-    public void loadTable(int i, int j) {
+    public void addRemoveStudent(int i) {
+    	javax.swing.JMenuItem newStudentMenu = new javax.swing.JMenuItem();
+    	newStudentMenu.setText(parent.courses.get(courseIndex).getStudent(i).getFullName());
+        newStudentMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeStudentActionPerformed(evt, studentMenu);
+            }
+        });
+        removeStudent.add(newStudentMenu);
+    }
+    
+    public void loadTable(Integer i, Integer j) {
 			categoryIndex = i;
 			assignmentIndex  = j;
 			populateTable();
-			courseName.setText(parent.courses.get(courseIndex).getName() + " " + 
-			parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName());
+			if (i != null && j != null) {
+				courseName.setText(parent.courses.get(courseIndex).getName() + " " + 
+				parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName());
+			}
+			else
+				courseName.setText(parent.courses.get(courseIndex).getName());
     }
     
     private void addToRemoveCategoryMenu(JMenu category) {
@@ -163,29 +185,44 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     		model.removeRow(i);
     	}
     	for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfStudents(); i++) {
+    		String grade;
+    		if (parent.courses.get(courseIndex)
+			.getCategories().get(categoryIndex)
+			.getAssignment(assignmentIndex)
+			.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName()) == null)
+    			grade = "";
+    		else {
+    			grade = String.valueOf(parent.courses.get(courseIndex)
+    					.getCategories().get(categoryIndex)
+    					.getAssignment(assignmentIndex)
+    					.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName()));
+    		}
+    			
     		model.insertRow(i, new Object[]{ 
     				parent.courses.get(courseIndex).getStudent(i).getFullName(),
     				parent.courses.get(courseIndex).getStudent(i).getPseudoName(),
-    				parent.courses.get(courseIndex)
-    				.getCategories().get(categoryIndex)
-    				.getAssignment(assignmentIndex)
-    				.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName())});
+    				grade});
     	}
     	isTableSet = true;
     }
     
     public void setStudentWindowVisible() {
         parent.setContentPane(studentWindow);
+        parent.setJMenuBar(null);
         this.setVisible(false);
         studentWindow.setVisible(true);
+        studentWindow.firstNameTextField.requestFocus();
         parent.getRootPane().setDefaultButton(studentWindow.addButton);
         parent.pack();
     }
     
     public void setAssignmentWindowVisible() {
         parent.setContentPane(assignmentWindow);
+        parent.setJMenuBar(null);
         setVisible(false);
+        assignmentWindow.courseInfo.setText(parent.courses.get(courseIndex).getCategories().get(assignmentWindow.categoryIndex).getName());
         assignmentWindow.setVisible(true);
+        assignmentWindow.nameTextField.requestFocus();
         assignmentWindow.populateTable();
         parent.getRootPane().setDefaultButton(assignmentWindow.addButton);
         parent.pack();
@@ -193,6 +230,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     public void setCreateCategoryVisible() {
         parent.setContentPane(categoryWindow);
+        parent.setJMenuBar(null);
         setVisible(false);
         categoryWindow.setVisible(true);
        parent.pack();
@@ -218,7 +256,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     public void createNewCategory() {
         if (repeatCategoryChecker()) {
             JMenu newCategory = new JMenu(categoryWindow.getCategoryName());
-            menuBar.add(newCategory);
+            newCategory.setName(categoryWindow.getCategoryName());
+            categoryMenu.add(newCategory);
             getCategoryName(newCategory);
             parent.courses.get(courseIndex).addAssignmentCategory(categoryWindow.getCategoryName()); // add new category
                                                                                                      // to the course object
@@ -316,6 +355,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        categoryMenu = new javax.swing.JMenu();
         File_Save = new javax.swing.JMenuItem();
         File_ExportToHTML = new javax.swing.JMenuItem();
         createMenu = new javax.swing.JMenu();
@@ -323,7 +363,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         removeCategory = new javax.swing.JMenu();
         studentMenu = new javax.swing.JMenu();
         addStudent = new javax.swing.JMenuItem();
-        removeStudent = new javax.swing.JMenuItem();
+        removeStudent = new javax.swing.JMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
         
         assignmentTable = new JTable() {
@@ -346,6 +386,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
             }
         });
         fileMenu.add(File_Save);
+       
 
         File_ExportToHTML.setText("Export To HTML");
         File_ExportToHTML.addActionListener(new java.awt.event.ActionListener() {
@@ -357,19 +398,19 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar.add(fileMenu);
 
-        createMenu.setText("Create");
-
         addCategory.setText("Add Category");
         addCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCategoryActionPerformed(evt);
             }
         });
-        createMenu.add(addCategory);
+        categoryMenu.add(addCategory);
 
         removeCategory.setText("Remove Category");
-        createMenu.add(removeCategory);
+        categoryMenu.add(removeCategory);
 
+        categoryMenu.addSeparator();
+        
         menuBar.add(createMenu);
 
         studentMenu.setText("Student");
@@ -382,10 +423,13 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         });
         studentMenu.add(addStudent);
 
-        removeStudent.setText("Remove Student");
+        removeStudent.setText("Remove");
         studentMenu.add(removeStudent);
 
         menuBar.add(studentMenu);
+        
+        categoryMenu.setText("Categories");
+        menuBar.add(categoryMenu);
 
         assignmentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         assignmentTable.setModel(model);
@@ -513,9 +557,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
    					   if (Integer.parseInt(model.getValueAt(r, 2).toString()) > 
    					       parent.courses.get(courseIndex).getCategories()
    					       .get(categoryIndex)
-   					   	   .getAssignment(assignmentIndex).getWorth()) 
+   					   	   .getAssignment(assignmentIndex).getWorth() || Integer.parseInt(model.getValueAt(r, 2).toString()) < 0) 
    					   {
-   						   message = "INVALID INPUT:\nInput grade was greater than assignment worth total of "
+   						   message = "INVALID INPUT:\nInput grade was not between 0 and "
    								   	  + parent.courses.get(courseIndex).getCategories()
    	  					   				.get(categoryIndex)
    	  					   				.getAssignment(assignmentIndex).getWorth() + ".";
@@ -532,17 +576,17 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
  					   if (message.isEmpty()) message = "INVALID INPUT:\n" + model.getValueAt(r, 2).toString()
  							   							+ " is not a valid integer number.";
  					   if (model.getValueAt(r, 2).toString().isEmpty()) {
- 						   model.setValueAt(0, r, 2);
- 						   parent.courses.get(courseIndex).getCategories()
- 						   .get(categoryIndex)
- 						   .getAssignment(assignmentIndex)
- 						   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 0);
+ 						  parent.courses.get(courseIndex).getCategories()
+ 	 					   .get(categoryIndex)
+ 	 					   .getAssignment(assignmentIndex)
+ 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 
+ 	 							     null);
  					   } else {
  						   model.setValueAt( parent.courses.get(courseIndex).getCategories()
  								   .get(categoryIndex)
  								   .getAssignment(assignmentIndex)
  								   .getGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName()), r, 2);
- 					       JOptionPane.showMessageDialog(null, message);
+ 					       JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
  					   }
  				   }
    			   }
@@ -551,6 +595,20 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 		return cha;
     }
     
+    private void removeStudentActionPerformed(java.awt.event.ActionEvent evt, JMenuItem student) {
+        String studentName = evt.getActionCommand();
+        parent.courses.get(courseIndex).removeStudent(studentName);; //remove from course object
+        for (int j = 0; j < removeStudent.getItemCount(); j++) {
+        	if (removeStudent.getItem(j).getText() != null && 
+        			removeStudent.getItem(j).getText().equals(studentName)) {
+                   	removeStudent.remove(j);
+                   	break;
+        	}
+        }
+        this.loadTable(categoryIndex, assignmentIndex);
+        this.setPanelMenu();
+        saveCurrentState();
+   }
     
     private void removeCategoryActionPerformed(java.awt.event.ActionEvent evt, JMenuItem category) {
          String categoryName = evt.getActionCommand();
@@ -558,23 +616,31 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
              if (parent.courses.get(courseIndex).getAssignmentCategory(i).getName().equals(categoryName)) {
             	parent.courses.get(courseIndex).removeAssignmentCategory(categoryName); //remove from course object
                 removeCategory.remove(category); // rmove from the menu
-                for (int j = 0; j < menuBar.getComponentCount(); j++) {
-                    if (menuBar.getMenu(j).getText().equals(category.getText())) {
-                        menuBar.remove(j);
-                        
-                        j = menuBar.getComponentCount();
+                for (int j = 0; j < categoryMenu.getItemCount(); j++) {
+                	if (categoryMenu.getMenuComponent(j).getName() != null && 
+                	categoryMenu.getMenuComponent(j).getName().toString().equals(category.getText())) {
+                    	categoryMenu.remove(j);
+                        j = categoryMenu.getMenuComponentCount();
                     }
                 }
                 i = parent.courses.get(courseIndex).getNumberOfAssignmentCategories();
              }
          }
          this.setPanelMenu();
-     	saveCurrentState();
+         saveCurrentState();
     }
     
     private void addAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
+        String assignmentName = evt.getActionCommand();
+        int cateIndex = 0;
+        if (!categorySelected.equals("")) {
+            cateIndex = parent.courses.get(courseIndex).getAssignmentCategoryIndex(categorySelected);
+        } else {
+            cateIndex = parent.courses.get(courseIndex).getNumberOfAssignmentCategories() - 1;
+        }
+        assignmentWindow.categoryIndex = cateIndex;
     	saveCurrentState();
-        setAssignmentWindowVisible();  
+    	setAssignmentWindowVisible();
     }
     
     private void removeAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
@@ -616,6 +682,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
    
     private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {
+    	parent.courses.get(courseIndex).setGhostGrades();
     	saveCurrentState();
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showSaveDialog(EditSelectedClass.this);
@@ -632,8 +699,14 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }               
     
     public void saveCurrentState() {
-    	parent.courses.get(courseIndex).setLastAssignmentIndex(assignmentIndex);
-    	parent.courses.get(courseIndex).setLastCategoryIndex(categoryIndex);
+    	if (assignmentIndex != null && categoryIndex != null) {
+	    	parent.courses.get(courseIndex).setLastAssignmentIndex(assignmentIndex);
+	    	parent.courses.get(courseIndex).setLastCategoryIndex(categoryIndex);
+    	}
+    	else {
+	    	parent.courses.get(courseIndex).setLastAssignmentIndex(null);
+	    	parent.courses.get(courseIndex).setLastCategoryIndex(null);
+    	}
     	parseXML.saveXML(parent.courses.get(courseIndex));
     }
 
@@ -650,7 +723,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu removeCategory;
-    private javax.swing.JMenuItem removeStudent;
+    private javax.swing.JMenu removeStudent;
     private javax.swing.JMenu studentMenu;
+    private javax.swing.JMenu categoryMenu;
     // End of variables declaration//GEN-END:variables
 }

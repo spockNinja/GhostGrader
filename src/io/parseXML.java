@@ -290,11 +290,17 @@ public class parseXML {
                 	   Assignment currentAssignment = currentCategory.getAssignment(currentCategory.getAssignmentIndex(assignmentName));
                 	   if (studentIndex < totalStudents) {
                 		   String studentPseudoName = course.getStudent(studentIndex).getPseudoName();
-                		   currentAssignment.setGrade(studentPseudoName, Integer.parseInt(new String(ch, start, length)));
+                		   if (new String(ch, start, length).equals("null") || new String(ch, start, length).equals(""))
+                			   currentAssignment.setGrade(studentPseudoName, null);
+                		   else
+                			   currentAssignment.setGrade(studentPseudoName, Integer.parseInt(new String(ch, start, length)));
                 	   }
                 	   else {
                 		   String ghostPseudoName = course.getGhostStudent(studentIndex - totalStudents).getPseudoName();
-                		   currentAssignment.setGrade(ghostPseudoName, Integer.parseInt(new String(ch, start, length)));
+                		   if (new String(ch, start, length).equals("null") || new String(ch, start, length).equals(""))
+                			   currentAssignment.setGrade(ghostPseudoName, null);
+                		   else
+                			   currentAssignment.setGrade(ghostPseudoName, Integer.parseInt(new String(ch, start, length)));
                 	   }
                 	   isGrade = false;
                 	   studentIndex ++;

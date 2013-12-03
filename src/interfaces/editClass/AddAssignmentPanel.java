@@ -24,7 +24,7 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
 
     public String actionStatus = "waiting";
     private EditSelectedClass parent;
-    private int categoryIndex;
+    public int categoryIndex;
     private boolean isCorrectedFormat;
     private boolean isTableSet = false;
     /**
@@ -92,7 +92,7 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
         cancelButton = new javax.swing.JButton();
 
         courseInfo.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        courseInfo.setText("Title");
+        courseInfo.setText("");
 
         addButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         addButton.setText("Add");
@@ -280,7 +280,7 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JTextField nameTextField;
+    public javax.swing.JTextField nameTextField;
     private javax.swing.JLabel worthLabel;
     private javax.swing.JTextField worthTextField;
     // End of variables declaration//GEN-END:variables

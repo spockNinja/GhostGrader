@@ -194,6 +194,7 @@ public class AddNewStudent extends javax.swing.JPanel {
             
         	if (!checkName(firstNameTextField.getText(), lastNameTextField.getText())) {
         		parent.parent.courses.get(parent.courseIndex).addStudent(firstNameTextField.getText(), lastNameTextField.getText());
+        		parent.addRemoveStudent(parent.parent.courses.get(parent.courseIndex).getNumberOfStudents()-1);
         		firstNameTextField.setText("");
         		lastNameTextField.setText("");
             	populateTable();
@@ -262,7 +263,7 @@ public class AddNewStudent extends javax.swing.JPanel {
     public javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
+    public javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JTable studentTable;

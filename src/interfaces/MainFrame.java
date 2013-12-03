@@ -35,7 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
     public EditSelectedClass currentCourseWindow;
     
     public ArrayList<MyCourse> courses;
-    public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();;
+    public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();
     public MyCourse currentCourse;
 
     public MainFrame() {
@@ -69,8 +69,8 @@ public class MainFrame extends javax.swing.JFrame {
     public void setEditSelectedClassVisible(EditSelectedClass selectedCourse) {
         setCurrentCourseWindow(selectedCourse);
         setContentPane(selectedCourse);
-        if (courses.get(selectedCourse.courseIndex).getLastCategoryIndex() != null  && courses.get(selectedCourse.courseIndex).getLastAssignmentIndex() != null)
-        	selectedCourse.loadTable(courses.get(selectedCourse.courseIndex).getLastCategoryIndex(), courses.get(selectedCourse.courseIndex).getLastAssignmentIndex());
+        /*if (courses.get(selectedCourse.courseIndex).getLastCategoryIndex() != null  && courses.get(selectedCourse.courseIndex).getLastAssignmentIndex() != null)
+        	selectedCourse.loadTable(courses.get(selectedCourse.courseIndex).getLastCategoryIndex(), courses.get(selectedCourse.courseIndex).getLastAssignmentIndex());*/
         selectedCourse.setPanelMenu();
         simpleMode.setVisible(false);
         addNewClass.setVisible(false);
