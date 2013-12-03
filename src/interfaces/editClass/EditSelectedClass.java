@@ -231,8 +231,11 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     public void setCreateCategoryVisible() {
         parent.setContentPane(categoryWindow);
         parent.setJMenuBar(null);
+        categoryWindow.categoryNameTextField.setText("");
+        categoryWindow.categoryNameTextField.requestFocus();
         setVisible(false);
         categoryWindow.setVisible(true);
+        parent.getRootPane().setDefaultButton(categoryWindow.addButton);
        parent.pack();
     }
     

@@ -310,4 +310,19 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     private javax.swing.JLabel semester;
     // End of variables declaration//GEN-END:variables
 
+	public void clearComponents() {
+		classBuildingTextField.setText("");
+		classNameTextField.setText("");
+		classRoomNumberTextField.setText("");
+		classNameTextField.setText("");
+		classRoomNumberTextField.setText("");
+		courseIDTextField.setText("");
+		courseNumberTextField.setText("");
+		meetingTimeTextField.setText("");
+		semesterTextField.setText("");
+		classSectionTextField.setText("");
+		
+		classNameTextField.requestFocus();
+		}
+
 }

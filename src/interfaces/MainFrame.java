@@ -83,6 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         simpleMode.setVisible(false);
         if (currentCourseWindow != null)
         	currentCourseWindow.setVisible(false);
+        addNewClass.clearComponents();
         addNewClass.setVisible(true);
         pack();
     }

@@ -112,9 +112,9 @@ public class CreateCategoryPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    public javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel categoryNameLabe;
-    private javax.swing.JTextField categoryNameTextField;
+    public javax.swing.JTextField categoryNameTextField;
     // End of variables declaration//GEN-END:variables
 }
