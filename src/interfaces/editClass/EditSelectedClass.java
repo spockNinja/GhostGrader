@@ -123,7 +123,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         }     
     }
     
-    private void loadTable(int i, int j) {
+    public void loadTable(int i, int j) {
 			categoryIndex = i;
 			assignmentIndex  = j;
 			populateTable();
@@ -178,6 +178,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         parent.setContentPane(studentWindow);
         this.setVisible(false);
         studentWindow.setVisible(true);
+        parent.getRootPane().setDefaultButton(studentWindow.addButton);
         parent.pack();
     }
     
@@ -185,6 +186,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         parent.setContentPane(assignmentWindow);
         setVisible(false);
         assignmentWindow.setVisible(true);
+        assignmentWindow.populateTable();
+        parent.getRootPane().setDefaultButton(assignmentWindow.addButton);
         parent.pack();
     }
     
@@ -200,13 +203,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     public void actionPerformed(ActionEvent evt) {
-        if (categoryWindow.actionStatus.equals("addCategory")) {
-            createNewCategory();
-        }
-        
-        if (assignmentWindow.actionStatus.equals("addAssignment")) {
-            refreshMenu(parent.currentCourseWindow);
-        }      
+     
     }
     
     public void refreshMenu(EditSelectedClass window) {
@@ -218,7 +215,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         assignmentWindow.actionStatus = "waiting";
     }
     
-    private void createNewCategory() {
+    public void createNewCategory() {
         if (repeatCategoryChecker()) {
             JMenu newCategory = new JMenu(categoryWindow.getCategoryName());
             menuBar.add(newCategory);
@@ -590,8 +587,16 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         }
         for (int i = 0; i < parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getNumberOfAssignments(); i++) {
             if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignment(i).getName().equals(assignmentName)) {
+                if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignmentIndex(assignmentName) == assignmentIndex) {
+                	courseName.setText(parent.courses.get(courseIndex).getName());
+                	for (int j = model.getRowCount()-1; j >= 0; j--) {
+                		model.removeRow(j);
+                	}
+                }
                 parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).removeAssignment(assignmentName); //remove from course object
                 refreshMenu(this);
+                saveCurrentState();
+                return;
             }
         }
     	saveCurrentState();

@@ -245,6 +245,8 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
             newCourse.setMeetingTime(string_meetingTime);
             newCourse.setSemester(string_semester);
             newCourse.setNewCourse(true);
+            newCourse.setLastAssignmentIndex(null);
+            newCourse.setLastCategoryIndex(null);
             actionStatus = "dataReady";
         }
     }
