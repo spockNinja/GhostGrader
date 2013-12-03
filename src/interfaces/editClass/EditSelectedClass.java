@@ -27,6 +27,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
@@ -405,7 +407,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         fileMenu.add(File_Save);
        
 
-        File_ExportToHTML.setText("Export To HTML");
+        File_ExportToHTML.setText("Export Class To HTML");
         File_ExportToHTML.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 File_ExportToHTMLActionPerformed(evt);
@@ -720,15 +722,25 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
    
     private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {
-    	parent.courses.get(courseIndex).setGhostGrades();
-    	saveCurrentState();
+        parent.courses.get(courseIndex).setGhostGrades();
+        saveCurrentState();
         JFileChooser fc = new JFileChooser();
+        FileFilter htmlFilter = new FileNameExtensionFilter("HTML File", "html", "htm");
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.setAcceptAllFileFilterUsed(false);
+        fc.setMultiSelectionEnabled(false);
+        fc.addChoosableFileFilter(htmlFilter);
         int returnVal = fc.showSaveDialog(EditSelectedClass.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             Exporter exp = new Exporter();
-            File file = fc.getSelectedFile();
             try {
-                exp.exportCourseToHTML(parent.courses.get(courseIndex), file.getCanonicalPath());
+                File fileToSave = fc.getSelectedFile();
+                String pathToExport = fileToSave.getCanonicalPath();
+                // Force an html extension
+                if (!pathToExport.endsWith(".html") && !pathToExport.endsWith(".htm")) {
+                    pathToExport = pathToExport.concat(".html");
+                }
+                exp.exportCourseToHTML(parent.courses.get(courseIndex), pathToExport);
             }
             catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "Error exporting HTML.");
