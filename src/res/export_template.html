@@ -25,11 +25,13 @@
                             <a href="#summary" data-toggle="tab"><h4>Summary</h4></a>
                         </li>
                         <#list categories as category>
+                        <#if category.assignments.size() &gt; 0>
                         <li>
                             <a href="#${category.name}" data-toggle="tab">
                                 <h4>${category.name}</h4>
                             </a>
                         </li>
+                        </#if>
                         </#list>
                     </ul>
                     <div class="tab-content">
@@ -55,6 +57,8 @@
                             </table>
                         </div>
                         <#list categories as category>
+                        <#if category.assignments.size() &gt; 0>
+                        <#assign catTotalPoints=category.getTotalPoints()>
                         <div class="tab-pane" id="${category.name}">
                             <table class="table table-striped table-bordered table-condensed table-hover">
                                 <thead>
@@ -62,7 +66,7 @@
                                     <#list category.assignments as assignment>
                                     <th>${assignment.name} (${assignment.worth})</th>
                                     </#list>
-                                    <th class="success">Total (${category.totalPoints})</th>
+                                    <th class="success">Total (${catTotalPoints})</th>
                                 </thead>
                                 <tbody>
                                     <#list allStudents as student>
@@ -70,16 +74,17 @@
                                     <tr>
                                         <td>${pn}</td>
                                         <#list category.assignments as assignment>
-                                        <#assign w=assignment.worth>
                                         <td>
-                                            <span class="tipme" data-toggle="tooltip" title="${(assignment.getGrade(pn) / w) * 100}%">
-                                                ${assignment.getGrade(pn)}
+                                            <#assign sg=assignment.getGrade(pn)>
+                                            <span class="tipme" data-toggle="tooltip" title="${(sg / assignment.worth) * 100}%">
+                                                ${sg}
                                             </span>
                                         </td>
                                         </#list>
                                         <td class="success">
-                                            <span class="tipme" data-toggle="tooltip" title="${(category.getCategoryTotalGradeForStudent(pn) / category.totalPoints) * 100}%">
-                                                ${category.getCategoryTotalGradeForStudent(pn)}
+                                            <#assign sctg=category.getCategoryTotalGradeForStudent(pn)>
+                                            <span class="tipme" data-toggle="tooltip" title="${(sctg / catTotalPoints) * 100}%">
+                                                ${sctg}
                                             </span>
                                         </td>
                                     </tr>
@@ -102,6 +107,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        </#if>
                         </#list>
                     </div>
                 </div>
