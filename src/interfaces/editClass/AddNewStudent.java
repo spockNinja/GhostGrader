@@ -49,7 +49,7 @@ public class AddNewStudent extends javax.swing.JPanel {
         sorter.sort();
     }
     
-    private void populateTable() {
+    public void populateTable() {
 		isTableSet = false;
     	for (int i = model.getRowCount()-1; i >= 0; i--) {
     		model.removeRow(i);
@@ -265,7 +265,7 @@ public class AddNewStudent extends javax.swing.JPanel {
     private javax.swing.JLabel firstNameLabel;
     public javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel lastNameLabel;
-    private javax.swing.JTextField lastNameTextField;
+    public javax.swing.JTextField lastNameTextField;
     private javax.swing.JTable studentTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;

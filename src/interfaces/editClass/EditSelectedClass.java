@@ -212,6 +212,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         this.setVisible(false);
         studentWindow.setVisible(true);
         studentWindow.firstNameTextField.requestFocus();
+        studentWindow.populateTable();
+        studentWindow.firstNameTextField.setText("");
+        studentWindow.lastNameTextField.setText("");
         parent.getRootPane().setDefaultButton(studentWindow.addButton);
         parent.pack();
     }
@@ -608,6 +611,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                    	break;
         	}
         }
+        //TODO remove student from student table
         this.loadTable(categoryIndex, assignmentIndex);
         this.setPanelMenu();
         saveCurrentState();
@@ -657,13 +661,13 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         for (int i = 0; i < parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getNumberOfAssignments(); i++) {
             if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignment(i).getName().equals(assignmentName)) {
                 if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignmentIndex(assignmentName) == assignmentIndex) {
+                	assignmentIndex = null;
+                	categoryIndex = null;
                 	courseName.setText(parent.courses.get(courseIndex).getName());
-                	for (int j = model.getRowCount()-1; j >= 0; j--) {
-                		model.removeRow(j);
-                	}
                 }
                 parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).removeAssignment(assignmentName); //remove from course object
                 refreshMenu(this);
+                populateTable();
                 saveCurrentState();
                 return;
             }
