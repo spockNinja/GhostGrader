@@ -62,28 +62,31 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         meetingTimeTextField = new javax.swing.JTextField();
         addButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        semeter = new javax.swing.JLabel();
+        semester = new javax.swing.JLabel();
         semesterTextField = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Add New Class", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Georgia", 0, 14))); // NOI18N
 
         courseName.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        courseName.setText("Course Name (require):");
+        courseName.setText("*Course Name:");
 
         courseID.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        courseID.setText("Course Prefix(require):");
+        courseID.setText("*Course Prefix:");
 
         courseNumber.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        courseNumber.setText("Course Number(require):");
+        courseNumber.setText("*Course Number:");
 
         classSection.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        classSection.setText("Course section(require):");
+        classSection.setText("*Course Section:");
+        
+        semester.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        semester.setText("*Semester:");
 
         classBuilding.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        classBuilding.setText("Class Building:");
+        classBuilding.setText("Building:");
 
         classRoomNumber.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        classRoomNumber.setText("Class room number:");
+        classRoomNumber.setText("Room Number:");
 
         meetingTime.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         meetingTime.setText("Meeting Time:");
@@ -95,6 +98,8 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         courseNumberTextField.setText(null);
 
         classSectionTextField.setText(null);
+        
+        semesterTextField.setText(null);
 
         classBuildingTextField.setText(null);
 
@@ -103,15 +108,10 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         meetingTimeTextField.setText(null);
 
         addButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        addButton.setText("Add to table");
+        addButton.setText("Create");
 
         cancelButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        cancelButton.setText("Cancel/Go back");
-
-        semeter.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
-        semeter.setText("Semester:");
-
-        semesterTextField.setText(null);
+        cancelButton.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,12 +126,10 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
                             .addComponent(courseID)
                             .addComponent(courseNumber)
                             .addComponent(classSection)
+                            .addComponent(semester)
                             .addComponent(classBuilding)
                             .addComponent(classRoomNumber)
-                            .addComponent(meetingTime)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(addButton)))
+                            .addComponent(meetingTime))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -140,17 +138,19 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
                             .addComponent(courseIDTextField)
                             .addComponent(courseNumberTextField)
                             .addComponent(classSectionTextField)
+                            .addComponent(semesterTextField)
                             .addComponent(classBuildingTextField)
                             .addComponent(classRoomNumberTextField)
                             .addComponent(meetingTimeTextField))
                         .addGap(11, 11, 11))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addButton)
                         .addComponent(cancelButton)
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(semeter)
+                .addComponent(semester)
                 .addGap(127, 127, 127)
                 .addComponent(semesterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addContainerGap())
@@ -176,6 +176,10 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
                     .addComponent(classSectionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(semester)
+                    .addComponent(semesterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(classBuilding)
                     .addComponent(classBuildingTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -186,10 +190,6 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(meetingTime)
                     .addComponent(meetingTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(semeter)
-                    .addComponent(semesterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,18 +203,17 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         	generateNewCourse();
             if (parent.addNewClass.actionStatus.equals("dataReady")) {
                 if (checkRepeatedCourse(getNewCourse())) {
-                    addNewCourse(parent.simpleMode.indexOfCourse);
-                    parent.simpleMode.indexOfCourse++;
+                    addNewCourse(parent.courses.size());
                 } else {
                     JOptionPane.showMessageDialog(null,
                             String.format("%33s",parent.addNewClass.getNewCourse().getName() + " " +
                             parent.addNewClass.getNewCourse().getSection() +
-                            " already exited"),"Error",
+                            " already exists."),"Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 parent.addNewClass.actionStatus = "waiting";
             }
-        } else if (evt.getActionCommand().equals("Cancel/Go back")) {
+        } else if (evt.getActionCommand().equals("Cancel")) {
             parent.setSimpleModeVisible();
         } 
     }
@@ -225,14 +224,15 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         String string_courseID = courseIDTextField.getText();
         String string_courseNumber = courseNumberTextField.getText();
         String string_classSection = classSectionTextField.getText();
+        String string_semester = semesterTextField.getText();
         String string_classBuilding = classBuildingTextField.getText();
         String string_classRoom = classRoomNumberTextField.getText();
         String string_meetingTime = meetingTimeTextField.getText();
-        String string_semester = semesterTextField.getText();
         if (!textChecker(string_courseName, courseName) ||
             !textChecker(string_courseID, courseID) ||
             !textChecker(string_courseNumber, courseNumber) ||
             !textChecker(string_classSection, classSection) ||
+            !textChecker(string_semester, semester) ||
             !integerChecker(string_courseNumber)) {
         } else {
             newCourse.setName(string_courseName);
@@ -251,14 +251,14 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     private void addNewCourse(int i) {
     	parseXML.saveXML(newCourse);
         parent.getCourses().add(newCourse);
-        parent.simpleMode.addToRemoveMenu(i);
+        parent.simpleMode.refreshButtons();
+        parent.simpleMode.setRemoveMenu();
         parent.setSimpleModeVisible();
     }
 
     private boolean checkRepeatedCourse(MyCourse newCourse) {
-        for (int t = 0; t < parent.courses.size(); t++) {
-            if (parent.courses.get(t).getName().equals(newCourse.getName()) &&
-            		parent.courses.get(t).getSection().equals(newCourse.getSection())) {
+        for (int i = 0; i < parent.courses.size(); i++) {
+            if (parent.courses.get(i).getIdentifier().equals(newCourse.getIdentifier())) {
                 return false;
             }
         }
@@ -305,7 +305,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     private javax.swing.JLabel meetingTime;
     public javax.swing.JTextField meetingTimeTextField;
     public javax.swing.JTextField semesterTextField;
-    private javax.swing.JLabel semeter;
+    private javax.swing.JLabel semester;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -10,6 +10,7 @@ import interfaces.editClass.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -47,15 +48,9 @@ public class MainFrame extends javax.swing.JFrame {
         preloadGradebooks();
         simpleMode = new SimpleMode(this);
         addNewClass = new AddNewClass(this);     
-
         if (courseWindows.size() > 0) {
             currentCourseWindow = courseWindows.get(0);
-        }
-        else {
-            currentCourseWindow = new EditSelectedClass(this, null);
-        }
-    
-        getWelcomeWindowLayOut();  //add all the panels into the main frame
+        }    
         setSimpleModeVisible();
         synchronize();    //Update all other JPanel classes
         pack();
@@ -73,6 +68,7 @@ public class MainFrame extends javax.swing.JFrame {
     public void setEditSelectedClassVisible(EditSelectedClass selectedCourse) {
         setCurrentCourseWindow(selectedCourse);
         setContentPane(selectedCourse);
+        selectedCourse.populateTable();
         selectedCourse.setPanelMenu();
         simpleMode.setVisible(false);
         addNewClass.setVisible(false);
@@ -88,8 +84,19 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }
     
-    /*
-     * set which course needs to be edited
+    public void sortCourses() {
+    	for (int i = 0; i < courses.size(); i++) {
+    		for (int j = i; j < courses.size(); j++) {
+    			if (courses.get(i).getIdentifier().compareTo(courses.get(j).getIdentifier()) > 0) {
+    				Collections.swap(courses, i, j);
+    			}
+    		}
+    	}
+    }
+    
+    /**
+     *  set which course needs to be edited
+     * @param window a class for editSelectedClass
      */
     public void setCurrentCourseWindow(EditSelectedClass window) {
     	currentCourseWindow = window;
@@ -99,8 +106,8 @@ public class MainFrame extends javax.swing.JFrame {
      * add a single course into the edit course window arraylist
      * @course my courses object
      */
-    public void addCourseWindow(MyCourse course) {
-    	courseWindows.add(new EditSelectedClass(this, course));
+    public void addCourseWindow(int courseIndex) {
+    	courseWindows.add(new EditSelectedClass(this, courseIndex));
     }
     
     /*
@@ -159,22 +166,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void getWelcomeWindowLayOut() {
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentCourseWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(simpleMode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addNewClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(currentCourseWindow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
-        pack();
-    }
 
     /**
      * @param args the command line arguments
