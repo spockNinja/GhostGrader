@@ -147,7 +147,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 			populateTable();
 			if (i != null && j != null) {
 				courseName.setText(parent.courses.get(courseIndex).getName() + " " + 
-				parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName());
+				parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName() + " / Worth: " +
+				parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getWorth());
 			}
 			else
 				courseName.setText(parent.courses.get(courseIndex).getName());
