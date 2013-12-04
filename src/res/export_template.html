@@ -78,10 +78,14 @@
                                         <td>${pn}</td>
                                         <#list category.assignments as assignment>
                                         <td>
-                                            <#assign sg=(assignment.getGrade(pn)!0)>
-                                            <span class="tipme" data-toggle="tooltip" title="${(sg / assignment.worth) * 100}%">
-                                                ${sg}
-                                            </span>
+                                            <#if assignment.getGrade(pn)??>
+                                                <#assign sg=assignment.getGrade(pn)>
+                                                <span class="tipme" data-toggle="tooltip" title="${(sg / assignment.worth) * 100}%">
+                                                    ${sg}
+                                                </span>
+                                            <#else>
+                                                <span>--</span>
+                                            </#if>
                                         </td>
                                         </#list>
                                         <td class="success">
