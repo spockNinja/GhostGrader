@@ -42,6 +42,7 @@ import java.util.Comparator;
 
 import io.Exporter;
 import io.parseXML;
+import objects.Assignment;
 
 import java.awt.event.KeyEvent;
 
@@ -587,50 +588,46 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     private TableModelListener changedData() {
-    	TableModelListener cha = new TableModelListener() {
-    		public void tableChanged(TableModelEvent e) {
-   			   if (isTableSet) {
-   				   int r = e.getLastRow();
-   				   String message = "";
-   				   try {
-   					   if (Integer.parseInt(model.getValueAt(r, 2).toString()) > 
-   					       parent.courses.get(courseIndex).getCategories()
-   					       .get(categoryIndex)
-   					   	   .getAssignment(assignmentIndex).getWorth() || Integer.parseInt(model.getValueAt(r, 2).toString()) < 0) 
-   					   {
-   						   message = "INVALID INPUT:\nInput grade was not between 0 and "
-   								   	  + parent.courses.get(courseIndex).getCategories()
-   	  					   				.get(categoryIndex)
-   	  					   				.getAssignment(assignmentIndex).getWorth() + ".";
-   						   
-   						   throw new NumberFormatException();
-   					   }
- 					   parent.courses.get(courseIndex).getCategories()
- 					   .get(categoryIndex)
- 					   .getAssignment(assignmentIndex)
- 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 
- 							     Integer.parseInt(model.getValueAt(r, 2).toString()), true);
- 					   saveCurrentState();
- 				   } catch (NumberFormatException changeback) {
- 					   if (message.isEmpty()) message = "INVALID INPUT:\n" + model.getValueAt(r, 2).toString()
- 							   							+ " is not a valid integer number.";
- 					   if (model.getValueAt(r, 2).toString().isEmpty()) {
- 						  parent.courses.get(courseIndex).getCategories()
- 	 					   .get(categoryIndex)
- 	 					   .getAssignment(assignmentIndex)
- 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), null, true);
- 					   } else {
- 						   model.setValueAt( parent.courses.get(courseIndex).getCategories()
- 								   .get(categoryIndex)
- 								   .getAssignment(assignmentIndex)
- 								   .getGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName()), r, 2);
- 					       JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
- 					   }
- 				   }
-   			   }
- 		   }
-		};
-		return cha;
+        TableModelListener cha = new TableModelListener() {
+            public void tableChanged(TableModelEvent e) {
+                if (isTableSet) {
+                    int r = e.getLastRow();
+                    String message = "";
+                    Assignment currentAssignment = parent.courses.get(courseIndex).getCategories()
+                                                        .get(categoryIndex).getAssignment(assignmentIndex);
+                    try {
+                        Integer newValue = Integer.parseInt(model.getValueAt(r, 2).toString());
+                        int worth = currentAssignment.getWorth();
+                        if (newValue > worth || newValue < 0) {
+                            message = "INVALID INPUT:\nInput grade was not between 0 and " + worth + ".";
+                            throw new NumberFormatException();
+                        }
+                        currentAssignment.setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), newValue, true);
+                        saveCurrentState();
+                    } catch (NumberFormatException changeback) {
+                        if (message.isEmpty()) {
+                            message = "INVALID INPUT:\n"
+                                        + model.getValueAt(r, 2).toString()
+                                        + " is not a valid integer number.";
+                        }
+                        if (model.getValueAt(r, 2).toString().isEmpty()) {
+                            currentAssignment.setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), null, true);
+                        }
+                        else {
+                            Integer oldGrade = currentAssignment.getGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName());
+                            if (oldGrade != null) {
+                                model.setValueAt(oldGrade, r, 2);
+                            }
+                            else {
+                                model.setValueAt("", r, 2);
+                                JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        return cha;
     }
     
     private void removeStudentActionPerformed(java.awt.event.ActionEvent evt, JMenuItem student) {
