@@ -239,6 +239,32 @@ public class MyCourse {
     	
     	return total * students.size();
     }
+
+    // The real work is done at the category level this just sums up the cat totals
+    public Double getStudentGradeStatistic(String pseudoName, String mode) {
+        double totalPoints = 0.0;
+        double totalWorth = 0.0;
+        for (int i=0; i < categories.size(); i++) {
+            Double[] res = categories.get(i).getStudentGradeStatistic(pseudoName, mode);
+            totalPoints += res[0];
+            totalWorth += res[1];
+        }
+        double ret = (totalPoints / totalWorth) * 100;
+        return Double.parseDouble(decimalFormat.format(ret));
+    }
+
+    // The real work is done at the category level this just sums up the cat totals
+    public Double getAverageGradeStatistic(String mode) {
+        double totalPoints = 0.0;
+        double totalWorth = 0.0;
+        for (int i=0; i < categories.size(); i++) {
+            Double[] res = categories.get(i).getAverageGradeStatistic(mode);
+            totalPoints += res[0];
+            totalWorth += res[1];
+        }
+        double ret = (totalPoints / totalWorth) * 100;
+        return Double.parseDouble(decimalFormat.format(ret));
+    }
     
     /**
      * Returns the total course average grade if the grade is weighted flag
@@ -626,15 +652,12 @@ public class MyCourse {
     	Collections.sort(ghostStudents, GhostStudent.PseudoNameComparator);
     	allStudents.addAll(students);
     	
-    	System.out.println("First");
-    	
     	for (int j = 0; j < ghostStudents.size(); j++) {
     		for (int i = 0; i < allStudents.size(); i++) {
     			if (allStudents.get(i) instanceof Student) {
     				Student stud = (Student) allStudents.get(i);
     				if (ghostStudents.get(j).getPseudoName().compareTo(stud.getPseudoName()) < 0) {
     					allStudents.add(i, ghostStudents.get(j));
-    			    	System.out.println("Second");
     			    	break;
     				}
     			}
@@ -642,14 +665,11 @@ public class MyCourse {
     				GhostStudent stud = (GhostStudent) allStudents.get(i);
     				if (ghostStudents.get(j).getPseudoName().compareTo(stud.getPseudoName()) < 0) {
     					allStudents.add(i, ghostStudents.get(j));
-    			    	System.out.println("Third");
     			    	break;
     				}
     			}
     		}
     	}
-    	
-    	System.out.println("Fourth");
     	
     	String[] ghostNames = new String[getNumberOfGhostStudents()];
 		for (int k = 0; k < getNumberOfGhostStudents(); k++) {
