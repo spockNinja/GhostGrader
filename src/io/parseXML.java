@@ -80,12 +80,18 @@ public class parseXML {
             NodeList buildingList = doc.getElementsByTagName("building");
             Node buildingNode = buildingList.item(0);
             
-            course.setBuilding(buildingNode.getFirstChild().getNodeValue());
+            Node buildingTextNode = buildingNode.getFirstChild();
+            if (buildingTextNode != null) {
+                course.setBuilding(buildingTextNode.getNodeValue());
+            }
             
             NodeList roomIDList = doc.getElementsByTagName("roomID");
             Node roomIDNode = roomIDList.item(0);
             
-            course.setRoomID( roomIDNode.getFirstChild().getNodeValue());
+            Node roomIDTextNode = roomIDNode.getFirstChild();
+            if (roomIDTextNode != null) {
+                course.setRoomID(roomIDTextNode.getNodeValue());
+            }
             
             /* ------------------------------
              * Section for meetingTime
@@ -94,7 +100,10 @@ public class parseXML {
             NodeList meetingTimeList = doc.getElementsByTagName("meetingTime");
             Node meetingTimeNode = meetingTimeList.item(0);
             
-            course.setMeetingTime(meetingTimeNode.getFirstChild().getNodeValue());
+            Node meetingTimeTextNode = meetingTimeNode.getFirstChild();
+            if (meetingTimeTextNode != null) {
+                course.setMeetingTime(meetingTimeTextNode.getNodeValue());
+            }
             
             /* ------------------------------
              * Section for semester
@@ -104,6 +113,10 @@ public class parseXML {
             Node semesterNode = semesterList.item(0);
             
             course.setSemester(semesterNode.getFirstChild().getNodeValue());
+            Node semesterTextNode = semesterNode.getFirstChild();
+            if (semesterTextNode != null) {
+                course.setSemester(semesterTextNode.getNodeValue());
+            }
             
             /* ------------------------------
              * Section for index
@@ -290,18 +303,20 @@ public class parseXML {
                         Assignment currentAssignment = currentCategory.getAssignment(currentCategory.getAssignmentIndex(assignmentName));
                         String gradeValue = new String(ch, start, length);
                         String pseudoName = null;
+                        boolean student = false;
                         if (studentIndex < totalStudents) {
                             pseudoName = course.getStudent(studentIndex).getPseudoName();
+                            student = true;
                         }
                         else {
                             pseudoName = course.getGhostStudent(studentIndex - totalStudents).getPseudoName();
                         }
 
                         if (gradeValue.equals("null") || gradeValue.equals("")) {
-                            currentAssignment.setGrade(pseudoName, null);
+                            currentAssignment.setGrade(pseudoName, null, student);
                         }
                         else {
-                            currentAssignment.setGrade(pseudoName, Integer.parseInt(gradeValue));
+                            currentAssignment.setGrade(pseudoName, Integer.parseInt(gradeValue), student);
                         }
                         isGrade = false;
                         studentIndex ++;
