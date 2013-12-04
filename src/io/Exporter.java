@@ -27,7 +27,7 @@ public class Exporter
 
             Template temp = cfg.getTemplate("export_template.html");
 
-            Collections.sort(course.getStudents(), Student.PseudoNameComparator);
+            //Collections.sort(course.getStudents(), Student.PseudoNameComparator);
             temp.process(course, templateWriter);
 
             templateWriter.close();

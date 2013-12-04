@@ -35,7 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
     public EditSelectedClass currentCourseWindow;
     
     public ArrayList<MyCourse> courses;
-    public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();;
+    public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();
     public MyCourse currentCourse;
 
     public MainFrame() {
@@ -69,8 +69,8 @@ public class MainFrame extends javax.swing.JFrame {
     public void setEditSelectedClassVisible(EditSelectedClass selectedCourse) {
         setCurrentCourseWindow(selectedCourse);
         setContentPane(selectedCourse);
-        if (courses.get(selectedCourse.courseIndex).getLastCategoryIndex() != null  && courses.get(selectedCourse.courseIndex).getLastAssignmentIndex() != null)
-        	selectedCourse.loadTable(courses.get(selectedCourse.courseIndex).getLastCategoryIndex(), courses.get(selectedCourse.courseIndex).getLastAssignmentIndex());
+        /*if (courses.get(selectedCourse.courseIndex).getLastCategoryIndex() != null  && courses.get(selectedCourse.courseIndex).getLastAssignmentIndex() != null)
+        	selectedCourse.loadTable(courses.get(selectedCourse.courseIndex).getLastCategoryIndex(), courses.get(selectedCourse.courseIndex).getLastAssignmentIndex());*/
         selectedCourse.setPanelMenu();
         simpleMode.setVisible(false);
         addNewClass.setVisible(false);
@@ -83,6 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         simpleMode.setVisible(false);
         if (currentCourseWindow != null)
         	currentCourseWindow.setVisible(false);
+        addNewClass.clearComponents();
         addNewClass.setVisible(true);
         pack();
     }
@@ -153,7 +154,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("GhostGradeBook 5.4");
+        setTitle("GhostGrader");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
