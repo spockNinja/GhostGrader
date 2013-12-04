@@ -48,9 +48,9 @@
                                     <#assign pn=student.pseudoName>
                                     <tr>
                                         <td>${pn}</td>
-                                        <td>CG here</td>
-                                        <td>BPG here</td>
-                                        <td>WPG here</td>
+                                        <td>${getStudentGradeStatistic(pn, "current")}%</td>
+                                        <td>${getStudentGradeStatistic(pn, "best")}%</td>
+                                        <td>${getStudentGradeStatistic(pn, "worst")}%</td>
                                     </tr>
                                     </#list>
                                 </tbody>

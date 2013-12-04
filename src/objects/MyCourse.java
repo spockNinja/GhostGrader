@@ -239,6 +239,18 @@ public class MyCourse {
     	
     	return total * students.size();
     }
+
+    // The real work is done at the category level this just sums up the cat totals
+    public Double getStudentGradeStatistic(String pseudoName, String mode) {
+        double totalPoints = 0.0;
+        double totalWorth = 0.0;
+        for (int i=0; i < categories.size(); i++) {
+            Double[] res = categories.get(i).getStudentGradeStatistic(pseudoName, mode);
+            totalPoints += res[0];
+            totalWorth += res[1];
+        }
+        return (totalPoints / totalWorth) * 100;
+    }
     
     /**
      * Returns the total course average grade if the grade is weighted flag
