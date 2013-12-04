@@ -133,13 +133,23 @@ public class Assignment {
     }
     
     /**
-     * Gets an ArrayList of all the values in the studentGrades HashMap
+     * Gets an ArrayList of all the values in the grades HashMap
      * Useful for dealing with statistical analysis
      * 
      * @return		Collection of values in the grades HashMap
      */
+    public ArrayList<Integer> getAllGrades() {
+        return new ArrayList<Integer>(grades.values());
+    }
+
+    /**
+     * Gets an ArrayList of all the values in the studentGrades HashMap
+     * Useful for dealing with statistical analysis
+     * 
+     * @return		Collection of values in the studentGrades HashMap
+     */
     public ArrayList<Integer> getAllStudentGrades() {
-    	return new ArrayList<Integer>(studentGrades.values());
+        return new ArrayList<Integer>(studentGrades.values());
     }
 
     private boolean notYetEntered() {

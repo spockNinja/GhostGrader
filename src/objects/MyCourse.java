@@ -249,7 +249,21 @@ public class MyCourse {
             totalPoints += res[0];
             totalWorth += res[1];
         }
-        return (totalPoints / totalWorth) * 100;
+        double ret = (totalPoints / totalWorth) * 100;
+        return Double.parseDouble(decimalFormat.format(ret));
+    }
+
+    // The real work is done at the category level this just sums up the cat totals
+    public Double getAverageGradeStatistic(String mode) {
+        double totalPoints = 0.0;
+        double totalWorth = 0.0;
+        for (int i=0; i < categories.size(); i++) {
+            Double[] res = categories.get(i).getAverageGradeStatistic(mode);
+            totalPoints += res[0];
+            totalWorth += res[1];
+        }
+        double ret = (totalPoints / totalWorth) * 100;
+        return Double.parseDouble(decimalFormat.format(ret));
     }
     
     /**

@@ -195,7 +195,7 @@ public class AssignmentCategory {
     	gradingWeight = weight;
     }
 
-    /** Statistics Function for Exporting
+    /** Statistics Function for Exporting - Student level
      * Current Grade, Worst Grade, Best Grade
      * Current only uses non-null grades
      * Worst gives 0s to null grades
@@ -218,6 +218,39 @@ public class AssignmentCategory {
             }
             else if (mode.equals("worst")) {
                 totalWorth += assWorth;
+            }
+        }
+
+        Double[] ret = {totalPoints, totalWorth};
+        return ret;
+    }
+
+    /** Statistics Function for Exporting - Average level
+     * Current Grade, Worst Grade, Best Grade
+     * Current only uses non-null grades
+     * Worst gives 0s to null grades
+     * Best gives full credit to null grades
+     */
+    public Double[] getAverageGradeStatistic(String mode) {
+        double totalPoints = 0.0;
+        double totalWorth = 0.0;
+        for (int i=0; i < assignments.size(); i++) {
+            Assignment ass = assignments.get(i);
+            ArrayList<Integer> assGrades = ass.getAllGrades();
+            int assWorth = ass.getWorth();
+            for (int j=0; j < assGrades.size(); j++) {
+                Integer assGrade = assGrades.get(j);
+                if (assGrade != null) {
+                    totalPoints += assGrade;
+                    totalWorth += assWorth;
+                }
+                else if (mode.equals("best")) {
+                    totalPoints += assWorth;
+                    totalWorth += assWorth;
+                }
+                else if (mode.equals("worst")) {
+                    totalWorth += assWorth;
+                }
             }
         }
 

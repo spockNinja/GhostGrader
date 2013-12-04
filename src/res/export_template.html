@@ -16,9 +16,6 @@
                 <h1 class="text-center">${name} - Section ${section}</h1>
             </div>
             <div class="row">
-                <p class="text-center">Class Average: ${courseAverageGrade}%</p>
-            </div>
-            <div class="row">
                 <div class="col-md-12" id="grades">
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -27,7 +24,7 @@
                         <#list categories as category>
                         <#if category.assignments.size() &gt; 0>
                         <li>
-                            <a href="#${category.name}" data-toggle="tab">
+                            <a href="#${category.name?replace(" ", "")}" data-toggle="tab">
                                 <h4>${category.name}</h4>
                             </a>
                         </li>
@@ -53,13 +50,19 @@
                                         <td>${getStudentGradeStatistic(pn, "worst")}%</td>
                                     </tr>
                                     </#list>
+                                    <tr class="success">
+                                        <td>Average</td>
+                                        <td>${getAverageGradeStatistic("current")}%</td>
+                                        <td>${getAverageGradeStatistic("best")}%</td>
+                                        <td>${getAverageGradeStatistic("worst")}%</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                         <#list categories as category>
                         <#if category.assignments.size() &gt; 0>
                         <#assign catTotalPoints=category.getTotalPoints()>
-                        <div class="tab-pane" id="${category.name}">
+                        <div class="tab-pane" id="${category.name?replace(" ", "")}">
                             <table class="table table-striped table-bordered table-condensed table-hover">
                                 <thead>
                                     <th>Student</th>
