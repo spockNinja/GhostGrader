@@ -438,7 +438,7 @@ public class MyCourse {
         students.add(new Student(fn, ln, pnGenerator.generateName()));
         
         Random generator = new Random();
-        int ghostAmount = generator.nextInt(5) + 5; //Random number between 5 and 10
+        int ghostAmount = generator.nextInt(5) + 20; //Random number between 5 and 10
         
         for (int i = 0; i < ghostAmount; i++) {
         	addGhostStudent();
