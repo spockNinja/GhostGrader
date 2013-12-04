@@ -286,24 +286,25 @@ public class parseXML {
                     	isWorth = false;
                     }
                    if (isGrade) {
-                	   AssignmentCategory currentCategory = course.getAssignmentCategory(currentCategoryIndex);
-                	   Assignment currentAssignment = currentCategory.getAssignment(currentCategory.getAssignmentIndex(assignmentName));
-                	   if (studentIndex < totalStudents) {
-                		   String studentPseudoName = course.getStudent(studentIndex).getPseudoName();
-                		   if (new String(ch, start, length).equals("null") || new String(ch, start, length).equals(""))
-                			   currentAssignment.setGrade(studentPseudoName, null);
-                		   else
-                			   currentAssignment.setGrade(studentPseudoName, Integer.parseInt(new String(ch, start, length)));
-                	   }
-                	   else {
-                		   String ghostPseudoName = course.getGhostStudent(studentIndex - totalStudents).getPseudoName();
-                		   if (new String(ch, start, length).equals("null") || new String(ch, start, length).equals(""))
-                			   currentAssignment.setGrade(ghostPseudoName, null);
-                		   else
-                			   currentAssignment.setGrade(ghostPseudoName, Integer.parseInt(new String(ch, start, length)));
-                	   }
-                	   isGrade = false;
-                	   studentIndex ++;
+                        AssignmentCategory currentCategory = course.getAssignmentCategory(currentCategoryIndex);
+                        Assignment currentAssignment = currentCategory.getAssignment(currentCategory.getAssignmentIndex(assignmentName));
+                        String gradeValue = new String(ch, start, length);
+                        String pseudoName = null;
+                        if (studentIndex < totalStudents) {
+                            pseudoName = course.getStudent(studentIndex).getPseudoName();
+                        }
+                        else {
+                            pseudoName = course.getGhostStudent(studentIndex - totalStudents).getPseudoName();
+                        }
+
+                        if (gradeValue.equals("null") || gradeValue.equals("")) {
+                            currentAssignment.setGrade(pseudoName, null);
+                        }
+                        else {
+                            currentAssignment.setGrade(pseudoName, Integer.parseInt(gradeValue));
+                        }
+                        isGrade = false;
+                        studentIndex ++;
                    }
                 }
             };

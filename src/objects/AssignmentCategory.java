@@ -71,7 +71,10 @@ public class AssignmentCategory {
         Integer studentTotal = 0;
 
         for (int i = 0; i < assignments.size(); i++) {
-            studentTotal += assignments.get(i).getGrade(pseudoName);
+            Integer next = assignments.get(i).getGrade(pseudoName);
+            if (next != null) {
+                studentTotal += next;
+            }
         }
 
         return studentTotal;
