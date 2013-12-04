@@ -1,5 +1,7 @@
 package interfaces.editClass;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -47,7 +49,7 @@ public class AddNewStudent extends javax.swing.JPanel {
         sorter.sort();
     }
     
-    private void populateTable() {
+    public void populateTable() {
 		isTableSet = false;
     	for (int i = model.getRowCount()-1; i >= 0; i--) {
     		model.removeRow(i);
@@ -85,7 +87,7 @@ public class AddNewStudent extends javax.swing.JPanel {
     		 studentTable.transferFocus();
         	}
         };
-        
+
         studentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         studentTable.setModel(model);
         
@@ -109,7 +111,7 @@ public class AddNewStudent extends javax.swing.JPanel {
                 addButtonActionPerformed(evt);
             }
         });
-
+        
         cancelButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         cancelButton.setText("Return");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -180,11 +182,24 @@ public class AddNewStudent extends javax.swing.JPanel {
             if (studentTable.isEditing()) {
             	studentTable.getCellEditor().stopCellEditing();
             }
+            
+            if (firstNameTextField.getText().equals("")) {
+            	firstNameTextField.requestFocus();
+            	return;
+            }
+            else if (lastNameTextField.getText().equals("")) {
+            	lastNameTextField.requestFocus();
+            	return;
+            }
+            
         	if (!checkName(firstNameTextField.getText(), lastNameTextField.getText())) {
         		parent.parent.courses.get(parent.courseIndex).addStudent(firstNameTextField.getText(), lastNameTextField.getText());
+        		parent.addRemoveStudent(parent.parent.courses.get(parent.courseIndex).getNumberOfStudents()-1);
         		firstNameTextField.setText("");
         		lastNameTextField.setText("");
             	populateTable();
+            	firstNameTextField.requestFocus();
+            	parent.saveCurrentState();
         	}
         }//GEN-LAST:event_addButtonActionPerformed
 
@@ -245,12 +260,12 @@ public class AddNewStudent extends javax.swing.JPanel {
         };
 
         
-    private javax.swing.JButton addButton;
+    public javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
+    public javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel lastNameLabel;
-    private javax.swing.JTextField lastNameTextField;
+    public javax.swing.JTextField lastNameTextField;
     private javax.swing.JTable studentTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel title;

@@ -7,10 +7,13 @@
 package interfaces.editClass;
 
 import io.parseXML;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 import objects.Assignment;
 
 /**
@@ -21,17 +24,27 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
 
     public String actionStatus = "waiting";
     private EditSelectedClass parent;
-    private DefaultTableModel model;
-    private int categoryIndex;
+    public int categoryIndex;
     private boolean isCorrectedFormat;
+    private boolean isTableSet = false;
     /**
      * Creates new form AddAssigmentPanel
      */
-    public AddAssignmentPanel(EditSelectedClass parent) {
-        this.parent = parent;
+    public AddAssignmentPanel(EditSelectedClass p) {
+        parent = p;
         
         initComponents();
-        setTable();
+    }
+    
+    public void populateTable() {
+    	for (int i = model.getRowCount()-1; i >= 0; i--) {
+    		model.removeRow(i);
+    	}
+    	for (int i = 0; i < parent.parent.courses.get(parent.courseIndex).getAssignmentCategory(categoryIndex).getAssignments().size(); i++) {
+    		model.insertRow(i, new Object[]{ 
+    				parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getAssignment(i).getName(),
+    				parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getAssignment(i).getWorth()});
+    	}
     }
 
     /**
@@ -42,25 +55,55 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	
+        table = new javax.swing.JTable() {
+            public void changeSelection(final int row, final int column, boolean toggle, boolean extend) {
+    		      super.changeSelection(row, column, toggle, extend);
+    		      table.editCellAt(row, column);
+    		      table.transferFocus();
+        	   }
+        };
+        
+        table.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        table.setModel(model);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane1.setViewportView(table);
+    	
+        nameLabel = new javax.swing.JLabel();
+        nameTextField = new javax.swing.JTextField();
+        worthLabel = new javax.swing.JLabel();
+        worthTextField = new javax.swing.JTextField();
+        
+        nameLabel.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        nameLabel.setText("Name: ");
+
+        nameTextField.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        nameTextField.setText("");
+
+        worthLabel.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        worthLabel.setText("Worth: ");
+
+        worthTextField.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        worthTextField.setText("");
 
         courseInfo = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
 
         addButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
         courseInfo.setFont(new java.awt.Font("Georgia", 0, 18)); // NOI18N
-        courseInfo.setText("Title");
+        courseInfo.setText("");
 
-        addButton.setText("Save Changes");
-        addButton.addActionListener(parent.parent.currentCourseWindow);
+        addButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        addButton.setText("Add");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
-
-        cancelButton.setText("Cancel");
+        
+        cancelButton.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        cancelButton.setText("Return");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -71,99 +114,81 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(addButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
-                .addComponent(cancelButton))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(courseInfo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(courseInfo)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(worthLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(worthTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                        .addContainerGap())))
+                    		
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(courseInfo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLabel)
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(worthLabel)
+                    .addComponent(worthTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addButton)
                     .addComponent(cancelButton))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void setTable() {
-        table = new javax.swing.JTable() {
-            public void changeSelection(final int row, final int column, boolean toggle, boolean extend) {
-    		      super.changeSelection(row, column, toggle, extend);
-    		      table.editCellAt(row, column);
-    		      table.transferFocus();
-        	   }
-        };
-        
-        table.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Name", "Worth"
-            }
-        ));
-        jScrollPane1.setViewportView(table);
-        model = (DefaultTableModel) table.getModel();
-    }
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         if (table.isEditing()) {
         	table.getCellEditor().stopCellEditing();
         }
-        if (!isInteger())
+        
+        if (nameTextField.getText().equals("")) {
+        	nameTextField.requestFocus();
         	return;
-        for (int i = 0; i < parent.assignmentWindow.table.getRowCount(); i++) {
-            if (isNullAndEmpty(i)
-                    && i < parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
-                int worth = Integer.valueOf(parent.assignmentWindow.table.getValueAt(i, 1).toString());
-                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
-                        .getAssignment(i).setName((String)parent.assignmentWindow.table.getValueAt(i, 0));
-                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
-                        .getAssignment(i).setWorth(worth);
-                parent.refreshMenu(parent);
-            }
-
-           if (isNullAndEmpty(i)
-                    && i >= parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
-                int worth = Integer.valueOf(parent.assignmentWindow.table.getValueAt(i, 1).toString());
-                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
-                        .addAssignment((String)parent.assignmentWindow.table.getValueAt(i, 0) , worth);
-            }
         }
-        parent.assignmentWindow.table.clearSelection();
-        parseXML.saveXML(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex));
-        actionStatus = "addAssignment";
-        parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
+        else if (worthTextField.getText().equals("")) {
+        	worthTextField.requestFocus();
+        	return;
+        }
+        
+        try {
+        	Integer.parseInt(worthTextField.getText());
+        } catch (NumberFormatException e) {
+        	return;
+        	//FIXME
+        }
+        
+        parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).addAssignment(nameTextField.getText(), Integer.parseInt(worthTextField.getText()));
 
+        nameTextField.setText("");
+        worthTextField.setText("");
+        parent.saveCurrentState();
+        nameTextField.requestFocus();
+        populateTable();
     }//GEN-LAST:event_addButtonActionPerformed
 
     private boolean isInteger() {
@@ -198,42 +223,65 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
     }
     
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        if (parent.assignmentWindow.table.isEditing()) {
+        if (table.isEditing()) {
         	table.getCellEditor().stopCellEditing();
         }
+        if (!isInteger())
+        	return;
+        for (int i = 0; i < parent.assignmentWindow.table.getRowCount(); i++) {
+            if (isNullAndEmpty(i)
+                    && i < parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
+                int worth = Integer.valueOf(parent.assignmentWindow.table.getValueAt(i, 1).toString());
+                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
+                        .getAssignment(i).setName((String)parent.assignmentWindow.table.getValueAt(i, 0));
+                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
+                        .getAssignment(i).setWorth(worth);
+                parent.refreshMenu(parent);
+            }
+
+           if (isNullAndEmpty(i)
+                    && i >= parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments()) {
+                int worth = Integer.valueOf(parent.assignmentWindow.table.getValueAt(i, 1).toString());
+                parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex)
+                        .addAssignment((String)parent.assignmentWindow.table.getValueAt(i, 0) , worth);
+            }
+        }
+        parent.assignmentWindow.table.clearSelection();
+        parseXML.saveXML(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex));
+        parent.refreshMenu(parent);
         parent.parent.setEditSelectedClassVisible(parent.parent.currentCourseWindow);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        for (int i = 0; i < parent.assignmentWindow.table.getRowCount(); i++) {
-            if (parent.assignmentWindow.table.getValueAt(i, 0) != null
-                    || parent.assignmentWindow.table.getValueAt(i, 1) != null) {
-                parent.assignmentWindow.table.setValueAt(null, i, 0);
-                parent.assignmentWindow.table.setValueAt(null, i, 1);
-            }
-        }
-        
-        parent.parent.currentCourseWindow.changeTabActionsToEnterActions(parent.assignmentWindow.table);
-        categoryIndex = parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategoryIndex(parent.parent.currentCourseWindow.categorySelected);
-        parent.assignmentWindow.courseInfo.setText(parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getName() + "-" +
-                            parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getSection() + " " + 
-                            parent.parent.currentCourseWindow.categorySelected);
-        for (int i = 0; i < parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getNumberOfAssignments(); i++) {
-            String assignmentName = parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getAssignment(i).getName();
-            int assignmentGrade = parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).getAssignment(i).getWorth();
-            parent.assignmentWindow.table.setValueAt(assignmentName, i, 0);
-            parent.assignmentWindow.table.setValueAt(assignmentGrade, i, 1);
-            parent.assignmentWindow.model.addRow(new Object[]{null, null});
-        }
-        parent.assignmentWindow.categoryIndex = categoryIndex;
+
     }
+    
+	public DefaultTableModel model = new DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Worth" 
+            }
+        ) {
+            public boolean isCellEditable(int row, int column) {
+            	if (column == 2)
+            		return false;
+            	else
+            		return true;
+            }
+        };
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    public javax.swing.JButton addButton;
     private javax.swing.JButton cancelButton;
     public javax.swing.JLabel courseInfo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
+    private javax.swing.JLabel nameLabel;
+    public javax.swing.JTextField nameTextField;
+    private javax.swing.JLabel worthLabel;
+    private javax.swing.JTextField worthTextField;
     // End of variables declaration//GEN-END:variables
 }

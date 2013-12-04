@@ -1,6 +1,7 @@
 package objects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.text.DecimalFormat;
@@ -30,6 +31,7 @@ public class MyCourse {
     private List<Student> students = new ArrayList<Student>();
     private List<AssignmentCategory> categories = new ArrayList<AssignmentCategory>();
     private List<GhostStudent> ghostStudents = new ArrayList<GhostStudent>();
+    private List<Object> allStudents = new ArrayList<Object>();
     private final PseudoNameGenerator pnGenerator;
     private DecimalFormat decimalFormat = new DecimalFormat("#.#");
     private boolean isGradingWeighted;
@@ -61,12 +63,11 @@ public class MyCourse {
     }
     
     /**
-     * FIXME  what is going on here?
+     * 
      * 
      * @param names
      */
     private void populateNames(String[] names) {
-    	System.out.println(names.length+"============");
     	for (int i = 0; i < names.length; i++) {
     		names[i] = ghostStudents.get(i).getPseudoName();
     	}
@@ -483,6 +484,10 @@ public class MyCourse {
         return students;
     }
     
+    public List<Object> getAllStudents() {
+    	return allStudents;
+    }
+    
     /**
      * Returns the index of the Student in the student arrayList
      * 
@@ -613,6 +618,48 @@ public class MyCourse {
     
     public void setIsGradingWeighted(boolean is) {
     	isGradingWeighted = is;
+    }
+    
+    public void setGhostGrades() {
+    	allStudents.removeAll(allStudents);
+    	Collections.sort(students, Student.PseudoNameComparator);
+    	Collections.sort(ghostStudents, GhostStudent.PseudoNameComparator);
+    	allStudents.addAll(students);
+    	
+    	System.out.println("First");
+    	
+    	for (int j = 0; j < ghostStudents.size(); j++) {
+    		for (int i = 0; i < allStudents.size(); i++) {
+    			if (allStudents.get(i) instanceof Student) {
+    				Student stud = (Student) allStudents.get(i);
+    				if (ghostStudents.get(j).getPseudoName().compareTo(stud.getPseudoName()) < 0) {
+    					allStudents.add(i, ghostStudents.get(j));
+    			    	System.out.println("Second");
+    			    	break;
+    				}
+    			}
+    			else {
+    				GhostStudent stud = (GhostStudent) allStudents.get(i);
+    				if (ghostStudents.get(j).getPseudoName().compareTo(stud.getPseudoName()) < 0) {
+    					allStudents.add(i, ghostStudents.get(j));
+    			    	System.out.println("Third");
+    			    	break;
+    				}
+    			}
+    		}
+    	}
+    	
+    	System.out.println("Fourth");
+    	
+    	String[] ghostNames = new String[getNumberOfGhostStudents()];
+		for (int k = 0; k < getNumberOfGhostStudents(); k++) {
+			ghostNames[k] = getGhostStudent(k).getPseudoName();
+		}
+    	for (int i = 0; i < getCategories().size(); i++) {
+    		for (int j = 0; j < getAssignmentCategory(i).getAssignments().size(); j++) {
+    			getAssignmentCategory(i).getAssignment(j).setGhostGrades(ghostNames);
+    		}
+    	}
     }
     
     /**

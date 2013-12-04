@@ -1,5 +1,7 @@
 package objects;
 
+import java.util.Comparator;
+
 /**
  * Creates a 'ghost student' to help obfuscate real student grades
  * 
@@ -26,4 +28,16 @@ public class GhostStudent {
 	public String getPseudoName() {
 		return pseudoName;
 	}
+	
+    /**
+     * Allows for comparison/sorting based on the Students' PseudoNames
+     * Simply pass this into Collections.sort() as the comparator
+     */
+    public static Comparator<GhostStudent> PseudoNameComparator = new Comparator<GhostStudent>() {
+        public int compare(GhostStudent s1, GhostStudent s2) {
+            String psName1 = s1.getPseudoName().toUpperCase();
+            String psName2 = s2.getPseudoName().toUpperCase();
+            return psName1.compareTo(psName2);
+        };
+    };
 }

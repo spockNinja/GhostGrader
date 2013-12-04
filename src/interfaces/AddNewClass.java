@@ -1,6 +1,7 @@
 package interfaces;
 
 
+import interfaces.editClass.EditSelectedClass;
 import io.parseXML;
 
 import java.awt.event.ActionListener;
@@ -245,11 +246,12 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
             newCourse.setMeetingTime(string_meetingTime);
             newCourse.setSemester(string_semester);
             newCourse.setNewCourse(true);
+            newCourse.setLastAssignmentIndex(null);
+            newCourse.setLastCategoryIndex(null);
             actionStatus = "dataReady";
         }
     }
     private void addNewCourse(int i) {
-    	parseXML.saveXML(newCourse);
         parent.getCourses().add(newCourse);
         parent.simpleMode.refreshButtons();
         parent.simpleMode.setRemoveMenu();
@@ -307,5 +309,20 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     public javax.swing.JTextField semesterTextField;
     private javax.swing.JLabel semester;
     // End of variables declaration//GEN-END:variables
+
+	public void clearComponents() {
+		classBuildingTextField.setText("");
+		classNameTextField.setText("");
+		classRoomNumberTextField.setText("");
+		classNameTextField.setText("");
+		classRoomNumberTextField.setText("");
+		courseIDTextField.setText("");
+		courseNumberTextField.setText("");
+		meetingTimeTextField.setText("");
+		semesterTextField.setText("");
+		classSectionTextField.setText("");
+		
+		classNameTextField.requestFocus();
+		}
 
 }

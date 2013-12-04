@@ -35,7 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
     public EditSelectedClass currentCourseWindow;
     
     public ArrayList<MyCourse> courses;
-    public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();;
+    public ArrayList<EditSelectedClass> courseWindows = new ArrayList<EditSelectedClass>();
     public MyCourse currentCourse;
 
     public MainFrame() {
@@ -61,14 +61,16 @@ public class MainFrame extends javax.swing.JFrame {
         setContentPane(simpleMode);
         simpleMode.setVisible(true);
         addNewClass.setVisible(false);
-        currentCourseWindow.setVisible(false);
+        if (currentCourseWindow != null)
+        	currentCourseWindow.setVisible(false);
         pack();
     }
     
     public void setEditSelectedClassVisible(EditSelectedClass selectedCourse) {
         setCurrentCourseWindow(selectedCourse);
         setContentPane(selectedCourse);
-        selectedCourse.populateTable();
+        /*if (courses.get(selectedCourse.courseIndex).getLastCategoryIndex() != null  && courses.get(selectedCourse.courseIndex).getLastAssignmentIndex() != null)
+        	selectedCourse.loadTable(courses.get(selectedCourse.courseIndex).getLastCategoryIndex(), courses.get(selectedCourse.courseIndex).getLastAssignmentIndex());*/
         selectedCourse.setPanelMenu();
         simpleMode.setVisible(false);
         addNewClass.setVisible(false);
@@ -79,7 +81,9 @@ public class MainFrame extends javax.swing.JFrame {
     public void setAddNewClass() {
         setContentPane(addNewClass);
         simpleMode.setVisible(false);
-        currentCourseWindow.setVisible(false);
+        if (currentCourseWindow != null)
+        	currentCourseWindow.setVisible(false);
+        addNewClass.clearComponents();
         addNewClass.setVisible(true);
         pack();
     }
@@ -150,7 +154,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("GhostGradeBook 5.4");
+        setTitle("GhostGrader");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,6 +175,11 @@ public class MainFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+    	
+    	File f = new File("gradebooks" + File.separator + "archive" + File.separator + "records");
+    	
+    	f.mkdirs();
+    	
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

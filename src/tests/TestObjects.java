@@ -35,6 +35,6 @@ public class TestObjects {
         //removing an assignment by index which is out of bounds
  
     	//adding a student adds a ghostStudent
-    	
+    	t.courses[0].assignGhostGrades(t.courses[0].getAssignmentCategory(0).getAssignment(0));
     }
 }

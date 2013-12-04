@@ -112,7 +112,7 @@ public class Assignment {
      * @param grade			The score the student is being assigned for the assignment
      * @return				The previous value associated to the key.
      */
-    public Integer setGrade(String pseudoName, int grade) {
+    public Integer setGrade(String pseudoName, Integer grade) {
     	grades.put(pseudoName, grade);
     	if (grades.containsKey(pseudoName)) studentGrades.add(grade);
     	return grades.get(pseudoName);
@@ -145,6 +145,9 @@ public class Assignment {
     public void setGhostGrades(String[] ghostNames) {
     	int[] ghostGrades = new int[ghostNames.length];
     	assignGhostGrades(ghostGrades);
+    	for (int i = 0; i < ghostNames.length; i++) {
+    		this.setGrade(ghostNames[i], ghostGrades[i]);
+    	}
     }
     private void assignGhostGrades(int[] ghostGrades) {
     	int numberOfGhosts = ghostGrades.length;

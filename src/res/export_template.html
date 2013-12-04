@@ -42,7 +42,7 @@
                                     <th>Worst Possible Grade</th>
                                 </thead>
                                 <tbody>
-                                    <#list students as student>
+                                    <#list allStudents as student>
                                     <#assign pn=student.pseudoName>
                                     <tr>
                                         <td>${pn}</td>
@@ -65,7 +65,7 @@
                                     <th class="success">Total (${category.totalPoints})</th>
                                 </thead>
                                 <tbody>
-                                    <#list students as student>
+                                    <#list allStudents as student>
                                     <#assign pn=student.pseudoName>
                                     <tr>
                                         <td>${pn}</td>

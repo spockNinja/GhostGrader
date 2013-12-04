@@ -8,9 +8,6 @@ package interfaces.editClass;
 
 import interfaces.MainFrame;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +19,10 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
-import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
@@ -54,7 +49,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     public CreateCategoryPanel categoryWindow;
     public AddAssignmentPanel assignmentWindow;
     public MainFrame parent;
-    public int assignmentIndex, categoryIndex, courseIndex;
+    public Integer assignmentIndex, categoryIndex = null;
+    public int courseIndex;
     private boolean isTableSet = false;
     public String categorySelected = ""; 
     public AddNewStudent studentWindow;
@@ -103,9 +99,10 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     
     private void loadCourseData() {
         for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfAssignmentCategories(); i++) {
-            javax.swing.JMenu categoryMenu = new javax.swing.JMenu();
-            categoryMenu.setText(parent.courses.get(courseIndex).getAssignmentCategory(i).getName());
-            getCategoryName(categoryMenu); 
+            javax.swing.JMenu catMenu = new javax.swing.JMenu();
+            catMenu.setText(parent.courses.get(courseIndex).getAssignmentCategory(i).getName());
+         	catMenu.setName(parent.courses.get(courseIndex).getAssignmentCategory(i).getName());
+            getCategoryName(catMenu); 
 
             for (int j = 0; j < parent.courses.get(courseIndex).getAssignmentCategory(i).getNumberOfAssignments(); j++) {
                 final int indexOfCategory = i;
@@ -119,22 +116,42 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
              			loadTable(indexOfCategory, indexOfAssignment);
                      }
                 });
-             	categoryMenu.add(assignmentMenuItem);   		
+             	catMenu.add(assignmentMenuItem);  
             }
-            menuBar.add(categoryMenu);
-            addToRemoveCategoryMenu(categoryMenu);
-            categoryMenu.add(new javax.swing.JPopupMenu.Separator());
-            addNewAssignmentButton(categoryMenu);
-            removeAssignmentButton(categoryMenu);
+            categoryMenu.add(catMenu);
+            addToRemoveCategoryMenu(catMenu);
+            catMenu.add(new javax.swing.JPopupMenu.Separator());
+            addNewAssignmentButton(catMenu);
+            removeAssignmentButton(catMenu);
         }     
+        
+        for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfStudents(); i++) {
+        	addRemoveStudent(i);
+        }
     }
     
-    private void loadTable(int i, int j) {
+    public void addRemoveStudent(int i) {
+    	javax.swing.JMenuItem newStudentMenu = new javax.swing.JMenuItem();
+    	newStudentMenu.setText(parent.courses.get(courseIndex).getStudent(i).getFullName());
+        newStudentMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeStudentActionPerformed(evt, studentMenu);
+            }
+        });
+        removeStudent.add(newStudentMenu);
+    }
+    
+    public void loadTable(Integer i, Integer j) {
 			categoryIndex = i;
 			assignmentIndex  = j;
 			populateTable();
-			courseName.setText(parent.courses.get(courseIndex).getName() + " " + 
-			parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName());
+			if (i != null && j != null) {
+				courseName.setText(parent.courses.get(courseIndex).getName() + " " + 
+				parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getName() + " / Worth: " +
+				parent.courses.get(courseIndex).getCategories().get(i).getAssignment(j).getWorth());
+			}
+			else
+				courseName.setText(parent.courses.get(courseIndex).getName());
     }
     
     private void addToRemoveCategoryMenu(JMenu category) {
@@ -169,35 +186,60 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     		model.removeRow(i);
     	}
     	for (int i = 0; i < parent.courses.get(courseIndex).getNumberOfStudents(); i++) {
+    		String grade;
+    		if (parent.courses.get(courseIndex)
+			.getCategories().get(categoryIndex)
+			.getAssignment(assignmentIndex)
+			.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName()) == null)
+    			grade = "";
+    		else {
+    			grade = String.valueOf(parent.courses.get(courseIndex)
+    					.getCategories().get(categoryIndex)
+    					.getAssignment(assignmentIndex)
+    					.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName()));
+    		}
+    			
     		model.insertRow(i, new Object[]{ 
     				parent.courses.get(courseIndex).getStudent(i).getFullName(),
     				parent.courses.get(courseIndex).getStudent(i).getPseudoName(),
-    				parent.courses.get(courseIndex)
-    				.getCategories().get(categoryIndex)
-    				.getAssignment(assignmentIndex)
-    				.getGrade(parent.courses.get(courseIndex).getStudent(i).getPseudoName())});
+    				grade});
     	}
     	isTableSet = true;
     }
     
     public void setStudentWindowVisible() {
         parent.setContentPane(studentWindow);
+        parent.setJMenuBar(null);
         this.setVisible(false);
         studentWindow.setVisible(true);
+        studentWindow.firstNameTextField.requestFocus();
+        studentWindow.populateTable();
+        studentWindow.firstNameTextField.setText("");
+        studentWindow.lastNameTextField.setText("");
+        parent.getRootPane().setDefaultButton(studentWindow.addButton);
         parent.pack();
     }
     
     public void setAssignmentWindowVisible() {
         parent.setContentPane(assignmentWindow);
+        parent.setJMenuBar(null);
         setVisible(false);
+        assignmentWindow.courseInfo.setText(parent.courses.get(courseIndex).getCategories().get(assignmentWindow.categoryIndex).getName());
         assignmentWindow.setVisible(true);
+        assignmentWindow.nameTextField.requestFocus();
+        assignmentWindow.populateTable();
+        parent.getRootPane().setDefaultButton(assignmentWindow.addButton);
         parent.pack();
     }
     
     public void setCreateCategoryVisible() {
         parent.setContentPane(categoryWindow);
+        parent.setJMenuBar(null);
+        categoryWindow.categoryNameTextField.setText("");
+        categoryWindow.categoryNameTextField.requestFocus();
         setVisible(false);
         categoryWindow.setVisible(true);
+        parent.getRootPane().setDefaultButton(categoryWindow.addButton);
        parent.pack();
     }
     
@@ -206,13 +248,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
     
     public void actionPerformed(ActionEvent evt) {
-        if (categoryWindow.actionStatus.equals("addCategory")) {
-            createNewCategory();
-        }
-        
-        if (assignmentWindow.actionStatus.equals("addAssignment")) {
-            refreshMenu(parent.currentCourseWindow);
-        }      
+     
     }
     
     public void refreshMenu(EditSelectedClass window) {
@@ -224,10 +260,11 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         assignmentWindow.actionStatus = "waiting";
     }
     
-    private void createNewCategory() {
+    public void createNewCategory() {
         if (repeatCategoryChecker()) {
             JMenu newCategory = new JMenu(categoryWindow.getCategoryName());
-            menuBar.add(newCategory);
+            newCategory.setName(categoryWindow.getCategoryName());
+            categoryMenu.add(newCategory);
             getCategoryName(newCategory);
             parent.courses.get(courseIndex).addAssignmentCategory(categoryWindow.getCategoryName()); // add new category
                                                                                                      // to the course object
@@ -325,6 +362,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        categoryMenu = new javax.swing.JMenu();
         File_Save = new javax.swing.JMenuItem();
         File_ExportToHTML = new javax.swing.JMenuItem();
         createMenu = new javax.swing.JMenu();
@@ -332,12 +370,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         removeCategory = new javax.swing.JMenu();
         studentMenu = new javax.swing.JMenu();
         addStudent = new javax.swing.JMenuItem();
-        removeStudent = new javax.swing.JMenuItem();
+        removeStudent = new javax.swing.JMenu();
         jScrollPane1 = new javax.swing.JScrollPane();
-        
-        helpMenu = new javax.swing.JMenu();
-        helpAbout = new javax.swing.JMenuItem();
-        helpContent = new javax.swing.JMenuItem();
         
         assignmentTable = new JTable() {
         	public void changeSelection(final int row, final int column, boolean toggle, boolean extend) {
@@ -359,6 +393,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
             }
         });
         fileMenu.add(File_Save);
+       
 
         File_ExportToHTML.setText("Export To HTML");
         File_ExportToHTML.addActionListener(new java.awt.event.ActionListener() {
@@ -370,19 +405,19 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 
         menuBar.add(fileMenu);
 
-        createMenu.setText("Create");
-
         addCategory.setText("Add Category");
         addCategory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addCategoryActionPerformed(evt);
             }
         });
-        createMenu.add(addCategory);
+        categoryMenu.add(addCategory);
 
         removeCategory.setText("Remove Category");
-        createMenu.add(removeCategory);
+        categoryMenu.add(removeCategory);
 
+        categoryMenu.addSeparator();
+        
         menuBar.add(createMenu);
 
         studentMenu.setText("Student");
@@ -395,30 +430,13 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         });
         studentMenu.add(addStudent);
 
-        removeStudent.setText("Remove Student");
+        removeStudent.setText("Remove");
         studentMenu.add(removeStudent);
 
         menuBar.add(studentMenu);
         
-        helpMenu.setText("Help");
-        menuBar.add(helpMenu);
-        
-        helpAbout.setText("About");
-        helpAbout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                helpAboutActionPerformed(evt);
-            }
-        });
-        
-        helpContent.setText("Help");
-        helpContent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                helpContentActionPerformed(evt);
-            }
-        });
-        
-        helpMenu.add(helpAbout);
-        helpMenu.add(helpContent);
+        categoryMenu.setText("Categories");
+        menuBar.add(categoryMenu);
 
         assignmentTable.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
         assignmentTable.setModel(model);
@@ -546,9 +564,9 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
    					   if (Integer.parseInt(model.getValueAt(r, 2).toString()) > 
    					       parent.courses.get(courseIndex).getCategories()
    					       .get(categoryIndex)
-   					   	   .getAssignment(assignmentIndex).getWorth()) 
+   					   	   .getAssignment(assignmentIndex).getWorth() || Integer.parseInt(model.getValueAt(r, 2).toString()) < 0) 
    					   {
-   						   message = "INVALID INPUT:\nInput grade was greater than assignment worth total of "
+   						   message = "INVALID INPUT:\nInput grade was not between 0 and "
    								   	  + parent.courses.get(courseIndex).getCategories()
    	  					   				.get(categoryIndex)
    	  					   				.getAssignment(assignmentIndex).getWorth() + ".";
@@ -565,17 +583,17 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
  					   if (message.isEmpty()) message = "INVALID INPUT:\n" + model.getValueAt(r, 2).toString()
  							   							+ " is not a valid integer number.";
  					   if (model.getValueAt(r, 2).toString().isEmpty()) {
- 						   model.setValueAt(0, r, 2);
- 						   parent.courses.get(courseIndex).getCategories()
- 						   .get(categoryIndex)
- 						   .getAssignment(assignmentIndex)
- 						   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 0);
+ 						  parent.courses.get(courseIndex).getCategories()
+ 	 					   .get(categoryIndex)
+ 	 					   .getAssignment(assignmentIndex)
+ 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 
+ 	 							     null);
  					   } else {
  						   model.setValueAt( parent.courses.get(courseIndex).getCategories()
  								   .get(categoryIndex)
  								   .getAssignment(assignmentIndex)
  								   .getGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName()), r, 2);
- 					       JOptionPane.showMessageDialog(null, message);
+ 					       JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
  					   }
  				   }
    			   }
@@ -584,6 +602,21 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
 		return cha;
     }
     
+    private void removeStudentActionPerformed(java.awt.event.ActionEvent evt, JMenuItem student) {
+        String studentName = evt.getActionCommand();
+        parent.courses.get(courseIndex).removeStudent(studentName);; //remove from course object
+        for (int j = 0; j < removeStudent.getItemCount(); j++) {
+        	if (removeStudent.getItem(j).getText() != null && 
+        			removeStudent.getItem(j).getText().equals(studentName)) {
+                   	removeStudent.remove(j);
+                   	break;
+        	}
+        }
+        //TODO remove student from student table
+        this.loadTable(categoryIndex, assignmentIndex);
+        this.setPanelMenu();
+        saveCurrentState();
+   }
     
     private void removeCategoryActionPerformed(java.awt.event.ActionEvent evt, JMenuItem category) {
          String categoryName = evt.getActionCommand();
@@ -591,23 +624,31 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
              if (parent.courses.get(courseIndex).getAssignmentCategory(i).getName().equals(categoryName)) {
             	parent.courses.get(courseIndex).removeAssignmentCategory(categoryName); //remove from course object
                 removeCategory.remove(category); // rmove from the menu
-                for (int j = 0; j < menuBar.getComponentCount(); j++) {
-                    if (menuBar.getMenu(j).getText().equals(category.getText())) {
-                        menuBar.remove(j);
-                        
-                        j = menuBar.getComponentCount();
+                for (int j = 0; j < categoryMenu.getItemCount(); j++) {
+                	if (categoryMenu.getMenuComponent(j).getName() != null && 
+                	categoryMenu.getMenuComponent(j).getName().toString().equals(category.getText())) {
+                    	categoryMenu.remove(j);
+                        j = categoryMenu.getMenuComponentCount();
                     }
                 }
                 i = parent.courses.get(courseIndex).getNumberOfAssignmentCategories();
              }
          }
          this.setPanelMenu();
-     	saveCurrentState();
+         saveCurrentState();
     }
     
     private void addAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
+        String assignmentName = evt.getActionCommand();
+        int cateIndex = 0;
+        if (!categorySelected.equals("")) {
+            cateIndex = parent.courses.get(courseIndex).getAssignmentCategoryIndex(categorySelected);
+        } else {
+            cateIndex = parent.courses.get(courseIndex).getNumberOfAssignmentCategories() - 1;
+        }
+        assignmentWindow.categoryIndex = cateIndex;
     	saveCurrentState();
-        setAssignmentWindowVisible();  
+    	setAssignmentWindowVisible();
     }
     
     private void removeAssignmentActionPerformed(java.awt.event.ActionEvent evt) {
@@ -620,8 +661,16 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         }
         for (int i = 0; i < parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getNumberOfAssignments(); i++) {
             if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignment(i).getName().equals(assignmentName)) {
+                if (parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).getAssignmentIndex(assignmentName) == assignmentIndex) {
+                	assignmentIndex = null;
+                	categoryIndex = null;
+                	courseName.setText(parent.courses.get(courseIndex).getName());
+                }
                 parent.courses.get(courseIndex).getAssignmentCategory(cateIndex).removeAssignment(assignmentName); //remove from course object
                 refreshMenu(this);
+                populateTable();
+                saveCurrentState();
+                return;
             }
         }
     	saveCurrentState();
@@ -641,6 +690,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     }
    
     private void File_ExportToHTMLActionPerformed(java.awt.event.ActionEvent evt) {
+    	parent.courses.get(courseIndex).setGhostGrades();
     	saveCurrentState();
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showSaveDialog(EditSelectedClass.this);
@@ -654,88 +704,17 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
                 JOptionPane.showMessageDialog(null, "Error exporting HTML.");
             }
         }
-    }
-    
-    private void helpAboutActionPerformed(java.awt.event.ActionEvent evt) {
-    	JFrame helpAbout = new JFrame();
-        JTextArea helpAboutText = new JTextArea( "INTRODUCTION\n\n" +
-        	    "Ghost Grader is an obfuscating gradebook program for professors to manage students’ grades and provides professors an HTML page of students’ grades online for students to view. The HTML page contains a list of registered students with their grades for tests, quizzes, assignments, etc. and obscures the students’ identities by having “ghost” students added to the list that are indistinguishable from real students. All of the students’ psuedo names are permutations of various colors and animal names. A professor can provide the real students their corresponding pseudo name so they can identify their scores online.\n\n" + 
-        	    "THE OBFUSCATION PROCESS\n\n" +
-        	    "HOW IT IS DONE:\n" + 
-        	    "In order to safely post all of the information about students and their scores online, the Ghost Grader program incorporates several different ways of hiding the data in plain sight. As the professor adds students to his or her course, the program creates a random number of ‘ghost’ students per student added. The number of ghosts added is random so there will be no way to tell the actual size of the class if the information is posted publicly. An outsider would be able to tell that at least one student was added, but they will not be able to tell if it was more than one student added. If a student drops the class, that student is immediately treated as a ghost from there on out, therefore, an outsider would never know if the class size was decreased.\n\n" +
-        	    "Once grades are entered for the real students by the professor, the program calculates the grade statistics for the class. After that is done, the program assigns random scores to all of the ghost students that keep the statistical information for the class valid. For example, if the class average for homework assignment one is 76.4 percent, the program will assign random scores to all the ghost students so that the students and the ghost students together are still 76.4 percent.\n\n" + 
-        	    "All of the students and ghost students are assigned a unique pseudo name by the program. This will keep all the names unique for when the grades are posted publicly. All the professor has to do is let each student know what their pseudo name is and each student will be able to see how they are doing in the class on a public web page with no chance of anyone else being able to know who is who.\n\n" +
-        	    "WHY IT IS EFFECTIVE:\n" + 
-        	    "Since there is enough random ghost students added per each student in the class, it will be statistically impossible to know or guess who is who with any reliable accuracy. The program verifies a minimum number of ghost students are added per actual student to maintain this constraint. So even though people may be able to get to a webpage that is located on the professor’s public web page, there will be no way to tell who is who or what a student’s grades are.\n\n" +
-        	    "STATISTICAL VALIDATION:\n" +
-        	    "Even though the number of ghost students will be random, a constant number of 6 ghost students per student will be used here to show why this program hides the data adequately. Suppose the class has 20 students, so there would be 120 ghost students as well. It will be shown by calculating all of the combinations of choosing 20 students out of a group of 140 that there are over 827 sextillion different combinations. So the probability of choosing the correct 20 students with any accuracy is approximately zero, which keeps all of the grades obfuscated.\n\n" + 
-        	    "HOW THE GHOST STUDENTS ARE ASSIGNED:\n" + 
-        	    "    1.    A set of ranges are determined with a maximum of 11 ranges allowed. A score of zero is in a range by itself and the rest of the ranges are evenly distributed. For example, if the assignment worth is 100 points, the ranges are {0, 1-10, 11-20, ... , 91-100}.\n" + 
-        	    "    2.    Percentages of students within the determined ranges are found. Then, that percentage per ghost pool is assigned a random grade within their particular range.\n" +
-        	    "    3.    The mean of the students’ scores are determined as well as the mean of the ghost scores.\n" +
-        	    "    4.    If the mean of the ghost scores is more than the students’ mean, the program randomly selects a ghost with a score higher than the mean and decrements it by one. This continues until the means match up to within one decimal point. If the ghost scores mean is higher than the students’ mean, the opposite is done, ignoring the zero range (so as not to pull all of the ghosts out of the zero range).\n" +
-        	    "    5.    Once the values of the means, which are rounded to one decimal point, match the program, it shuffles the grade array and randomly assigns those values to the ghost students.\n\n");
-        helpAboutText.setEditable(false);
-        Color colorGray = new Color(230, 231, 236);
-        helpAboutText.setBackground(colorGray);
-        helpAboutText.setFont(new Font("Georgia", Font.PLAIN, 14));
-        helpAboutText.setLineWrap(true);
-        helpAboutText.setWrapStyleWord(true);
-        JScrollPane areaScrollPane = new JScrollPane(helpAboutText);
-        areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        areaScrollPane.setPreferredSize(new Dimension(300, 500));
-        helpAbout.add(areaScrollPane);
-        helpAbout.setSize(500, 300);
-        helpAbout.setLocation(700, 300);
-        helpAbout.setVisible(true);
-    }
-    
-    private void helpContentActionPerformed(java.awt.event.ActionEvent evt) {
-    	JFrame helpContent = new JFrame();
-        JTextArea helpContentText = new JTextArea( "GHOST GRADER HELP\n\n"+
-        		"MAIN WINDOW:\n" +
-        	    "This is the window you will see when you open the Ghost Graders program. Initially, the window will be blank aside from the following menu options:\n\n" +
-        	    "    File > Save All: This option will allow you to save the currently open gradebook.\n\n" +
-        	    "    Edit > Add Course: Opens a new window for the user to add a new class to the current gradebook. This window will have several fields to fill in to create a new class. Only the fields denoted with an '*' are required. Click the “Create” button to create and save the new class. Click the “Cancel” button to go back to the previous window.\n\n" +
-        	    "    Edit > Remove Course: Displays a drop down menu of all the current classes and removes the class you select.\n\n" +
-        	    "Below the menu, under “Courses”, there is an “Add New Course” button. This option has the same functionality as the Edit > Add Class menu option.\n\n" +
-        	    "After adding a course, clicking on a course will bring you to the view category window.\n\n" +
-        	    "VIEW CATEGORY WINDOW:\n" +
-        	    "To access the view category window, click on the course you want to view from the main window. This window’s menu has the following options:\n\n" + 
-        	    "    File > Save: Saves current progress.\n\n" +
-        	    "    File > Export to HTML: Opens a new window to let you save an HTML page of the current class information and statistics in the file you choose.\n\n" + 
-        	    "    Create > Add Category: Opens a new window and you input the name of the new category in the field “Category Name”. This creates a new category with the name you specified once you press the “Add” button. Press “Cancel” to go back without adding a new category.\n\n" +
-        	    "    Create > Remove Category: Displays a drop down menu of the current categories. Click the category you would like to remove to delete it.\n\n" +
-        	    "    Student > Add Student: This opens the View Students Window. Add a new student by filling in the two required “First Name” and “Last Name” fields at the bottom of the window. Once you have typed in the student’s first name in the first field and last name in the second field, click the “Add” button to add the student to the class. Click the “Return” button to go back to the previous window.\n\n" +
-        	    "    Student > Remove Student: Displays a drop down menu of current students. To remove a student, click on one of the students in the list.\n\n" +
-        	    "VIEW STUDENTS WINDOW:\n" +
-        	    "To access the View Students Window, click on the menu option Student > Add Student from the View Category Window.\n\n" +
-        	    "To edit a student’s name, click on that student’s name and a field will appear. Type in the new student’s name and it will save once you press the enter key.\n\n" +
-        	    "To edit a student’s grade, click the student’s grade and a field will appear. Type in the new student’s grade and it will save once you press the enter key.\n\n" +
-        	    "ADD/EDIT CATEGORY INSTANCE WINDOW:\n" +
-        	    "To access the Add/Edit Category Instance Window, click on the category you would like to add an instance to or to add a new instance to. Each category will appear in the Edit Class Window menu. When you click on a category, the following drop down menu options appear:\n\n" +
-        	    "    Add: Displays a new menu to add a new instance of the selected category. Click “Save changes” to save the new category instance. Click “Cancel” to go back and not save the new instance.\n\n" +
-        	    "    Remove: Displays a drop down menu with all of the current category instances. Remove an instance of that category by clicking the category you would like to remove.\n\n" +
-        	    "Once category instances have been created, they will appear in the category’s drop down menu. Selecting the category will open the View Category Window for that particular category.\n\n"
-        	    );
-        helpContentText.setEditable(false);
-        Color colorGray = new Color(230, 231, 236);
-        helpContentText.setBackground(colorGray);
-        helpContentText.setFont(new Font("Georgia", Font.PLAIN, 14));
-        JScrollPane areaScrollPane = new JScrollPane(helpContentText);
-        helpContentText.setLineWrap(true);
-        helpContentText.setWrapStyleWord(true);
-        areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        areaScrollPane.setPreferredSize(new Dimension(300, 500));
-        helpContent.add(areaScrollPane);
-        helpContent.setSize(500, 300);
-        helpContent.setLocation(700, 300);
-        helpContent.setVisible(true);
-    }
+    }               
     
     public void saveCurrentState() {
-    	parent.courses.get(courseIndex).setLastAssignmentIndex(assignmentIndex);
-    	parent.courses.get(courseIndex).setLastCategoryIndex(categoryIndex);
+    	if (assignmentIndex != null && categoryIndex != null) {
+	    	parent.courses.get(courseIndex).setLastAssignmentIndex(assignmentIndex);
+	    	parent.courses.get(courseIndex).setLastCategoryIndex(categoryIndex);
+    	}
+    	else {
+	    	parent.courses.get(courseIndex).setLastAssignmentIndex(null);
+	    	parent.courses.get(courseIndex).setLastCategoryIndex(null);
+    	}
     	parseXML.saveXML(parent.courses.get(courseIndex));
     }
 
@@ -752,10 +731,8 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu removeCategory;
-    private javax.swing.JMenuItem removeStudent;
+    private javax.swing.JMenu removeStudent;
     private javax.swing.JMenu studentMenu;
-    private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem helpAbout;
-    private javax.swing.JMenuItem helpContent;
+    private javax.swing.JMenu categoryMenu;
     // End of variables declaration//GEN-END:variables
 }
