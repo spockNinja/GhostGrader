@@ -105,7 +105,6 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem_addNewClass = new javax.swing.JMenuItem();
         removeClass = new javax.swing.JMenu();
-        jMenuItem_editClassMenu = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         
         helpMenu = new javax.swing.JMenu();
@@ -129,7 +128,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         editMenu.setText("Edit");
         editMenu.add(jSeparator1);
 
-        jMenuItem_addNewClass.setText("AddClass");
+        jMenuItem_addNewClass.setText("Add Course");
         jMenuItem_addNewClass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem_addNewClassActionPerformed(evt);
@@ -137,16 +136,8 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         });
         editMenu.add(jMenuItem_addNewClass);
 
-        removeClass.setText("RemoveClass");
+        removeClass.setText("Remove Course");
         editMenu.add(removeClass);
-
-        jMenuItem_editClassMenu.setText("EditClass"); 
-        jMenuItem_editClassMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-               // jMenuItem_editClassMenuActionPerformed(evt);
-            }
-        });
-        editMenu.add(jMenuItem_editClassMenu);
         editMenu.add(jSeparator2);
 
         mainMenuBar.add(editMenu);
@@ -300,20 +291,20 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         	    "VIEW CATEGORY WINDOW:\n" +
         	    "To access the view category window, click on the course you want to view from the main window. This window`s menu has the following options:\n\n" + 
         	    "    File > Save: Saves current progress.\n\n" +
-        	    "    File > Export to HTML: Opens a new window to let you save an HTML page of the current class information and statistics in the file you choose.\n\n" + 
-        	    "    Create > Add Category: Opens a new window and you input the name of the new category in the field 'Category Name'. This creates a new category with the name you specified once you press the 'Add' button. Press 'Cancel' to go back without adding a new category.\n\n" +
-        	    "    Create > Remove Category: Displays a drop down menu of the current categories. Click the category you would like to remove to delete it.\n\n" +
+        	    "    File > Export Class To HTML: Opens a new window to let you save an HTML page of the current class information and statistics in the file you choose.\n\n" + 
+        	    "    Categories > Add Category: Opens a new window and you input the name of the new category in the field 'Category Name'. This creates a new category with the name you specified once you press the 'Add' button. Press 'Cancel' to go back without adding a new category.\n\n" +
+        	    "    Categories > Remove Category: Displays a drop down menu of the current categories. Click the category you would like to remove to delete it.\n\n" +
         	    "    Student > Add Student: This opens the View Students Window. Add a new student by filling in the two required 'First Name' and 'Last Name' fields at the bottom of the window. Once you have typed in the student`s first name in the first field and last name in the second field, click the 'Add' button to add the student to the class. Click the 'Return' button to go back to the previous window.\n\n" +
         	    "    Student > Remove Student: Displays a drop down menu of current students. To remove a student, click on one of the students in the list.\n\n" +
         	    "VIEW STUDENTS WINDOW:\n" +
         	    "To access the View Students Window, click on the menu option Student > Add Student from the View Category Window.\n\n" +
         	    "To edit a student`s name, click on that student`s name and a field will appear. Type in the new student`s name and it will save once you press the enter key.\n\n" +
         	    "To edit a student`s grade, click the student`s grade and a field will appear. Type in the new student`s grade and it will save once you press the enter key.\n\n" +
-        	    "ADD/EDIT CATEGORY INSTANCE WINDOW:\n" +
-        	    "To access the Add/Edit Category Instance Window, click on the category you would like to add an instance to or to add a new instance to. Each category will appear in the Edit Class Window menu. When you click on a category, the following drop down menu options appear:\n\n" +
-        	    "    Add: Displays a new menu to add a new instance of the selected category. Click 'Save changes' to save the new category instance. Click 'Cancel' to go back and not save the new instance.\n\n" +
-        	    "    Remove: Displays a drop down menu with all of the current category instances. Remove an instance of that category by clicking the category you would like to remove.\n\n" +
-        	    "Once category instances have been created, they will appear in the category`s drop down menu. Selecting the category will open the View Category Window for that particular category.\n\n"
+        	    "ADD/EDIT CATEGORY ASSIGNMENT WINDOW:\n" +
+        	    "To access the Add/Edit Category Assignment Window, click on the category you would like to add an assignment to. Each category will appear in the Edit Class Window menu. When you click on a category, the following drop down menu options appear:\n\n" +
+        	    "    Add: Displays a new menu to add a new assignment to the selected category. Click 'Add' to save the new category assignment. Click 'Cancel' to go back and not save the new assignment.\n\n" +
+        	    "    Remove: Displays a drop down menu with all of the current category assignments. Remove an assignment from that category by clicking the assignment you would like to remove.\n\n" +
+        	    "Once category assignments have been created, they will appear in the category`s drop down menu. Selecting the category will open the View Category Window for that particular category.\n\n"
         	    );
         helpContentText.setEditable(false);
         Color colorGray = new Color(230, 231, 236);
@@ -365,7 +356,6 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem_addNewClass;
-    private javax.swing.JMenuItem jMenuItem_editClassMenu;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar mainMenuBar;
