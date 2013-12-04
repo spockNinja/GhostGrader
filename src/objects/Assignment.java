@@ -17,7 +17,7 @@ public class Assignment {
     private String name;
     private int worth;
     private Map<String, Integer> grades = new HashMap<String, Integer>();
-    private ArrayList<Integer> studentGrades = new ArrayList<Integer>();
+    private Map<String, Integer> studentGrades = new HashMap<String, Integer>();
     public Assignment() {
     	
     }
@@ -112,10 +112,12 @@ public class Assignment {
      * @param grade			The score the student is being assigned for the assignment
      * @return				The previous value associated to the key.
      */
-    public Integer setGrade(String pseudoName, Integer grade) {
-    	grades.put(pseudoName, grade);
-    	if (grades.containsKey(pseudoName)) studentGrades.add(grade);
-    	return grades.get(pseudoName);
+    public Integer setGrade(String pseudoName, Integer grade, boolean student) {
+        grades.put(pseudoName, grade);
+        if (student && grade != null) {
+            studentGrades.put(pseudoName, grade);
+        }
+        return grades.get(pseudoName);
     }
     
     /**
@@ -131,46 +133,63 @@ public class Assignment {
     }
     
     /**
-     * Gets a collection of all the values in the grades HashMap
+     * Gets an ArrayList of all the values in the studentGrades HashMap
      * Useful for dealing with statistical analysis
      * 
      * @return		Collection of values in the grades HashMap
      */
-    public Collection<Integer> getAllGrades() {
-    	return grades.values();
+    public ArrayList<Integer> getAllStudentGrades() {
+    	return new ArrayList<Integer>(studentGrades.values());
+    }
+
+    private boolean notYetEntered() {
+        ArrayList<Integer> sgList = getAllStudentGrades();
+        for (int i=0; i < sgList.size(); i++) {
+            if (sgList.get(i) != null) {
+                return false;
+            }
+        }
+        return true;
     }
     public void setGhostGrades(String[] ghostNames) {
-    	int[] ghostGrades = new int[ghostNames.length];
-    	assignGhostGrades(ghostGrades);
-    	for (int i = 0; i < ghostNames.length; i++) {
-    		this.setGrade(ghostNames[i], ghostGrades[i]);
-    	}
+        if (notYetEntered()) {
+            for (int i = 0; i < ghostNames.length; i++) {
+                this.setGrade(ghostNames[i], null, false);
+            }
+        }
+        else {
+            int[] ghostGrades = new int[ghostNames.length];
+            assignGhostGrades(ghostGrades);
+            for (int i = 0; i < ghostNames.length; i++) {
+                if (grades.get(ghostNames[i]) == null) {
+                    this.setGrade(ghostNames[i], ghostGrades[i], false);
+                }
+            }
+        }
     }
     private void assignGhostGrades(int[] ghostGrades) {
+        ArrayList<Integer> sgList = getAllStudentGrades();
     	int numberOfGhosts = ghostGrades.length;
-    	int numberOfStudents = studentGrades.size();
+    	int numberOfStudents = sgList.size();
     	int startIndex = 0;
         int endIndex= 1;
         
         int[] numberOfScoresInRanges = new int[numberOfRanges(worth)];//this needs error handling
         int[][] ranges = defineRanges(worth);
-        numberOfScoresInRanges = numberOfScoresInRanges(studentGrades, ranges, numberOfScoresInRanges.length);
+        numberOfScoresInRanges = numberOfScoresInRanges(sgList, ranges, numberOfScoresInRanges.length);
         
-        double studentsMean = mean(studentGrades);
+        double studentsMean = mean(sgList);
         Random rng = new Random();
         
         int offset = 0;//tracks the number of scores assigned
+        do {
         for (int i = 0; i < ranges.length; i++) {//wrap entire loop in a do while or call outside functions
             double percentage = (double)numberOfScoresInRanges[i] / (double)numberOfStudents;
             int amountOfGhosts = (int)Math.round(numberOfGhosts * percentage);
             int randomMultiplier = ranges[i][endIndex] - ranges[i][startIndex];
             
             //inserts scores into the ghostGrades array by percentages of students scoring in ranges
-            if (percentage > 0.0 && randomMultiplier == 0) {
-                for (int j = 0; j < amountOfGhosts; j++) {
-                    ghostGrades[j] = randomMultiplier;
-                }
-            } else if (percentage > 0.0) {
+            if (percentage > 0.0) {
                 for (int j = 0; j < amountOfGhosts; j++) {
                     if (offset + j == ghostGrades.length) break;//if percentages assigned more than allowed break out
                     ghostGrades[j + offset] = rng.nextInt(randomMultiplier + 1) + ranges[i][startIndex];
@@ -185,6 +204,8 @@ public class Assignment {
                 //has a grade in the median range
             }
         }
+        }
+        while (offset < numberOfGhosts-1);
         
         //if means do not match this adjust the grades one by one until means match
         adjustGhostGradesToMean(ghostGrades, studentsMean, worth);
@@ -197,29 +218,21 @@ public class Assignment {
         Random rng = new Random();
         int precision = 1;
         
-        int lowestIncrementableScore = lowestIncrementableScore(ghostGrades);
         double studentsMean = round(mean, precision, BigDecimal.ROUND_HALF_UP);
         double ghostsMean = round(mean(ghostGrades), precision, BigDecimal.ROUND_HALF_UP);
         while (studentsMean != ghostsMean) {
-        	int findScoreIndex = rng.nextInt(ghostGrades.length);
-            if (studentsMean < ghostsMean 
+            int findScoreIndex = rng.nextInt(ghostGrades.length);
+            if (studentsMean < ghostsMean
                 && ghostGrades[findScoreIndex] > studentsMean) {
                 ghostGrades[findScoreIndex]--;
                 ghostsMean = round(mean(ghostGrades), precision, BigDecimal.ROUND_HALF_UP);
-            } else if (studentsMean > ghostsMean 
-                       && ghostGrades[findScoreIndex] >= lowestIncrementableScore 
+            } else if (studentsMean > ghostsMean
+                       && ghostGrades[findScoreIndex] < studentsMean
                        && ghostGrades[findScoreIndex] < worth) {
                 ghostGrades[findScoreIndex]++;
                 ghostsMean = round(mean(ghostGrades), precision, BigDecimal.ROUND_HALF_UP);
             }
         }
-    }
-    private int lowestIncrementableScore(int[] ghostGrades) {
-        int lowestNonZero = Integer.MAX_VALUE;
-        for (int i = 0; i < ghostGrades.length; i++) {
-            if (ghostGrades[i] < lowestNonZero && ghostGrades[i] != 0) lowestNonZero = ghostGrades[i];
-        }
-        return lowestNonZero;
     }
     private double round(double unrounded, int precision, int roundingMode) {
         String number = Double.toString(unrounded);
@@ -243,7 +256,7 @@ public class Assignment {
     private int[] numberOfScoresInRanges(ArrayList<Integer> studentsGrades, int[][] ranges, int size) {
     	int[] numberOfScoresInRanges = new int[size];
         for (int i = 0; i < studentsGrades.size(); i++) {
-            Integer currentStudentGrade = studentGrades.get(i);
+            Integer currentStudentGrade = studentsGrades.get(i);
             if (currentStudentGrade != null) {
                 for (int j = 0; j < ranges.length; j++) {
                     if (currentStudentGrade >= ranges[j][0] && currentStudentGrade <= ranges[j][1]) {

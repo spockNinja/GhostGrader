@@ -609,7 +609,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
  					   .get(categoryIndex)
  					   .getAssignment(assignmentIndex)
  					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 
- 							     Integer.parseInt(model.getValueAt(r, 2).toString()));
+ 							     Integer.parseInt(model.getValueAt(r, 2).toString()), true);
  					   saveCurrentState();
  				   } catch (NumberFormatException changeback) {
  					   if (message.isEmpty()) message = "INVALID INPUT:\n" + model.getValueAt(r, 2).toString()
@@ -618,7 +618,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
  						  parent.courses.get(courseIndex).getCategories()
  	 					   .get(categoryIndex)
  	 					   .getAssignment(assignmentIndex)
- 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), null);
+ 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), null, true);
  					   } else {
  						   model.setValueAt( parent.courses.get(courseIndex).getCategories()
  								   .get(categoryIndex)
