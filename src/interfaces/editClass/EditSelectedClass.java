@@ -618,8 +618,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
  						  parent.courses.get(courseIndex).getCategories()
  	 					   .get(categoryIndex)
  	 					   .getAssignment(assignmentIndex)
- 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), 
- 	 							     null);
+ 	 					   .setGrade(parent.courses.get(courseIndex).getStudent(r).getPseudoName(), null);
  					   } else {
  						   model.setValueAt( parent.courses.get(courseIndex).getCategories()
  								   .get(categoryIndex)

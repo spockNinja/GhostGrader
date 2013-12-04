@@ -246,10 +246,13 @@ public class Assignment {
     private int[] numberOfScoresInRanges(ArrayList<Integer> studentsGrades, int[][] ranges, int size) {
     	int[] numberOfScoresInRanges = new int[size];
         for (int i = 0; i < studentsGrades.size(); i++) {
-            for (int j = 0; j < ranges.length; j++) {
-            	if (studentsGrades.get(i) >= ranges[j][0] && studentsGrades.get(i) <= ranges[j][1]) {
-                	numberOfScoresInRanges[j] ++;
-                    break;//if added breaks out of inner loop
+            Integer currentStudentGrade = studentGrades.get(i);
+            if (currentStudentGrade != null) {
+                for (int j = 0; j < ranges.length; j++) {
+                    if (currentStudentGrade >= ranges[j][0] && currentStudentGrade <= ranges[j][1]) {
+                        numberOfScoresInRanges[j] ++;
+                        break;//if added breaks out of inner loop
+                    }
                 }
             }
         }
@@ -293,7 +296,10 @@ public class Assignment {
     public double mean(ArrayList<Integer> values) {
         double temp = 0.0;
         for (int i = 0; i < values.size(); i++) {
-            temp += values.get(i);
+            Integer val = values.get(i);
+            if (val != null) {
+                temp += val;
+            }
         }
         return temp / values.size();
     }

@@ -626,15 +626,12 @@ public class MyCourse {
     	Collections.sort(ghostStudents, GhostStudent.PseudoNameComparator);
     	allStudents.addAll(students);
     	
-    	System.out.println("First");
-    	
     	for (int j = 0; j < ghostStudents.size(); j++) {
     		for (int i = 0; i < allStudents.size(); i++) {
     			if (allStudents.get(i) instanceof Student) {
     				Student stud = (Student) allStudents.get(i);
     				if (ghostStudents.get(j).getPseudoName().compareTo(stud.getPseudoName()) < 0) {
     					allStudents.add(i, ghostStudents.get(j));
-    			    	System.out.println("Second");
     			    	break;
     				}
     			}
@@ -642,14 +639,11 @@ public class MyCourse {
     				GhostStudent stud = (GhostStudent) allStudents.get(i);
     				if (ghostStudents.get(j).getPseudoName().compareTo(stud.getPseudoName()) < 0) {
     					allStudents.add(i, ghostStudents.get(j));
-    			    	System.out.println("Third");
     			    	break;
     				}
     			}
     		}
     	}
-    	
-    	System.out.println("Fourth");
     	
     	String[] ghostNames = new String[getNumberOfGhostStudents()];
 		for (int k = 0; k < getNumberOfGhostStudents(); k++) {
