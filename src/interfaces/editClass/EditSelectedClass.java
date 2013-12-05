@@ -285,6 +285,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
             
             addToRemoveCategoryMenu(newCategory); //add to remove category menu
             categoryWindow.actionStatus = "waiting";
+            parseXML.saveXML(parent.courses.get(courseIndex));
         }
     }
     
