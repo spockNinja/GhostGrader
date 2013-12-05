@@ -249,7 +249,8 @@ public class MyCourse {
             totalPoints += res[0];
             totalWorth += res[1];
         }
-        double ret = (totalPoints / totalWorth) * 100;
+        double ret = 0;
+        if (totalWorth != 0) ret = (totalPoints / totalWorth) * 100;
         return Double.parseDouble(decimalFormat.format(ret));
     }
 
