@@ -787,6 +787,7 @@ public class EditSelectedClass extends javax.swing.JPanel implements ActionListe
         	    "    File > Save All: This option will allow you to save the currently open gradebook.\n\n" +
         	    "    Edit > Add Course: Opens a new window for the user to add a new class to the current gradebook. This window will have several fields to fill in to create a new class. Only the fields denoted with an '*' are required. Click the 'Create' button to create and save the new class. Click the 'Cancel' button to go back to the previous window.\n\n" +
         	    "    Edit > Remove Course: Displays a drop down menu of all the current classes and removes the class you select.\n\n" +
+        	    "    Edit > Edit Course: Displays a drop down menu of all the currnt classes and change the slected class basic infomation. \n\n" +
         	    "Below the menu, under 'Courses', there is an 'Add New Course' button. This option has the same functionality as the Edit > Add Class menu option.\n\n" +
         	    "After adding a course, clicking on a course will bring you to the view category window.\n\n" +
         	    "VIEW CATEGORY WINDOW:\n" +
