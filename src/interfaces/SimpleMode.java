@@ -28,10 +28,12 @@ import objects.MyCourse;
  * @edut Brett
  */
 public class SimpleMode extends javax.swing.JPanel implements ActionListener {
-    private MainFrame parent;
+    public MainFrame parent;
     private ArrayList<JButton> courseButtons = new ArrayList<JButton>();
     private javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-    
+    public editCourse editCourse;
+   
+    public String courseSelectedInEditMenu; 
     public String courseToBeEdited;
     
     /**
@@ -39,10 +41,12 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
      */
     public SimpleMode(MainFrame frame) {
     	parent = frame;
+        editCourse = new editCourse(this);
         initComponents();
         refreshButtons();
         getSimpleModeLayOut();
         setRemoveMenu();
+        setEditMenu();
     }
     
     
@@ -102,10 +106,10 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         fileMenu = new javax.swing.JMenu();
         saveAll = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem_addNewClass = new javax.swing.JMenuItem();
         removeClass = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        editClass = new javax.swing.JMenu();
         
         helpMenu = new javax.swing.JMenu();
         helpAbout = new javax.swing.JMenuItem();
@@ -126,7 +130,6 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         mainMenuBar.add(fileMenu);
 
         editMenu.setText("Edit");
-        editMenu.add(jSeparator1);
 
         jMenuItem_addNewClass.setText("Add Course");
         jMenuItem_addNewClass.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +142,9 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         removeClass.setText("Remove Course");
         editMenu.add(removeClass);
         editMenu.add(jSeparator2);
+        
+        editClass.setText("Edit Course");
+        editMenu.add(editClass);
 
         mainMenuBar.add(editMenu);
         
@@ -221,10 +227,28 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         });
     }
     
+    private void addToEditmMenu(int i) {
+        final JMenuItem newCourse = new JMenuItem(createButtonText(i));
+        editClass.add(newCourse);
+        newCourse.addActionListener(editCourse);
+        newCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCourseActionPerformed(evt, newCourse);
+            }
+        });
+    }
+    
     public void setRemoveMenu() {
     	removeClass.removeAll();
     	for (int i = 0; i < parent.courses.size(); i++) {
     		addToRemoveMenu(i);
+    	}
+    }
+    
+    public void setEditMenu() {
+    	editClass.removeAll();
+    	for (int i = 0; i < parent.courses.size(); i++) {
+    		addToEditmMenu(i);
     	}
     }
     
@@ -286,6 +310,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
         	    "    File > Save All: This option will allow you to save the currently open gradebook.\n\n" +
         	    "    Edit > Add Course: Opens a new window for the user to add a new class to the current gradebook. This window will have several fields to fill in to create a new class. Only the fields denoted with an '*' are required. Click the 'Create' button to create and save the new class. Click the 'Cancel' button to go back to the previous window.\n\n" +
         	    "    Edit > Remove Course: Displays a drop down menu of all the current classes and removes the class you select.\n\n" +
+                    "    Edit > Edit Course: Displays a drop down menu of all the currnt classes and change the slected class basic infomation. \n\n" +
         	    "Below the menu, under 'Courses', there is an 'Add New Course' button. This option has the same functionality as the Edit > Add Class menu option.\n\n" +
         	    "After adding a course, clicking on a course will bring you to the view category window.\n\n" +
         	    "VIEW CATEGORY WINDOW:\n" +
@@ -329,10 +354,17 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
             	 parseXML.archiveCourse(parent.courses.remove(i));
             	 refreshButtons();
             	 setRemoveMenu();
+                 setEditMenu();
             	 return;
              }
          }
      }
+     
+    private void editCourseActionPerformed(java.awt.event.ActionEvent evt, JMenuItem course) {
+        courseSelectedInEditMenu = course.getText();
+        parent.setContentPane(editCourse);
+        parent.pack();
+    }
     
     /*
      * Action to be perform when user click on course button
@@ -356,7 +388,7 @@ public class SimpleMode extends javax.swing.JPanel implements ActionListener {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem jMenuItem_addNewClass;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenu editClass;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JMenu removeClass;

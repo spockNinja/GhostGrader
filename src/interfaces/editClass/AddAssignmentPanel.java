@@ -178,8 +178,10 @@ public class AddAssignmentPanel extends javax.swing.JPanel implements ActionList
         try {
         	Integer.parseInt(worthTextField.getText());
         } catch (NumberFormatException e) {
-        	return;
-        	//FIXME
+        	JOptionPane.showMessageDialog(null,
+                        String.format("%33s",worthTextField.getText() + " is not an integer"),"Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
         }
         
         parent.parent.courses.get(parent.parent.currentCourseWindow.courseIndex).getAssignmentCategory(categoryIndex).addAssignment(nameTextField.getText(), Integer.parseInt(worthTextField.getText()));

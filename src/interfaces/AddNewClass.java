@@ -205,6 +205,8 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
             if (parent.addNewClass.actionStatus.equals("dataReady")) {
                 if (checkRepeatedCourse(getNewCourse())) {
                     addNewCourse(parent.courses.size());
+                    for (int i = 0; i < parent.courseWindows.size(); i++)
+                	parent.courseWindows.get(i).saveCurrentState();
                 } else {
                     JOptionPane.showMessageDialog(null,
                             String.format("%33s",parent.addNewClass.getNewCourse().getName() + " " +
@@ -253,8 +255,12 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
     }
     private void addNewCourse(int i) {
         parent.getCourses().add(newCourse);
-        parent.simpleMode.refreshButtons();
         parent.simpleMode.setRemoveMenu();
+        parent.simpleMode.setEditMenu();
+        parent.simpleMode.removeAll();
+        parent.courseWindows.clear();
+        parent.simpleMode.refreshButtons();
+        parent.simpleMode.getSimpleModeLayOut();
         parent.setSimpleModeVisible();
     }
 
@@ -267,7 +273,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         return true;
     }
     
-    private boolean textChecker(String text, JLabel textLabel) {
+    public boolean textChecker(String text, JLabel textLabel) {
         if (text.equals((""))) {
             JOptionPane.showMessageDialog(null,
 		      String.format("%33s",textLabel.getText() + " can't be empty"),"Error",
@@ -277,7 +283,7 @@ public class AddNewClass extends javax.swing.JPanel implements ActionListener{
         return true;
     }
     
-    private boolean integerChecker(String text) {
+    public boolean integerChecker(String text) {
         try {
             Integer.parseInt(text);
             return true;
